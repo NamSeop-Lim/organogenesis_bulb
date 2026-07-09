@@ -46,7 +46,13 @@ async function renderTree(donor) {
   const maxMut = d3.max(nodesArr, (d) => d.n_mutations) || 1;
   const strokeScale = d3.scaleSqrt().domain([0, maxMut]).range([0.6, 9]);
 
-  const linkGen = d3.linkHorizontal().x((d) => d.y).y((d) => d.x);
+  // Right-angle "elbow" links (cladogram/phylogram convention) instead of
+  // d3.linkHorizontal()'s smooth Bezier curves: straight out from the
+  // source node along its row, then a single 90-degree turn down/up into
+  // the child's row. Screen-x is depth (d.y), screen-y is leaf position
+  // (d.x), per the cluster() layout below.
+  const linkGen = (d) =>
+    `M${d.source.y},${d.source.x}H${d.target.y}V${d.target.x}`;
 
   zoomLayer.append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`)
