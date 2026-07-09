@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>organogenesis_bulb</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header id="site-header">
+    <h1>organogenesis_bulb</h1>
+    <div class="donor-picker">
+      <label for="donor-select">Donor</label>
+      <select id="donor-select"></select>
+    </div>
+  </header>
+
+  <main id="panels">
+    <section id="tree-panel" class="panel">
+      <div class="panel-header">
+        <h2>Lineage tree</h2>
+        <div class="panel-controls">
+          <label><input type="checkbox" id="tree-show-labels"> Show leaf labels</label>
+          <span id="tree-status" class="status"></span>
+        </div>
+      </div>
+      <div class="panel-body">
+        <svg id="tree-svg"></svg>
+      </div>
+    </section>
+
+    <section id="heatmap-panel" class="panel">
+      <div class="panel-header">
+        <h2>Single-cell heatmap</h2>
+        <div class="panel-controls">
+          <span class="legend-item"><span class="swatch" style="background:#3b7dd8"></span>L1</span>
+          <span class="legend-item"><span class="swatch" style="background:#e08214"></span>L2</span>
+          <span id="heatmap-status" class="status"></span>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div id="heatmap-scroll">
+          <div id="heatmap-zoom-layer">
+            <canvas id="lineage-strip"></canvas>
+            <canvas id="heatmap-canvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer">
+    <span>organogenesis_bulb — static skeleton (Phase 2). Pan: drag. Zoom: scroll/pinch.</span>
+  </footer>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="js/donor.js"></script>
+  <script src="js/tree.js"></script>
+  <script src="js/heatmap.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

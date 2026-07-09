@@ -1,0 +1,178 @@
+:root {
+  --border: #d6dbe1;
+  --bg: #fafbfc;
+  --panel-bg: #ffffff;
+  --text: #1f2933;
+  --muted: #6b7785;
+  --accent: #2f6fb0;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  background: var(--panel-bg);
+  border-bottom: 1px solid var(--border);
+}
+
+#site-header h1 {
+  font-size: 1.15rem;
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.donor-picker {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.donor-picker select {
+  font-size: 0.9rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: white;
+}
+
+#panels {
+  flex: 1;
+  display: flex;
+  gap: 1px;
+  background: var(--border);
+  min-height: 0;
+}
+
+.panel {
+  flex: 1 1 50%;
+  display: flex;
+  flex-direction: column;
+  background: var(--panel-bg);
+  min-width: 0;
+  min-height: 0;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.panel-header h2 {
+  font-size: 0.95rem;
+  margin: 0;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.panel-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.swatch {
+  display: inline-block;
+  width: 0.8em;
+  height: 0.8em;
+  border-radius: 2px;
+}
+
+.status {
+  font-style: italic;
+}
+
+.panel-body {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+#tree-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+}
+
+#tree-svg:active {
+  cursor: grabbing;
+}
+
+#heatmap-scroll {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  cursor: grab;
+}
+
+#heatmap-scroll:active {
+  cursor: grabbing;
+}
+
+#heatmap-zoom-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+}
+
+#lineage-strip {
+  display: block;
+}
+
+#heatmap-canvas {
+  display: block;
+}
+
+#site-footer {
+  padding: 0.4rem 1.25rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+  background: var(--panel-bg);
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 900px) {
+  #panels {
+    flex-direction: column;
+  }
+  .panel {
+    flex: 1 1 50%;
+  }
+}
