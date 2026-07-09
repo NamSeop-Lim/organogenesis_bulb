@@ -1,9 +1,12 @@
 // Renders data/<donor>/tree.json as a pannable/zoomable D3 dendrogram.
 // tree.json shape: { nodes: { id: {id, is_leaf, leaf_name, parent_id, children, mutation_ids, n_mutations} }, root_id, unassigned_mutation_ids }
+
+let treeOrientation = 'horizontal'; // 'horizontal' | 'vertical'
+let treeZoomScale = 1; // preserved across orientation toggles (translate is not, see drawTree)
+let treeLastData = null; // cached last-loaded tree.json, so toggling orientation doesn't refetch
+
 async function renderTree(donor) {
   const status = document.getElementById('tree-status');
-  const svg = d3.select('#tree-svg');
-  svg.selectAll('*').remove();
   status.textContent = 'loading…';
 
   let data;
@@ -16,6 +19,16 @@ async function renderTree(donor) {
     return;
   }
 
+  treeLastData = data;
+  drawTree(data);
+}
+
+function drawTree(data) {
+  const svg = d3.select('#tree-svg');
+  svg.selectAll('*').remove();
+  const status = document.getElementById('tree-status');
+  const isVertical = treeOrientation === 'vertical';
+
   const nodesArr = Object.values(data.nodes);
 
   // d3.stratify wants parentId(root) === undefined/null, which matches our schema directly.
@@ -26,37 +39,44 @@ async function renderTree(donor) {
   const leaves = root.leaves();
   const nLeaves = leaves.length;
 
-  const leafSpacing = 9; // px between adjacent leaves
-  const margin = { top: 20, left: 90, right: 40, bottom: 20 };
+  const leafSpacing = 9; // px between adjacent leaves, along the leaf axis
+  const pxPerMutation = 8; // px per mutation, along the branch-length axis
 
-  const innerHeight = Math.max(400, nLeaves * leafSpacing);
-
-  // Leaf ordering / vertical (x) position still comes from d3.cluster() --
-  // that part is unrelated to branch length. Its depth-based y is then
-  // discarded and replaced below with a true phylogram: horizontal (y)
-  // position = cumulative n_mutations (branch length) from the root, so
-  // branch length is the single visual encoding of mutation count instead
-  // of three redundant ones.
-  const cluster = d3.cluster().size([innerHeight, 1]);
+  // Leaf ordering/position comes from d3.cluster() (unrelated to branch
+  // length). Branch-length (depth) position is computed separately as
+  // cumulative n_mutations from the root -- true phylogram, not uniform
+  // per-depth spacing. Stored as d.branchPos to avoid clashing with d3's
+  // own d.x/d.y, which we remap per-orientation below.
+  const leafAxisPx = Math.max(400, nLeaves * leafSpacing);
+  const cluster = d3.cluster().size([leafAxisPx, 1]);
   cluster(root);
 
   root.eachBefore((d) => {
     d.cumLen = d.parent ? d.parent.cumLen + (d.data.n_mutations || 0) : 0;
   });
   const maxCumLen = d3.max(root.descendants(), (d) => d.cumLen) || 1;
-  const pxPerMutation = 8;
-  const innerWidth = Math.max(500, maxCumLen * pxPerMutation);
-  const branchScale = d3.scaleLinear().domain([0, maxCumLen]).range([0, innerWidth]);
-  root.each((d) => { d.y = branchScale(d.cumLen); });
+  const depthAxisPx = Math.max(400, maxCumLen * pxPerMutation);
+  const branchScale = d3.scaleLinear().domain([0, maxCumLen]).range([0, depthAxisPx]);
+  root.each((d) => { d.branchPos = branchScale(d.cumLen); });
 
+  // screen-x/screen-y accessors: horizontal = root-left/leaves-right (depth
+  // -> x, leaf -> y); vertical = root-top/leaves-bottom (leaf -> x, depth -> y).
+  const screenX = isVertical ? (d) => d.x : (d) => d.branchPos;
+  const screenY = isVertical ? (d) => d.branchPos : (d) => d.x;
+
+  const margin = isVertical
+    ? { top: 20, left: 30, right: 30, bottom: 90 }
+    : { top: 20, left: 90, right: 40, bottom: 20 };
+
+  const innerWidth = isVertical ? leafAxisPx : depthAxisPx;
+  const innerHeight = isVertical ? depthAxisPx : leafAxisPx;
   const totalWidth = innerWidth + margin.left + margin.right;
   const totalHeight = innerHeight + margin.top + margin.bottom;
   svg.attr('viewBox', [0, 0, totalWidth, totalHeight]);
 
   const zoomLayer = svg.append('g').attr('class', 'zoom-layer');
 
-  // Shared hover tooltip (used by both links and nodes) instead of the old
-  // always-on numeric label -- info is still available, just on demand.
+  // Shared hover tooltip (used by both links and nodes).
   const tooltip = d3.select('#tree-panel')
     .selectAll('.tree-tooltip')
     .data([null])
@@ -65,9 +85,7 @@ async function renderTree(donor) {
     .style('display', 'none');
 
   function showTooltip(event, html) {
-    tooltip
-      .style('display', 'block')
-      .html(html);
+    tooltip.style('display', 'block').html(html);
     moveTooltip(event);
   }
   function moveTooltip(event) {
@@ -80,13 +98,17 @@ async function renderTree(donor) {
     tooltip.style('display', 'none');
   }
 
-  // Right-angle "elbow" links (cladogram/phylogram convention) instead of
-  // d3.linkHorizontal()'s smooth Bezier curves: straight out from the
-  // source node along its row, then a single 90-degree turn down/up into
-  // the child's row. Screen-x is depth (d.y), screen-y is leaf position
-  // (d.x).
-  const linkGen = (d) =>
-    `M${d.source.y},${d.source.x}H${d.target.y}V${d.target.x}`;
+  // Right-angle "elbow" links: straight out from the source node along the
+  // depth axis to the child's depth, then a single 90-degree turn along the
+  // leaf axis into the child's row/column. Orientation only changes which
+  // segment (H or V) comes first.
+  function linkGen(d) {
+    const sx = screenX(d.source);
+    const sy = screenY(d.source);
+    const tx = screenX(d.target);
+    const ty = screenY(d.target);
+    return isVertical ? `M${sx},${sy}V${ty}H${tx}` : `M${sx},${sy}H${tx}V${ty}`;
+  }
 
   function linkTooltipHtml(d) {
     const n = d.target.data;
@@ -123,7 +145,7 @@ async function renderTree(donor) {
     .selectAll('g')
     .data(root.descendants())
     .join('g')
-    .attr('transform', (d) => `translate(${d.y},${d.x})`);
+    .attr('transform', (d) => `translate(${screenX(d)},${screenY(d)})`);
 
   nodeGroup.append('circle')
     .attr('r', (d) => (d.data.is_leaf ? 2 : 3))
@@ -142,15 +164,27 @@ async function renderTree(donor) {
     .filter((d) => d.data.is_leaf)
     .append('text')
     .attr('class', 'leaf-label')
-    .attr('dx', 5)
-    .attr('dy', 3)
     .attr('font-size', 7)
     .attr('fill', '#333')
     .text((d) => d.data.leaf_name)
     .style('display', 'none');
 
+  if (isVertical) {
+    // leaves hang downward -- rotate labels to read top-to-bottom below each leaf
+    leafLabels
+      .attr('transform', 'rotate(90)')
+      .attr('dx', 5)
+      .attr('dy', 3)
+      .attr('text-anchor', 'start');
+  } else {
+    leafLabels
+      .attr('dx', 5)
+      .attr('dy', 3);
+  }
+
   const labelToggle = document.getElementById('tree-show-labels');
-  labelToggle.checked = false;
+  const wasChecked = labelToggle.checked;
+  leafLabels.style('display', wasChecked ? null : 'none');
   labelToggle.onchange = (e) => {
     leafLabels.style('display', e.target.checked ? null : 'none');
   };
@@ -159,15 +193,40 @@ async function renderTree(donor) {
     .scaleExtent([0.03, 10])
     .on('zoom', (event) => {
       zoomLayer.attr('transform', event.transform);
+      treeZoomScale = event.transform.k;
     });
   svg.call(zoom);
-  // No initial zoom.transform call: the svg's viewBox + 100%/100% CSS size
-  // already auto-fits the whole tree into the panel on first paint (native
-  // preserveAspectRatio behavior). d3-zoom's identity default composes with
-  // that correctly; explicitly setting a transform here would scale the
-  // zoom-layer about (0,0) and fight the viewBox fit instead of matching it.
+  // Translate isn't meaningfully portable across an axis swap (a pan offset
+  // means something different once x/y trade roles), so only the zoom
+  // *scale* is preserved across orientation toggles; the svg's viewBox +
+  // 100%/100% CSS size auto-fits/centers the tree at that scale on redraw.
+  if (treeZoomScale !== 1) {
+    svg.call(zoom.transform, d3.zoomIdentity.scale(treeZoomScale));
+  }
+
+  // User-facing summary only -- internal node/leaf/unassigned counts are QA
+  // detail, moved to the info icon's tooltip + console instead of the
+  // main status line.
+  const totalMutations = nodesArr.reduce((sum, n) => sum + n.n_mutations, 0) +
+    (data.unassigned_mutation_ids || []).length;
+  status.textContent = `${nLeaves} single cells · ${totalMutations} mutations`;
 
   const unassigned = data.unassigned_mutation_ids || [];
-  status.textContent = `${nodesArr.length} nodes, ${nLeaves} leaves` +
-    (unassigned.length ? ` (${unassigned.length} mutation_ids unassigned to any branch)` : '');
+  const qaDetail = `QA detail: ${nodesArr.length} tree nodes, ${nLeaves} leaves` +
+    (unassigned.length
+      ? `, ${unassigned.length} mutation_ids unassigned to any branch: ${unassigned.join(', ')}`
+      : ', 0 unassigned mutation_ids');
+  document.getElementById('tree-status-info').setAttribute('title', qaDetail);
+  console.log('[tree]', qaDetail);
 }
+
+function setTreeOrientation(orientation) {
+  if (orientation === treeOrientation) return;
+  treeOrientation = orientation;
+  document.getElementById('orient-horizontal').classList.toggle('is-active', orientation === 'horizontal');
+  document.getElementById('orient-vertical').classList.toggle('is-active', orientation === 'vertical');
+  if (treeLastData) drawTree(treeLastData);
+}
+
+document.getElementById('orient-horizontal').addEventListener('click', () => setTreeOrientation('horizontal'));
+document.getElementById('orient-vertical').addEventListener('click', () => setTreeOrientation('vertical'));

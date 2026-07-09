@@ -21,7 +21,12 @@
         <h2>Lineage tree</h2>
         <div class="panel-controls">
           <label><input type="checkbox" id="tree-show-labels"> Show leaf labels</label>
+          <div class="orientation-toggle" role="group" aria-label="Tree orientation">
+            <button type="button" id="orient-horizontal" class="orient-btn is-active">Horizontal</button>
+            <button type="button" id="orient-vertical" class="orient-btn">Vertical</button>
+          </div>
           <span id="tree-status" class="status"></span>
+          <span id="tree-status-info" class="info-icon" title="">ⓘ</span>
         </div>
       </div>
       <div class="panel-body">

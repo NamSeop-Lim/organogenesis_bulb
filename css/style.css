@@ -131,6 +131,37 @@ body {
   font-style: italic;
 }
 
+.info-icon {
+  cursor: help;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.orientation-toggle {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.orient-btn {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.55rem;
+  border: none;
+  background: white;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.orient-btn + .orient-btn {
+  border-left: 1px solid var(--border);
+}
+
+.orient-btn.is-active {
+  background: var(--accent);
+  color: white;
+}
+
 .panel-body {
   flex: 1;
   min-height: 0;
