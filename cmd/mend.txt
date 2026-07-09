@@ -1,0 +1,50 @@
+Three fixes for organogenesis_bulb's tree rendering (js/tree.js):
+
+BUG FIX — Horizontal/Vertical toggle broken:
+The Horizontal/Vertical toggle buttons added in the last change are not
+currently working (clicking them doesn't switch orientation, or the
+switch is broken/inconsistent — verify with a live headless-browser click
+test, not just a code read, since the last "confirmed working" report
+didn't catch this). Debug and fix whatever is preventing the toggle from
+correctly re-rendering the tree in the other orientation. Re-verify with
+an actual click-through: load the page, click "Vertical", confirm root is
+top-center and leaves spread along the bottom with rotated labels; click
+back to "Horizontal", confirm it returns to the original left-to-right
+layout with normal labels. Check the browser console for JS errors during
+both transitions.
+
+RENDERING FIX 1 — Aligned tip labels with dashed guide lines:
+Currently, leaves with very short/near-zero branch lengths end up
+clustered together with staggered, hard-to-read labels starting at
+different x-positions. Fix using the standard phylogram convention (like
+iTOL/ete3 "aligned tip labels"): keep each leaf's actual branch endpoint
+at its true phylogram position (proportional to branch length, as already
+implemented), but extend a thin dashed line from that true endpoint out
+to a common alignment coordinate — the position of the furthest-right
+leaf (max root-to-tip cumulative branch length). Place each leaf's circle
+marker and label at this aligned position, not at the raw branch
+endpoint. This preserves true branch-length info (visible as dashed-line
+length) while making all labels start at the same x for easy scanning.
+
+RENDERING FIX 2 — Leaves collapsing into unreadable clusters:
+Ensure every leaf always renders as a visually distinct tip with its own
+short horizontal line segment, even when actual branch length is 0 or 1
+(near-invisible at typical zoom). Enforce a minimum visible stub length
+for the branch segment itself (independent of the dashed alignment guide
+in fix 1), so leaves sharing a near-zero-length parent branch don't
+visually collapse into what looks like one node with a stacked list of
+names — each should clearly read as its own line + tip circle + label,
+even when several are tightly packed vertically. Confirm vertical spacing
+between leaves is uniform via d3.cluster() and that leaves aren't
+visually merging due to overlapping SVG elements at typical zoom, not an
+actual y-positioning bug.
+
+Apply fixes 1 and 2 to BOTH horizontal and vertical orientations (labels
+rotate appropriately in vertical mode as already implemented, dashed
+alignment guides should also work along whichever axis is the "distance"
+axis in each mode).
+
+Show me a description of: (a) the toggle working correctly in both
+directions, and (b) how a cluster of close leaves (e.g. the group around
+15R100Fb1002D6 in the current build) renders with aligned labels — before
+I check it live.

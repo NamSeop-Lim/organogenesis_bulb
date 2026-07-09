@@ -5,6 +5,8 @@ let treeOrientation = 'horizontal'; // 'horizontal' | 'vertical'
 let treeZoomScale = 1; // preserved across orientation toggles (translate is not, see drawTree)
 let treeLastData = null; // cached last-loaded tree.json, so toggling orientation doesn't refetch
 
+const MIN_STUB_PX = 4; // minimum visible branch-segment length, even for 0/1-mutation branches
+
 async function renderTree(donor) {
   const status = document.getElementById('tree-status');
   status.textContent = 'loading…';
@@ -26,6 +28,13 @@ async function renderTree(donor) {
 function drawTree(data) {
   const svg = d3.select('#tree-svg');
   svg.selectAll('*').remove();
+  // Drop any zoom listeners from a previous drawTree() call before attaching
+  // a new zoom behavior below -- otherwise every orientation toggle stacks
+  // another full set of wheel/mousedown/touch listeners on the same <svg>
+  // node (it's never recreated, only its children are cleared), which
+  // compounds across repeated toggles.
+  svg.on('.zoom', null);
+
   const status = document.getElementById('tree-status');
   const isVertical = treeOrientation === 'vertical';
 
@@ -43,26 +52,47 @@ function drawTree(data) {
   const pxPerMutation = 8; // px per mutation, along the branch-length axis
 
   // Leaf ordering/position comes from d3.cluster() (unrelated to branch
-  // length). Branch-length (depth) position is computed separately as
-  // cumulative n_mutations from the root -- true phylogram, not uniform
-  // per-depth spacing. Stored as d.branchPos to avoid clashing with d3's
-  // own d.x/d.y, which we remap per-orientation below.
+  // length) -- it spaces leaves uniformly by construction, so leaf-axis
+  // overlap is a zoom/resolution issue, never a d.x-positioning bug.
   const leafAxisPx = Math.max(400, nLeaves * leafSpacing);
   const cluster = d3.cluster().size([leafAxisPx, 1]);
   cluster(root);
 
+  // Branch-length (depth) position: true phylogram, cumulative n_mutations
+  // from the root, then floored so every branch segment -- even a 0- or
+  // 1-mutation one -- is at least MIN_STUB_PX long and visually distinct.
+  // Must run parent-before-child (eachBefore) since a floored parent
+  // position can itself push a child's floor further out.
   root.eachBefore((d) => {
     d.cumLen = d.parent ? d.parent.cumLen + (d.data.n_mutations || 0) : 0;
   });
   const maxCumLen = d3.max(root.descendants(), (d) => d.cumLen) || 1;
-  const depthAxisPx = Math.max(400, maxCumLen * pxPerMutation);
-  const branchScale = d3.scaleLinear().domain([0, maxCumLen]).range([0, depthAxisPx]);
-  root.each((d) => { d.branchPos = branchScale(d.cumLen); });
+  const targetDepthAxisPx = Math.max(400, maxCumLen * pxPerMutation);
+  const branchScale = d3.scaleLinear().domain([0, maxCumLen]).range([0, targetDepthAxisPx]);
+  root.eachBefore((d) => {
+    const raw = branchScale(d.cumLen);
+    d.branchPos = d.parent ? Math.max(raw, d.parent.branchPos + MIN_STUB_PX) : 0;
+  });
+  // Actual depth extent after flooring can exceed the original target
+  // (long chains of near-zero branches each add MIN_STUB_PX), so the
+  // alignment coordinate + viewBox use the real max, not the estimate.
+  const depthAxisPx = d3.max(root.descendants(), (d) => d.branchPos);
 
-  // screen-x/screen-y accessors: horizontal = root-left/leaves-right (depth
-  // -> x, leaf -> y); vertical = root-top/leaves-bottom (leaf -> x, depth -> y).
+  // screen-x/screen-y accessors for TRUE (unaligned) branch-endpoint
+  // position: horizontal = root-left/leaves-right (depth -> x, leaf -> y);
+  // vertical = root-top/leaves-bottom (leaf -> x, depth -> y).
   const screenX = isVertical ? (d) => d.x : (d) => d.branchPos;
   const screenY = isVertical ? (d) => d.branchPos : (d) => d.x;
+
+  // Aligned position (iTOL/ete3 "aligned tip labels" convention): leaf-axis
+  // coordinate unchanged, depth-axis coordinate pinned to the alignment
+  // line (the furthest-right/bottom leaf's true depth). Only used for leaf
+  // circles/labels + the dashed guide target -- links always connect true
+  // (unaligned) node positions, so real branch length stays visible.
+  const leafScreenX = isVertical ? (d) => d.x : () => depthAxisPx;
+  const leafScreenY = isVertical ? () => depthAxisPx : (d) => d.x;
+  const nodeScreenX = (d) => (d.data.is_leaf ? leafScreenX(d) : screenX(d));
+  const nodeScreenY = (d) => (d.data.is_leaf ? leafScreenY(d) : screenY(d));
 
   const margin = isVertical
     ? { top: 20, left: 30, right: 30, bottom: 90 }
@@ -98,10 +128,10 @@ function drawTree(data) {
     tooltip.style('display', 'none');
   }
 
-  // Right-angle "elbow" links: straight out from the source node along the
-  // depth axis to the child's depth, then a single 90-degree turn along the
-  // leaf axis into the child's row/column. Orientation only changes which
-  // segment (H or V) comes first.
+  // Right-angle "elbow" links, drawn to TRUE (unaligned) positions: straight
+  // out from the source node along the depth axis to the child's depth,
+  // then a single 90-degree turn along the leaf axis into the child's
+  // row/column. Orientation only changes which segment (H or V) comes first.
   function linkGen(d) {
     const sx = screenX(d.source);
     const sy = screenY(d.source);
@@ -119,8 +149,11 @@ function drawTree(data) {
       (ids.length ? `<br>${shown}${more}` : '');
   }
 
-  zoomLayer.append('g')
-    .attr('transform', `translate(${margin.left},${margin.top})`)
+  const contentLayer = zoomLayer.append('g')
+    .attr('transform', `translate(${margin.left},${margin.top})`);
+
+  contentLayer.append('g')
+    .attr('class', 'links')
     .attr('fill', 'none')
     .attr('stroke', '#8a97a5')
     .attr('stroke-opacity', 0.8)
@@ -140,12 +173,29 @@ function drawTree(data) {
       hideTooltip();
     });
 
-  const nodeGroup = zoomLayer.append('g')
-    .attr('transform', `translate(${margin.left},${margin.top})`)
+  // Dashed alignment guides: only for leaves whose true branch endpoint
+  // isn't already at the alignment line -- a thin dashed segment from the
+  // true (unaligned) endpoint out to the aligned tip position, so real
+  // branch length stays readable (as guide-line length) while every label
+  // still starts at a common x (horizontal) / y (vertical).
+  contentLayer.append('g')
+    .attr('class', 'guides')
+    .attr('fill', 'none')
+    .attr('stroke', '#c3cad1')
+    .attr('stroke-width', 0.75)
+    .attr('stroke-dasharray', '2,2')
+    .style('pointer-events', 'none')
+    .selectAll('path')
+    .data(leaves.filter((d) => Math.abs(screenX(d) - leafScreenX(d)) + Math.abs(screenY(d) - leafScreenY(d)) > 0.5))
+    .join('path')
+    .attr('d', (d) => `M${screenX(d)},${screenY(d)}L${leafScreenX(d)},${leafScreenY(d)}`);
+
+  const nodeGroup = contentLayer.append('g')
+    .attr('class', 'nodes')
     .selectAll('g')
     .data(root.descendants())
     .join('g')
-    .attr('transform', (d) => `translate(${screenX(d)},${screenY(d)})`);
+    .attr('transform', (d) => `translate(${nodeScreenX(d)},${nodeScreenY(d)})`);
 
   nodeGroup.append('circle')
     .attr('r', (d) => (d.data.is_leaf ? 2 : 3))
@@ -205,8 +255,7 @@ function drawTree(data) {
   }
 
   // User-facing summary only -- internal node/leaf/unassigned counts are QA
-  // detail, moved to the info icon's tooltip + console instead of the
-  // main status line.
+  // detail, available via the info icon's tooltip + console instead.
   const totalMutations = nodesArr.reduce((sum, n) => sum + n.n_mutations, 0) +
     (data.unassigned_mutation_ids || []).length;
   status.textContent = `${nLeaves} single cells · ${totalMutations} mutations`;
