@@ -64,6 +64,23 @@ function drawTree(data) {
   const cluster = d3.cluster().size([leafAxisPx, 1]);
   cluster(root);
 
+  // d3.cluster's actual adjacent-leaf gap can run smaller than the nominal
+  // leafSpacing (its separation() weighting tightens siblings under the same
+  // parent) -- a fixed r=10 leaf hit-circle overlaps neighbors whenever the
+  // real gap is under ~20px, which happens throughout a 502-leaf tree.
+  // Derive the hit radius from the actual minimum gap instead, so adjacent
+  // leaf hit-circles never cover each other's center (verified via
+  // Playwright: r=10 against a ~7px real gap picked the wrong neighboring
+  // leaf on an off-center click).
+  const sortedLeafX = leaves.map((d) => d.x).sort((a, b) => a - b);
+  let minLeafGap = Infinity;
+  for (let i = 1; i < sortedLeafX.length; i++) {
+    minLeafGap = Math.min(minLeafGap, sortedLeafX[i] - sortedLeafX[i - 1]);
+  }
+  const leafHitRadius = Number.isFinite(minLeafGap)
+    ? Math.min(10, Math.max(2.5, minLeafGap / 2 - 0.3))
+    : 10;
+
   // Branch-length (depth) position: true phylogram, cumulative n_mutations
   // from the root, then floored so every branch segment -- even a 0- or
   // 1-mutation one -- is at least MIN_STUB_PX long and visually distinct.
@@ -192,6 +209,9 @@ function drawTree(data) {
     const base = d.data.is_leaf ? 2 : 3;
     return d.data.id === selectedNodeId ? base + 3 : base;
   }
+  function nodeHitRadius(d) {
+    return d.data.is_leaf ? leafHitRadius : 10;
+  }
 
   function selectNode(d) {
     const newId = d.data.id;
@@ -217,26 +237,47 @@ function drawTree(data) {
   const contentLayer = zoomLayer.append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`);
 
-  const linksSel = contentLayer.append('g')
+  // Each link is a thin VISIBLE path (pure decoration, pointer-events:none,
+  // keeps the phylogram's intentionally-thin line weight) plus a wider
+  // invisible HIT path layered on top carrying all interaction -- the
+  // standard "fat invisible hitline" technique for making thin lines easy
+  // to click/tap. linksSel below refers to the visible paths (what
+  // selectNode()'s bulk restyle and hover need to touch); the hit paths
+  // are local to this block only, they just dispatch to their visible
+  // sibling via the shared parent <g>.
+  const linkGroupsSel = contentLayer.append('g')
     .attr('class', 'links')
-    .attr('fill', 'none')
-    .attr('stroke-opacity', 0.8)
-    .selectAll('path')
+    .selectAll('g')
     .data(root.links())
-    .join('path')
+    .join('g')
+    .attr('data-target-id', (d) => d.target.data.id);
+
+  const linksSel = linkGroupsSel.append('path')
+    .attr('class', 'link-visible')
+    .attr('fill', 'none')
     .attr('d', linkGen)
-    .attr('data-target-id', (d) => d.target.data.id)
     .attr('stroke', linkBaseStroke)
     .attr('stroke-width', linkBaseWidth)
     .attr('stroke-opacity', linkBaseOpacity)
+    .style('pointer-events', 'none');
+
+  linkGroupsSel.append('path')
+    .attr('class', 'link-hit')
+    .attr('fill', 'none')
+    .attr('d', linkGen)
+    .attr('stroke', 'rgba(0,0,0,0.001)') // effectively invisible, but still hit-testable (same trick as kidneymap.js's dot overlay)
+    .attr('stroke-width', 12)
+    .attr('stroke-linecap', 'round')
     .style('cursor', 'pointer')
+    .style('pointer-events', 'stroke')
     .on('mouseenter', (event, d) => {
-      d3.select(event.currentTarget).attr('stroke', '#2f6fb0').attr('stroke-width', 2).attr('stroke-opacity', 1);
+      d3.select(event.currentTarget.parentNode).select('.link-visible')
+        .attr('stroke', '#2f6fb0').attr('stroke-width', 2).attr('stroke-opacity', 1);
       showTooltip(event, linkTooltipHtml(d));
     })
     .on('mousemove', moveTooltip)
     .on('mouseleave', (event, d) => {
-      d3.select(event.currentTarget)
+      d3.select(event.currentTarget.parentNode).select('.link-visible')
         .attr('stroke', linkBaseStroke(d))
         .attr('stroke-width', linkBaseWidth(d))
         .attr('stroke-opacity', linkBaseOpacity(d));
@@ -269,12 +310,23 @@ function drawTree(data) {
     .attr('data-node-id', (d) => d.data.id)
     .attr('transform', (d) => `translate(${nodeScreenX(d)},${nodeScreenY(d)})`);
 
+  // Same visible/hit split as links: a small visible circle (pure
+  // decoration) plus a larger invisible one on top carrying all clicks/
+  // hover, so leaves (r=2) are still easy to hit precisely.
   const circlesSel = nodeGroup.append('circle')
+    .attr('class', 'node-visible')
     .attr('r', circleBaseRadius)
     .attr('fill', (d) => (d.data.is_leaf ? '#9aa5b1' : '#2f6fb0'))
     .attr('stroke', circleBaseStroke)
     .attr('stroke-width', circleBaseStrokeWidth)
+    .style('pointer-events', 'none');
+
+  nodeGroup.append('circle')
+    .attr('class', 'node-hit')
+    .attr('r', nodeHitRadius)
+    .attr('fill', 'rgba(0,0,0,0.001)')
     .style('cursor', 'pointer')
+    .style('pointer-events', 'all')
     .on('mouseenter', (event, d) => {
       const info = d.data.is_leaf
         ? `<strong>${d.data.leaf_name}</strong><br>depth ${d.depth}`

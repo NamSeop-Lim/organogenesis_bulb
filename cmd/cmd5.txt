@@ -1,0 +1,62 @@
+I need to report progress to my PI tomorrow. Write a comprehensive but
+readable methodology summary in Markdown
+(organogenesis_bulb/PROGRESS_SUMMARY.md or similar), covering the full
+arc of this project so far, structured as: for each major stage, explain
+(a) what the problem/question was, (b) what decision was made and why,
+(c) what was actually built/produced.
+
+Cover, in roughly chronological order:
+
+1. EEM (early embryonic mutation) discovery: ~500 single-cell skin
+   fibroblast clones, 315 EEMs found, the L1/L2 mutually-exclusive
+   lineage split from the first zygotic division.
+
+2. Kidney targeted sequencing: 315 EEMs x 107 kidney bulk sample sites
+   (LK/RK), targeted panel design (403 candidates -> 315 final,
+   post-decline).
+
+3. VAF extraction pipeline: the shared algorithm used for both
+   single-cell and kidney bulk VAF (pileup parameters, flag_filter,
+   quality thresholds, major-allele-rediscovery logic) — briefly, not the
+   full technical spec, just enough for a PI-level audience to understand
+   it's a validated, consistent method.
+
+4. Lineage tree construction: perfect-phylogeny approach (not
+   distance-based clustering), why that was chosen, carrier-set merging
+   logic, the manual row/column ordering that makes it work.
+
+5. Kidney spatial coordinate mapping: the kidney_package coordinate data
+   (sample_id/compartment/x/y), the bam-name-to-sample_id normalization
+   problem and how it was resolved (77 vs 71 discrepancy explained), and
+   the discovery that 71 of 107 kidney samples have valid coordinates (36
+   are capsule/vessel, out of scope).
+
+6. Static VAF map generation: the 314 per-mutation kidney images,
+   including the visualization design decisions (raw VAF not
+   per-mutation normalized, why; global p99-capped color scale, why;
+   colormap choice iterations — YlGnBu chosen over red/blue for
+   background contrast; absent-marker design).
+
+7. The PI-driven artwork simplification: colored-compartment style ->
+   minimal white/gray/black-capsule style, and the coordinate
+   recalibration this required (viewBox mismatch between old and new
+   templates, the offset-correction fix, and the 128-site anatomical
+   validation that confirmed it).
+
+8. organogenesis_bulb interactive tool: what it does (donor-toggle
+   architecture for future expansion, tree + heatmap display, click-to-
+   select lineage chain highlighting, the kidney-map-chain display), and
+   the technical decisions behind it (phylogram with true branch-length
+   proportional layout, aligned tip labels, PNG-reuse + hover-overlay
+   approach for performance, click vs hover interaction choice).
+
+9. Known open issues / data-quality flags (for transparency): the 5
+   unassigned mutation_ids that don't cleanly nest in the tree (borderline
+   VAF samples, e.g. 15R135Fb2_B6 and 15L109Fb8_F9), and anything else
+   worth flagging as "known limitation, not yet resolved."
+
+Keep the tone factual and concise — this will be read/adapted by the
+researcher for a verbal PI update, not published as-is. Avoid
+overclaiming; note where something is a design choice vs. a validated
+result. Aim for something a PI could skim in 5-10 minutes and understand
+the full arc of decisions made.
