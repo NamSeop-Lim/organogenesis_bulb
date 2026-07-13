@@ -28,13 +28,13 @@ async function showChainForNode(nodeId, donor) {
   const list = document.getElementById('chain-list');
   const status = document.getElementById('chain-status');
   if (!list) return;
-  list.innerHTML = '<p class="status">loading chain…</p>';
+  list.innerHTML = '<p class="status chain-placeholder">loading chain…</p>';
 
   let chains;
   try {
     chains = await loadChainsData(donor);
   } catch (err) {
-    list.innerHTML = '<p class="status">failed to load chains.json</p>';
+    list.innerHTML = '<p class="status chain-placeholder">failed to load chains.json</p>';
     console.error(err);
     return;
   }
@@ -49,7 +49,7 @@ async function showChainForNode(nodeId, donor) {
   }
 
   if (mutationIds.length === 0) {
-    list.innerHTML = '<p class="status">This node’s chain has no mutations — e.g. the root before any founder mutation, or a leaf whose only branch is a private (excluded) terminal mutation.</p>';
+    list.innerHTML = '<p class="status chain-placeholder">This node’s chain has no mutations — e.g. the root before any founder mutation, or a leaf whose only branch is a private (excluded) terminal mutation.</p>';
     return;
   }
 
@@ -57,6 +57,13 @@ async function showChainForNode(nodeId, donor) {
   mutationIds.forEach((mutationId, i) => {
     const entryDiv = document.createElement('div');
     entryDiv.className = 'chain-entry';
+    // Compact grid by default; click anywhere on the card (including a dot,
+    // which still fires its own hover tooltip independently) toggles a
+    // full-width expanded view -- simpler than a modal/lightbox overlay.
+    entryDiv.title = 'Click to expand/collapse';
+    entryDiv.addEventListener('click', () => {
+      entryDiv.classList.toggle('chain-entry--expanded');
+    });
 
     const label = document.createElement('h3');
     label.className = 'chain-entry-label';

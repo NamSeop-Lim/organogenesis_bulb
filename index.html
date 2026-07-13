@@ -22,8 +22,8 @@
         <div class="panel-controls">
           <label><input type="checkbox" id="tree-show-labels"> Show leaf labels</label>
           <div class="orientation-toggle" role="group" aria-label="Tree orientation">
-            <button type="button" id="orient-horizontal" class="orient-btn is-active">Horizontal</button>
-            <button type="button" id="orient-vertical" class="orient-btn">Vertical</button>
+            <button type="button" id="orient-horizontal" class="orient-btn">Horizontal</button>
+            <button type="button" id="orient-vertical" class="orient-btn is-active">Vertical</button>
           </div>
           <span id="tree-status" class="status"></span>
           <span id="tree-status-info" class="info-icon" title="">ⓘ</span>
@@ -34,53 +34,43 @@
       </div>
     </section>
 
-    <section id="heatmap-panel" class="panel">
+    <section id="chain-panel" class="panel">
       <div class="panel-header">
-        <h2>Single-cell heatmap</h2>
-        <div class="panel-controls">
-          <span class="legend-item"><span class="swatch" style="background:#3b7dd8"></span>L1</span>
-          <span class="legend-item"><span class="swatch" style="background:#e08214"></span>L2</span>
-          <span id="heatmap-status" class="status"></span>
-        </div>
+        <h2>Lineage chain kidney maps</h2>
+        <span id="chain-status" class="status"></span>
+      </div>
+      <div class="vaf-legend">
+        <span class="vaf-legend-label">VAF</span>
+        <div class="vaf-legend-bar"></div>
+        <span class="vaf-legend-tick">0.00</span>
+        <span class="vaf-legend-tick vaf-legend-tick-max">0.230</span>
+        <span class="vaf-legend-absent"><span class="vaf-legend-absent-x">⊗</span> absent</span>
       </div>
       <div class="panel-body">
-        <div id="heatmap-scroll">
-          <div id="heatmap-zoom-layer">
-            <canvas id="lineage-strip"></canvas>
-            <canvas id="heatmap-canvas"></canvas>
-          </div>
+        <div id="chain-scroll">
+          <div id="chain-list"></div>
         </div>
       </div>
     </section>
   </main>
 
-  <section id="chain-panel" class="full-panel">
+  <section id="heatmap-panel" class="panel" hidden>
     <div class="panel-header">
-      <h2>Lineage chain kidney maps</h2>
+      <h2>Single-cell heatmap</h2>
       <div class="panel-controls">
-        <span id="chain-status" class="status"></span>
+        <span class="legend-item"><span class="swatch" style="background:#3b7dd8"></span>L1</span>
+        <span class="legend-item"><span class="swatch" style="background:#e08214"></span>L2</span>
+        <span id="heatmap-status" class="status"></span>
       </div>
     </div>
-    <div id="chain-scroll">
-      <div id="chain-list"></div>
-    </div>
-  </section>
-
-  <section id="kidneymap-test-harness">
-    <div class="panel-header">
-      <h2>Kidney VAF map — test harness (Phase 3 Step 1, temporary)</h2>
-      <div class="panel-controls">
-        <label for="kidneymap-select">mutation_id</label>
-        <select id="kidneymap-select"></select>
-        <span class="quickpicks">
-          spot-check:
-          <button type="button" class="quickpick-btn" data-mid="('9', 129095960)">founder (high VAF)</button>
-          <button type="button" class="quickpick-btn" data-mid="('1', 100154787)">low-frequency</button>
-          <button type="button" class="quickpick-btn" data-mid="('5', 80120411)">absent-heavy (design example)</button>
-        </span>
+    <div class="panel-body">
+      <div id="heatmap-scroll">
+        <div id="heatmap-zoom-layer">
+          <canvas id="lineage-strip"></canvas>
+          <canvas id="heatmap-canvas"></canvas>
+        </div>
       </div>
     </div>
-    <div id="kidneymap-container"></div>
   </section>
 
   <footer id="site-footer">
@@ -93,7 +83,6 @@
   <script src="js/heatmap.js"></script>
   <script src="js/kidneymap.js"></script>
   <script src="js/chainpanel.js"></script>
-  <script src="js/kidneymap_harness.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

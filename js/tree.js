@@ -1,7 +1,7 @@
 // Renders data/<donor>/tree.json as a pannable/zoomable D3 dendrogram.
 // tree.json shape: { nodes: { id: {id, is_leaf, leaf_name, parent_id, children, mutation_ids, n_mutations} }, root_id, unassigned_mutation_ids }
 
-let treeOrientation = 'horizontal'; // 'horizontal' | 'vertical'
+let treeOrientation = 'vertical'; // 'horizontal' | 'vertical' -- vertical is the default per stage3
 let treeZoomScale = 1; // preserved across orientation toggles (translate is not, see drawTree)
 let treeLastData = null; // cached last-loaded tree.json, so toggling orientation doesn't refetch
 let treeDonor = 'DB15'; // set by renderTree(donor); used when a click needs to look up chains.json

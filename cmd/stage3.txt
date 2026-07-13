@@ -1,0 +1,61 @@
+Several UI/layout revisions to organogenesis_bulb, based on live review of
+https://namseop-lim.github.io/organogenesis_bulb/:
+
+1. REMOVE the temporary kidneymap test harness entirely — the mutation_id
+   dropdown/input section ("Kidney VAF map — test harness (Phase 3 Step 1,
+   temporary)") and its spot-check buttons. Delete js/kidneymap_harness.js
+   and its references in index.html. Confirm nothing else depends on it.
+
+2. HIDE the single-cell heatmap panel (don't delete the code — just don't
+   render/show it by default, in case we want it back later for QA). Free
+   up that screen space for the kidney map chain panel (see #5 below).
+
+3. Add a persistent, site-wide VAF color scale legend (the YlGnBu
+   gradient bar, 0 to p99=0.230, plus the "absent" red-X marker) — shown
+   ONCE, fixed/sticky in a consistent location (e.g. top of the kidney
+   map panel, or a corner of the page), not per-image. This was
+   previously baked into each of the 314 PNGs but was removed from them
+   in the last redesign — now it needs to live here instead.
+
+4. Redesign the kidney-map-chain display to reduce scroll fatigue:
+   instead of one full-size image per row in a single tall scrolling
+   column, use a more compact grid — smaller thumbnails, multiple per
+   row, wrapping to new rows as needed, within a reasonably-sized
+   scrollable container (not requiring excessive scrolling to see the
+   whole chain). Clicking/tapping a thumbnail could optionally expand it
+   to a larger view (a simple lightbox/modal, or an inline expand — pick
+   whichever is simpler to implement well). Preserve the existing
+   hover-tooltip behavior on individual dots within each map, at
+   whatever thumbnail size makes that still practical (if thumbnails get
+   too small for reliable dot-hovering, keep them slightly larger rather
+   than sacrificing that interaction).
+
+5. Change the overall page layout to two columns: TREE on the left,
+   kidney-map-chain panel on the right (side by side), rather than
+   today's stacked top-to-bottom sections. This lets the user click a
+   tree node and see the resulting chain maps update immediately beside
+   it, without scrolling down past the tree to see results. Make both
+   columns independently scrollable if their content overflows the
+   viewport height. On narrow/mobile viewports, stack them (right panel
+   below tree) — reuse the existing responsive breakpoint pattern already
+   in the CSS if there is one.
+
+6. Make the tree ALWAYS load in vertical orientation by default (root at
+   top, leaves at bottom) — this becomes the default state on page load,
+   replacing horizontal-by-default. Keep the Horizontal/Vertical toggle
+   buttons so the user can still switch to horizontal as an option, but
+   vertical is now the initial state.
+
+After all changes, live-test with a headless browser: confirm the
+harness is gone, the heatmap is hidden, the legend is visible and fixed,
+the tree loads vertical by default, clicking a tree node populates the
+grid of kidney maps beside it without requiring the page to scroll past
+the tree first, and dot-hover tooltips still work on the (possibly
+smaller) thumbnails. Check console for errors throughout.
+
+Show me a description (or screenshots) of the new layout — both the
+empty/no-selection state and a state with a chain selected — before I
+check it live.
+
+If you get stuck on the grid/thumbnail layout or the two-column
+responsive behavior, feel free to invoke Claude Fable 5 for extra help.
