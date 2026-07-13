@@ -1,0 +1,51 @@
+Design revision to the kidney base artwork, requested by the PI: the
+kidney cross-section rendering is currently too visually busy — internal
+compartments (cortex, medulla, calyx, pelvis_ureter, renal_fat) are each
+filled with distinct colors (salmon/pink/tan tones from the original
+Illustrator SVG), which compete visually with the VAF dot colors overlaid
+on top. Simplify to a minimal, near-white style so the data (dots) are the
+visual focus:
+
+1. Kidney interior (all compartments): near-white / very pale gray fill
+   (e.g. #f8f8f8 or similar), NOT differentiated by compartment color
+   anymore. Compartment identity is still available via hover tooltip
+   data (in kidney_vaf_long.json), it just shouldn't be color-coded in
+   the background artwork anymore.
+
+2. Outer kidney capsule/boundary only: a clean black or very dark
+   gray outline, clearly defining the kidney's silhouette against the
+   white page background.
+
+3. Internal structural lines (boundaries between cortex/medulla, calyx
+   outlines, renal pelvis/ureter shape, etc.) can remain as thin gray
+   lines if they help convey anatomical structure at a glance, but
+   should be subtle — much lighter weight than the outer capsule
+   outline, not competing with it.
+
+Apply this new style to:
+   a) The two base template SVGs (`kidney_package/right_kidney_template.svg`
+      and `left_kidney_template.svg`, and their copies in
+      `organogenesis_bulb/data/DB15/templates/`) — these will be reused
+      as the base layer for future interactive rendering.
+   b) Regenerate all 314 static PNGs in `kidney_vaf_maps/` using
+      `scripts/render_kidney_vaf_maps.py` with this new base style, same
+      YlGnBu VAF color scale (0 to p99=0.230), same enlarged dots, same
+      red-X absent marker, same RK-left/LK-right composite layout —
+      only the anatomical background styling changes.
+
+Important: this PNG regeneration will change every file's pixel content.
+The Step 1 kidney map overlay (js/kidneymap.js, calibrated against the old
+PNG crop dimensions of 1038x701) will need re-validation after this change
+— if bbox_inches='tight' produces different output dimensions with the
+new simplified background (likely, since the cropped content region may
+shift), re-run scripts/calibrate_kidney_overlay.py and update the
+transform JSON accordingly so the Step 1 overlay still aligns correctly.
+Confirm this with a live re-check (hover test on at least one mutation)
+after regenerating.
+
+Show me one example image (reuse mutation '2', 67810203) with the new
+background style before regenerating the full batch of 314.
+
+If matching the original Illustrator SVG's paths while simplifying colors
+gets tricky (e.g. preserving the exact capsule outline shape while
+stripping fills), feel free to invoke Claude Fable 5 for extra help.

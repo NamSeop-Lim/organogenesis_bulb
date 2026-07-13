@@ -1,0 +1,47 @@
+Phase 3, Step 1: Build a reusable kidney VAF map component that reads
+directly from the existing 314 PNG files (kidney_vaf_maps/<mutation_id>.png)
+as a base layer, with interactive hoverable dots overlaid on top — not
+regenerating colors client-side. Test with a single hardcoded mutation_id
+for now; no tree integration yet (that's Step 2).
+
+1. Add a new module `js/kidneymap.js` with a function like
+   `renderKidneyMap(container, mutation_id)` that:
+   - Displays the corresponding `kidney_vaf_maps/<mutation_id>.png` as
+     the visual (colors, legend, kidney outline — everything already
+     baked into the PNG, don't recompute).
+   - Overlays a SET of invisible (opacity 0, or very faint) hoverable
+     `<circle>` elements positioned at each of the 71 site coordinates
+     from `data/DB15/kidney_vaf_long.json` (x, y, kidney), scaled/aligned
+     to match the PNG's actual rendered pixel dimensions and layout
+     (recall: the PNG shows RK on the left, LK on the right, both kidneys
+     in one 1200x700 image — the overlay coordinates need to line up
+     with wherever the dots actually are in that composite image, which
+     may require figuring out the transform/scaling the PNG-generation
+     script used, e.get, check scripts/render_kidney_vaf_maps.py for the
+     exact layout math so the overlay aligns pixel-for-pixel).
+   - On hovering a circle: show a tooltip with sample_id, kidney,
+     compartment, and this mutation's vaf at that site (pulled from
+     kidney_vaf_long.json, filtered by mutation_id + sample_id). Also
+     give the circle a visible hover state (e.g. a thin highlight ring)
+     so the user can tell which site they're over even though the base
+     circle is invisible.
+
+2. Add a temporary test harness in index.html (can be removed/hidden in
+   Step 2) — a dropdown or text input to pick any mutation_id and call
+   renderKidneyMap with it, so I can manually verify alignment across a
+   few different mutations (pick 2-3 to spot check: one founder-level
+   high-VAF mutation, one low-frequency one, and the one absent-heavy
+   example we used earlier for the absent-marker design).
+
+3. Verify alignment carefully — this is the part most likely to go wrong
+   (overlay circles landing on the wrong dots). Use a headless browser to
+   screenshot the result with hover-triggered tooltips visible, and
+   confirm by eye (describe what you see) that circles sit exactly on top
+   of the visible painted dots in the PNG, not offset.
+
+Show me a description (or screenshots) of the test harness working on
+2-3 different mutation_ids before I check it live.
+
+If you get stuck on the coordinate alignment math or anything else in this
+step, feel free to invoke Claude Fable 5 for extra help — you don't have
+to solve it solo if it's genuinely tricky.

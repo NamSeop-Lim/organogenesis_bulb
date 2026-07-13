@@ -1,0 +1,48 @@
+The PI hand-redesigned the kidney template artwork in Illustrator
+(minimal white/gray style, replacing the old colored-compartment style).
+Two new final files are ready:
+
+- /home/namseop/0_kidney/lineage_bulb/db15/kidney_package/right_kidney_template_final.svg
+- /home/namseop/0_kidney/lineage_bulb/db15/kidney_package/left_kidney_template_final.svg
+
+These replace right_kidney_template.svg / left_kidney_template.svg as the
+base artwork going forward. Ignore all the checkpoint*/orig/.2tier files
+in that directory — those were intermediate attempts from the earlier
+broken Fable5 session and are no longer relevant.
+
+1. Compare the new _final.svg files' viewBox/dimensions against the old
+   right_kidney_template.svg / left_kidney_template.svg. Report the
+   values — I expect they differ, since this was redrawn from scratch
+   (traced over the original outline, but exported from a fresh
+   Illustrator artboard).
+
+2. Since the coordinate system likely changed, re-derive the transform
+   from data-coordinates (kidney_package/right_kidney_all_samples.csv,
+   left_kidney_all_samples.csv — sample_id, compartment, x, y) to the new
+   SVG's pixel space. Use the same calibration approach as
+   scripts/calibrate_kidney_overlay.py (render known reference markers at
+   known data coordinates through the actual production pipeline, then
+   detect their pixel centroids in the output) — don't assume the old
+   transform still applies, and don't eyeball it.
+
+3. Test end-to-end with ONE mutation before touching anything else: pick
+   mutation ('2', 67810203) (already used for earlier spot-checks), and
+   render both LK and RK using the new template artwork + recalibrated
+   dot positions, same YlGnBu VAF color scale (0 to p99=0.230), same
+   enlarged dots, same red-X absent marker, same composite layout
+   (RK left, LK right) as the current production pipeline.
+
+4. Spot-check anatomical sanity: pick 2-3 sites labeled with different
+   compartments (e.g. one cortex, one medulla, one pelvis_ureter site)
+   and confirm their dots visually land in anatomically sensible regions
+   on the new artwork, not on top of the wrong structure. Flag clearly if
+   anything looks off — don't silently proceed.
+
+Show me this one test render before regenerating the full batch of 314 or
+touching the interactive Step 1 overlay (js/kidneymap.js) in
+organogenesis_bulb.
+
+If you get stuck on the coordinate transform math, feel free to invoke
+Claude Fable 5 for help — but this time, have it explain its plan before
+editing anything, and confirm each intermediate step actually renders
+correctly (not just assumed) before moving to the next.

@@ -54,6 +54,23 @@
     </section>
   </main>
 
+  <section id="kidneymap-test-harness">
+    <div class="panel-header">
+      <h2>Kidney VAF map — test harness (Phase 3 Step 1, temporary)</h2>
+      <div class="panel-controls">
+        <label for="kidneymap-select">mutation_id</label>
+        <select id="kidneymap-select"></select>
+        <span class="quickpicks">
+          spot-check:
+          <button type="button" class="quickpick-btn" data-mid="('9', 129095960)">founder (high VAF)</button>
+          <button type="button" class="quickpick-btn" data-mid="('1', 100154787)">low-frequency</button>
+          <button type="button" class="quickpick-btn" data-mid="('5', 80120411)">absent-heavy (design example)</button>
+        </span>
+      </div>
+    </div>
+    <div id="kidneymap-container"></div>
+  </section>
+
   <footer id="site-footer">
     <span>organogenesis_bulb — static skeleton (Phase 2). Pan: drag. Zoom: scroll/pinch.</span>
   </footer>
@@ -62,6 +79,8 @@
   <script src="js/donor.js"></script>
   <script src="js/tree.js"></script>
   <script src="js/heatmap.js"></script>
+  <script src="js/kidneymap.js"></script>
+  <script src="js/kidneymap_harness.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

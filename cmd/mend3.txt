@@ -1,0 +1,31 @@
+Adjustment to the kidney template styling — clarifying the line-weight
+hierarchy into three tiers (not two):
+
+1. Outer capsule (the kidney's overall silhouette boundary — the
+   outermost contour of the whole organ): THICKEST, boldest black/dark
+   stroke. This is the primary visual anchor.
+
+2. Major compartment boundaries (the lines dividing cortex/medulla,
+   calyx shapes, renal pelvis outline — the structural divisions that
+   define the kidney's main anatomical regions): MEDIUM thickness, dark
+   gray stroke — clearly visible and readable, but noticeably lighter/
+   thinner than the outer capsule so the hierarchy is unambiguous at a
+   glance.
+
+3. Any finer/secondary detail lines (minor texture, small internal
+   subdivisions beyond the main compartment boundaries, if any exist in
+   the original artwork): THINNEST, very pale/near-white gray stroke —
+   barely visible, receding into the background.
+
+Interior fills stay near-white/very pale gray as already done (unchanged
+from the last version) — this is purely about the 3-tier line weight/
+color hierarchy.
+
+Regenerate the same test render (blank template, no VAF dots) and show me
+before applying to the full pipeline.
+
+If you get stuck identifying which SVG paths belong to which tier (e.g.
+ambiguous grouping in the original Illustrator export — particularly
+distinguishing "major compartment boundary" from "finer detail" if that
+distinction isn't clean in the source file), feel free to invoke Claude
+Fable 5 for extra help.

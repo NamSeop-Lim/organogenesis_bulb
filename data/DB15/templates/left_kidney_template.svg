@@ -2,37 +2,26 @@
 <svg id="LK" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 855.71 663.54">
   <defs>
     <style>
-      .cls-1 {
-        stroke-width: .93px;
-      }
-
-      .cls-1, .cls-2 {
-        fill: #be7660;
-      }
-
-      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7 {
-        stroke: #040000;
+      /* Simplified minimal style (PI request): interior compartments are no
+         longer color-differentiated -- all near-white. Only the true outer
+         silhouette (capsule ring cls-7 + pelvis/ureter cls-3, the two shapes
+         whose own boundary reaches the actual kidney/ureter outline, per
+         pixel-footprint analysis against the rendered raster) keeps a bold
+         dark outline; purely internal divisions (pyramids cls-1/cls-2, the
+         two-tone body fill cls-5/cls-6, fine line paths cls-4) get a thin,
+         light-gray line instead. */
+      .cls-1, .cls-2, .cls-4, .cls-5, .cls-6 {
+        fill: #f8f8f8;
+        stroke: #b3b3b3;
+        stroke-width: .5px;
         stroke-miterlimit: 10;
       }
 
-      .cls-3 {
-        fill: #e3d095;
-      }
-
-      .cls-4 {
-        fill: none;
-      }
-
-      .cls-5 {
-        fill: #e7cccc;
-      }
-
-      .cls-6 {
-        fill: #d8aa97;
-      }
-
-      .cls-7 {
-        fill: #9f4a4a;
+      .cls-3, .cls-7 {
+        fill: #f8f8f8;
+        stroke: #1a1a1a;
+        stroke-width: 2px;
+        stroke-miterlimit: 10;
       }
     </style>
   </defs>
