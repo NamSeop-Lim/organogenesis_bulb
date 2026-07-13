@@ -1,0 +1,63 @@
+Phase 3, Step 2: Wire up click-to-select lineage chain highlighting +
+serial kidney map display, in organogenesis_bulb.
+
+Interaction model: CLICK to select (not hover) — clicking any tree node
+(internal branch point OR leaf) selects it and stays selected until a
+different node is clicked. This must work on both mouse click and touch
+tap (the site will be viewed on tablets too), so use a click/tap event,
+not mouseenter/mouseleave.
+
+1. In js/tree.js, add a click handler to both branch paths and leaf
+   circles. On click:
+   - Look up chains.json[node_id].chain_mutation_ids (already precomputed
+     in Phase 1 — root-to-node path, private mutations excluded for
+     leaves).
+   - Highlight every branch along the root-to-node path (thicker stroke
+     and/or a distinct color, consistent with the existing tree styling).
+   - Dim (reduce opacity on) all other branches not on this path.
+   - Give the clicked node itself a visible "selected" indicator (e.g. a
+     ring around its circle).
+   - Clicking a different node clears the previous selection and applies
+     the new one. Clicking the currently-selected node again can either
+     deselect (revert to default view) or do nothing — your call, pick
+     whichever is simpler to implement correctly.
+
+2. Add a new panel/section below (or beside, whichever fits the layout
+   better) the tree+heatmap panels: a vertically-stacked sequence of
+   kidney maps, one per mutation_id in the selected chain, ordered
+   root-to-leaf (top to bottom, first mutation in the chain at the top).
+   Each entry should:
+   - Reuse the existing kidneymap.js component (renderKidneyMap) already
+     built in Step 1 — same PNG-background + hoverable-dot-overlay
+     approach, same tooltip behavior on hovering individual sites.
+   - Show the mutation_id as a label above/alongside each map.
+   - If the chain is long (many mutations), this section should be
+     scrollable rather than expanding the page indefinitely — a
+     fixed-height scrollable container is fine.
+
+3. Before any node is selected (initial page load state), show a
+   friendly placeholder in the kidney-map section (e.g. "Click a branch
+   or leaf in the tree to see its lineage chain's kidney VAF maps") — not
+   an empty blank area.
+
+4. Handle edge cases:
+   - Root node click: chain should include just the root's own mutations
+     (if any) — confirm this renders sensibly (a chain of 1, or possibly
+     0 if root has no mutation_ids of its own).
+   - A node whose chain includes fewer than 3 mutations should still
+     render fine (not break the vertical layout).
+   - The 5 unassigned_mutation_ids (never part of any chain) obviously
+     never appear here — confirm nothing crashes if a chain is short or
+     mutation_ids don't resolve to a PNG (shouldn't happen, but verify).
+
+Test with a live headless browser: click 2-3 different nodes (one leaf,
+one shallow internal node, one deep internal node) and confirm for each:
+tree highlighting updates correctly, the kidney map stack shows the right
+mutations in the right order, and clicking between them cleanly clears/
+reapplies without stale state. Check console for errors throughout.
+
+Show me a description of the behavior (or screenshots) for at least 2
+different selections before I check it live.
+
+If you get stuck on the click-path-highlighting logic or layout details,
+feel free to invoke Claude Fable 5 for extra help.

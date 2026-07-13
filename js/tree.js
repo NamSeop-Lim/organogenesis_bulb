@@ -4,12 +4,18 @@
 let treeOrientation = 'horizontal'; // 'horizontal' | 'vertical'
 let treeZoomScale = 1; // preserved across orientation toggles (translate is not, see drawTree)
 let treeLastData = null; // cached last-loaded tree.json, so toggling orientation doesn't refetch
+let treeDonor = 'DB15'; // set by renderTree(donor); used when a click needs to look up chains.json
+let selectedNodeId = null; // click-to-select state, persists across orientation toggles/redraws
 
 const MIN_STUB_PX = 4; // minimum visible branch-segment length, even for 0/1-mutation branches
+const SELECTED_COLOR = '#ff6b35';
 
 async function renderTree(donor) {
   const status = document.getElementById('tree-status');
   status.textContent = 'loading…';
+  treeDonor = donor;
+  selectedNodeId = null; // fresh donor/tree -- any prior selection belongs to a different tree
+  if (typeof showChainPlaceholder === 'function') showChainPlaceholder();
 
   let data;
   try {
@@ -149,29 +155,94 @@ function drawTree(data) {
       (ids.length ? `<br>${shown}${more}` : '');
   }
 
+  // Click-to-select lineage chain highlighting. currentPathIds = set of
+  // node ids from root down to the selected node (inclusive), recomputed
+  // from THIS render's root each time -- selectedNodeId itself persists
+  // across redraws (orientation toggles), but the d3 hierarchy is rebuilt
+  // from scratch every drawTree() call, so the id-set can't be cached.
+  let currentPathIds = new Set();
+  function recomputePathIds() {
+    currentPathIds = new Set();
+    if (!selectedNodeId) return;
+    const selD = root.descendants().find((d) => d.data.id === selectedNodeId);
+    if (selD) {
+      currentPathIds = new Set(selD.ancestors().map((a) => a.data.id));
+    } else {
+      selectedNodeId = null; // stale id -- shouldn't happen for a fixed tree shape
+    }
+  }
+  recomputePathIds();
+
+  function linkBaseStroke(d) {
+    return currentPathIds.has(d.target.data.id) ? SELECTED_COLOR : '#8a97a5';
+  }
+  function linkBaseWidth(d) {
+    return currentPathIds.has(d.target.data.id) ? 3 : 1.2;
+  }
+  function linkBaseOpacity(d) {
+    return currentPathIds.size && !currentPathIds.has(d.target.data.id) ? 0.25 : 0.8;
+  }
+  function circleBaseStroke(d) {
+    return d.data.id === selectedNodeId ? SELECTED_COLOR : 'none';
+  }
+  function circleBaseStrokeWidth(d) {
+    return d.data.id === selectedNodeId ? 2.5 : 0;
+  }
+  function circleBaseRadius(d) {
+    const base = d.data.is_leaf ? 2 : 3;
+    return d.data.id === selectedNodeId ? base + 3 : base;
+  }
+
+  function selectNode(d) {
+    const newId = d.data.id;
+    selectedNodeId = selectedNodeId === newId ? null : newId; // click again to deselect
+    recomputePathIds();
+
+    linksSel
+      .attr('stroke', linkBaseStroke)
+      .attr('stroke-width', linkBaseWidth)
+      .attr('stroke-opacity', linkBaseOpacity);
+    circlesSel
+      .attr('stroke', circleBaseStroke)
+      .attr('stroke-width', circleBaseStrokeWidth)
+      .attr('r', circleBaseRadius);
+
+    if (selectedNodeId) {
+      showChainForNode(selectedNodeId, treeDonor);
+    } else {
+      showChainPlaceholder();
+    }
+  }
+
   const contentLayer = zoomLayer.append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`);
 
-  contentLayer.append('g')
+  const linksSel = contentLayer.append('g')
     .attr('class', 'links')
     .attr('fill', 'none')
-    .attr('stroke', '#8a97a5')
     .attr('stroke-opacity', 0.8)
-    .attr('stroke-width', 1.2)
     .selectAll('path')
     .data(root.links())
     .join('path')
     .attr('d', linkGen)
+    .attr('data-target-id', (d) => d.target.data.id)
+    .attr('stroke', linkBaseStroke)
+    .attr('stroke-width', linkBaseWidth)
+    .attr('stroke-opacity', linkBaseOpacity)
     .style('cursor', 'pointer')
     .on('mouseenter', (event, d) => {
-      d3.select(event.currentTarget).attr('stroke', '#2f6fb0').attr('stroke-width', 2);
+      d3.select(event.currentTarget).attr('stroke', '#2f6fb0').attr('stroke-width', 2).attr('stroke-opacity', 1);
       showTooltip(event, linkTooltipHtml(d));
     })
     .on('mousemove', moveTooltip)
-    .on('mouseleave', (event) => {
-      d3.select(event.currentTarget).attr('stroke', '#8a97a5').attr('stroke-width', 1.2);
+    .on('mouseleave', (event, d) => {
+      d3.select(event.currentTarget)
+        .attr('stroke', linkBaseStroke(d))
+        .attr('stroke-width', linkBaseWidth(d))
+        .attr('stroke-opacity', linkBaseOpacity(d));
       hideTooltip();
-    });
+    })
+    .on('click', (event, d) => selectNode(d.target));
 
   // Dashed alignment guides: only for leaves whose true branch endpoint
   // isn't already at the alignment line -- a thin dashed segment from the
@@ -195,11 +266,14 @@ function drawTree(data) {
     .selectAll('g')
     .data(root.descendants())
     .join('g')
+    .attr('data-node-id', (d) => d.data.id)
     .attr('transform', (d) => `translate(${nodeScreenX(d)},${nodeScreenY(d)})`);
 
-  nodeGroup.append('circle')
-    .attr('r', (d) => (d.data.is_leaf ? 2 : 3))
+  const circlesSel = nodeGroup.append('circle')
+    .attr('r', circleBaseRadius)
     .attr('fill', (d) => (d.data.is_leaf ? '#9aa5b1' : '#2f6fb0'))
+    .attr('stroke', circleBaseStroke)
+    .attr('stroke-width', circleBaseStrokeWidth)
     .style('cursor', 'pointer')
     .on('mouseenter', (event, d) => {
       const info = d.data.is_leaf
@@ -208,7 +282,8 @@ function drawTree(data) {
       showTooltip(event, info);
     })
     .on('mousemove', moveTooltip)
-    .on('mouseleave', hideTooltip);
+    .on('mouseleave', hideTooltip)
+    .on('click', (event, d) => selectNode(d));
 
   const leafLabels = nodeGroup
     .filter((d) => d.data.is_leaf)
