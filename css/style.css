@@ -229,6 +229,15 @@ body {
   color: var(--muted);
   background: var(--panel-bg);
   border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.credit-line {
+  font-size: 0.7rem;
+  color: var(--muted);
+  opacity: 0.75;
 }
 
 @media (max-width: 900px) {
