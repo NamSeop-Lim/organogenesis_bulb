@@ -97,13 +97,26 @@ async function renderKidneyMap(container, mutationId, donor = 'DB15') {
     .attr('class', 'kidneymap-tooltip')
     .style('display', 'none');
 
+  function readSupportHtml(p) {
+    // depth/alt_read_count are only absent for data predating the cmd11
+    // enrichment -- shouldn't happen post-regeneration, but degrade quietly
+    // rather than print "undefined" if it ever does.
+    if (p.depth === null || p.depth === undefined || p.alt_read_count === null || p.alt_read_count === undefined) {
+      return '';
+    }
+    if (p.depth === 0) {
+      return ' <span class="vaf-readsupport">(no read coverage)</span>';
+    }
+    return ` <span class="vaf-readsupport">(${p.alt_read_count} alt / ${p.depth} depth)</span>`;
+  }
+
   function showTooltip(event, p) {
     tooltip
       .style('display', 'block')
       .html(
         `<strong>${p.sample_id}</strong> (${p.kidney})<br>` +
         `compartment: ${p.compartment}<br>` +
-        `VAF: ${p.vaf}`
+        `VAF: ${p.vaf}${readSupportHtml(p)}`
       );
     moveTooltip(event);
   }

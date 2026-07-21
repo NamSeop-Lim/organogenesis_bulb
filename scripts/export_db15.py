@@ -24,7 +24,7 @@ OUT_DIR = "/home/namseop/0_kidney/organogenesis_bulb/data/DB15"
 NWK = f"{DB15_DIR}/315_tgeem_singlecell_lineage.nwk"
 ALIGNED_CSV = f"{DB15_DIR}/csv/315_tgeem_singlecell_heatmap_aligned.csv"
 LINEAGE_CSV = f"{DB15_DIR}/csv/DB15_singlecell_lineage_assignment.csv"
-KIDNEY_LONG_CSV = f"{DB15_DIR}/csv/db15_kidney_vaf_long_mapped.csv"
+KIDNEY_LONG_CSV = f"{DB15_DIR}/csv/db15_kidney_vaf_long_mapped_with_depth.csv"
 RIGHT_TEMPLATE = f"{DB15_DIR}/kidney_package/right_kidney_template.svg"
 LEFT_TEMPLATE = f"{DB15_DIR}/kidney_package/left_kidney_template.svg"
 
@@ -236,6 +236,8 @@ def main():
             "x": float(r["x"]),
             "y": float(r["y"]),
             "vaf": float(r["vaf"]),
+            "depth": int(r["depth"]) if r.get("depth") not in (None, "") else None,
+            "alt_read_count": int(r["alt_read_count"]) if r.get("alt_read_count") not in (None, "") else None,
         })
     with open(f"{OUT_DIR}/kidney_vaf_long.json", 'w') as f:
         json.dump(kidney_out, f)

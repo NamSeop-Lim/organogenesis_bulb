@@ -1,0 +1,39 @@
+Integrate the depth/alt-read data (already produced:
+lineage_bulb/db15/csv/db15_kidney_vaf_long_mapped_with_depth.csv, 22,365
+rows, columns mutation_id, sample_id, kidney, compartment, x, y, vaf,
+depth, alt_read_count) into organogenesis_bulb's interactive tool.
+
+1. Regenerate organogenesis_bulb/data/DB15/kidney_vaf_long.json from this
+   enriched CSV (replacing the current version, which only has vaf) —
+   same structure as before, just with depth and alt_read_count added to
+   each record. Confirm row count and schema after conversion.
+
+2. Update js/kidneymap.js's hover tooltip: currently shows sample_id,
+   kidney, compartment, and vaf. Add depth and alt_read_count so it reads
+   something like "VAF 0.230 (52 alt / 226 depth)" instead of just "VAF
+   0.230". Handle the case where depth/alt_read_count might be missing or
+   zero gracefully (e.g. absent sites, VAF=0 — don't show "0 alt / 0
+   depth" in a confusing way, or show it plainly if that's accurate,
+   whichever reads more clearly).
+
+3. Add a small, unobtrusive link or info icon (similar style to the
+   existing ⓘ icon used elsewhere in the UI) near the kidney map panel or
+   in the footer, linking to or showing the QC methods note
+   (csv/README_alt_depth_qc.md content — summarize it inline in a
+   tooltip/popover, or copy it into organogenesis_bulb/data/DB15/ and
+   link it, whichever is simpler) so a viewer hovering a low-VAF site can
+   understand what "2 alt reads" means and how reads were filtered
+   (flag_filter=1536, Q>=30/Q20-29 tiering, majority-vote alt-allele
+   rediscovery) without cluttering the main UI.
+
+4. Live-verify via headless browser: hover 2-3 different sites (including
+   one with low VAF/few alt reads, and the known absent-heavy example)
+   and confirm the tooltip shows correct depth/alt_read_count values
+   matching the CSV, with zero console errors.
+
+Don't touch the kidney artwork, dot size/spacing, or the 314 PNGs in this
+task — this is purely wiring the new data field into the existing hover
+tooltip. Show me a description (or screenshot) of the updated tooltip
+before I check it live. If you finish and I haven't responded yet (I may
+be stepping away), it's fine to stop and wait after this checkpoint —
+don't proceed to further changes or push to GitHub without my review.
