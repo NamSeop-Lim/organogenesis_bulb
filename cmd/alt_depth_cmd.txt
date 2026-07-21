@@ -1,0 +1,61 @@
+New data-pipeline task (separate from UI work, can run in parallel):
+extract per-site read depth and alt-read counts alongside the existing
+VAF values, so the interactive tool can show read support (not just VAF)
+on hover — e.g. "VAF 0.001 (2 alt / 1847 depth)" instead of just "VAF
+0.001", which is uninterpretable on its own.
+
+Context: the current kidney_vaf_long.json / db15_kidney_vaf_long_mapped.csv
+only has the final VAF value per (mutation_id, sample_id). Depth and alt
+read count were explicitly NOT included when this was built (checked at
+the time, no parallel depth matrix existed in the wide CSV) — this task
+is about generating that data properly, going back to source.
+
+1. Locate the original VAF-extraction outputs/intermediate data for the
+   107 kidney target-seq bulk samples (per CLAUDE.md: computed via
+   scripts/compute_kidney_vaf.py, based on the lab's standard algorithm
+   in JH_SG_readinfo_chrpos_zp1nf_mars_vaf_220408_2_forbulkhollowspace_
+   ATCGqualitycheck_onlyvaf.py). Check whether read_depth and alt-read
+   counts (the Q>=30 count + Q20-29 count used in the VAF calculation)
+   were already computed as intermediate values during that pipeline run
+   but just not saved to the final output — if so, this may be a matter
+   of re-exposing existing intermediate data rather than re-running
+   pileup from scratch. Report which is the case before proceeding.
+
+2. If re-extraction from raw bams is needed: extract, for each
+   (mutation_id, sample_id) pair already in the current VAF table,
+   read_depth (total reads covering the site) and alt_read_count
+   (following the same algorithm already documented in CLAUDE.md: mode of
+   mismatch bases as major_alt_seq, Q>=30 + Q20-29 counts of that base).
+   Use the SAME flag_filter=1536 and quality thresholds already
+   established, for consistency with the existing VAF numbers — don't
+   introduce a different filtering standard.
+
+3. Produce an updated long-format table/JSON with columns: mutation_id,
+   sample_id, kidney, compartment, x, y, vaf, depth, alt_read_count —
+   same structure as the current kidney_vaf_long.json, just with the two
+   new fields added. Validate: for a handful of spot-check rows, confirm
+   alt_read_count / depth actually reconciles with the existing vaf value
+   (accounting for rounding), so we know the two datasets are consistent
+   with each other and not computed by two different methods.
+
+4. Write a short QC methods note (markdown, can go in
+   organogenesis_bulb/data/DB15/ or the main db15/ directory) describing,
+   in plain language suitable for a hover-tooltip footnote or a page
+   footer link, what counts as a "read" in these numbers: the
+   flag_filter=1536 exclusion (duplicates + secondary alignments
+   dropped), the quality-threshold logic (Q>=30 vs Q20-29 treatment), and
+   that alt_read_count is based on rediscovering the major mismatch allele
+   by majority vote, not assuming the recorded `alt` column. This is for
+   end-user transparency (so someone hovering a low-VAF site can
+   understand what "2 alt reads" actually means and how it was filtered),
+   not a full bioinformatics writeup.
+
+Do NOT touch the frontend (organogenesis_bulb's js/ or index.html) in
+this task — this is purely about producing the enriched data file and
+documentation. Frontend integration (updating tooltips to show depth/alt
+reads, adding a QC info link) will be a separate follow-up task once this
+data is validated.
+
+Report back: whether depth/alt-reads were recoverable from existing
+intermediate pipeline outputs or required re-extraction, the final row
+count and schema, and the spot-check validation results.

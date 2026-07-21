@@ -1,0 +1,52 @@
+New kidney template artwork provided (background color fully removed,
+consistent with PI's new white-background style):
+- /mnt/user-data/uploads/LK_template_without_back_color.svg
+- /mnt/user-data/uploads/RK_template_without_back_color.svg
+
+(Copy these into lineage_bulb/db15/kidney_package/ as the new
+right_kidney_template.svg / left_kidney_template.svg, backing up the
+current ones first with a version suffix, following the same backup
+convention as before.)
+
+1. Before anything else: recalibrate the coordinate transform against
+   these new templates, the same way as the last artwork change — render
+   known reference markers at known data coordinates through the actual
+   production pipeline, detect their pixel centroids in the output, and
+   derive the new per-kidney (dx, dy) offset (and confirm whether scale
+   also changed — don't assume it's translation-only this time, verify).
+
+2. Increase VAF dot size to 2x the current size (this supersedes the
+   earlier "1.5x" note in the PI's meeting minutes — use 2x).
+
+3. AUDIT (report only, don't auto-fix): of the 107 raw kidney samples,
+   how many are currently excluded from kidney_vaf_long.json /
+   db15_kidney_vaf_long_mapped.csv, and of those excluded, how many are
+   labeled "renal_fat" / adipose vs. "capsule" / vessel vs. other? Cross-
+   reference against the original PI figure's numbered/color-coded
+   dissection legend if you can locate it in the project files (legend
+   categories: Renal artery, Renal vein, Renal fat, Capsule, Cortex, Mix,
+   Medulla, Calyx, Pelves~Ureter). Report the exact count and sample_ids
+   in each category — I need this number before deciding whether new
+   coordinate digitization is required for any adipose sites. Do NOT
+   attempt to guess or assign coordinates for currently-uncoordinated
+   samples — that requires manual reference to the original figure.
+
+4. Capsule sites: confirm they remain excluded (they already are per
+   current scope) — no change needed here, just confirm in your report.
+
+5. Re-verify anatomical placement: render the diagnostic dot-only image
+   (same style as the earlier 128-site audit) against the new templates,
+   color-coded by compartment, for whatever site set is currently mapped
+   (should stay at 71 unless the audit in step 3 changes that). Flag
+   anything that doesn't land on sensible anatomy.
+
+6. Generate ONE pilot test render (reuse mutation ('2', 67810203)) with
+   the new template + recalibrated coordinates + 2x dots, in the current
+   pipeline's existing style (YlGnBu, capped color scale, red-X absent
+   marker) — do not regenerate the full 314 batch yet, and do not touch
+   organogenesis_bulb's live files yet. This is a checkpoint pilot per
+   the PI's "quick pilot, frequent checkpoint" guidance from the meeting.
+
+Show me: the audit numbers from step 3, the diagnostic placement image
+from step 5, and the single pilot render from step 6. Stop there for my
+review before any further work.
