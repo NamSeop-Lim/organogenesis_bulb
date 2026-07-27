@@ -307,18 +307,40 @@ a.info-icon {
   line-height: 0;
 }
 
-.kidneymap-img {
+.kidneymap-dual {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+}
+
+.kidneymap-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+}
+
+.kidneymap-side-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--card-text);
+  margin-bottom: 0.15rem;
+  line-height: 1.2;
+}
+
+.kidneymap-svg {
   display: block;
-  max-width: 100%;
+  width: 100%;
+  max-width: 160px;
   height: auto;
 }
 
-.kidneymap-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+.chain-entry--expanded .kidneymap-svg {
+  max-width: 340px;
+}
+
+.kidneymap-dot-visible {
+  transition: stroke-width 0.1s ease;
 }
 
 .kidneymap-tooltip {
@@ -378,6 +400,40 @@ a.info-icon {
 .vaf-legend-absent-x {
   color: #e02020;
   font-weight: 700;
+}
+
+.compartment-filter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  padding: 0.4rem 1rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.compartment-filter-label {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.compartment-filter-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  cursor: pointer;
+}
+
+.compartment-filter-item input {
+  cursor: pointer;
+}
+
+.compartment-filter-swatch {
+  display: inline-block;
+  width: 0.75em;
+  height: 0.75em;
+  border-radius: 50%;
 }
 
 #chain-scroll {

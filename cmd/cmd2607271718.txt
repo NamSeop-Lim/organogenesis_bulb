@@ -1,0 +1,16 @@
+Working directory: /home/namseop/0_kidney/organogenesis_bulb/
+
+Add compartment checkbox filtering to the kidney maps. The PI wanted separate cortex/medulla/calyx/ureter/fat panels per selected lineage chain, but that's too many panels — instead I want one map with checkboxes to show/hide each compartment's dots. Read CLAUDE.md first. Back up every file before editing (.bak). Treat the kidney template SVGs and .json data as READ-ONLY. Don't regress the discrete tree, per-mutation coloring, panel-hover pin, or dark mode.
+
+First, inspect and report before changing anything: confirm the current kidney map is a VAF-baked PNG base + an invisible hover-dot overlay, and that the overlay data (data/DB15/kidney_vaf_long.json via js/kidneymap.js) already carries per-sample coordinate + compartment + VAF (+ depth/alt), and that data/DB15/templates/ has plain (dot-free) kidney templates matching the calibration (kidney_map_transform.json). Tell me what you find.
+
+Then implement:
+
+Switch the base from the VAF-baked PNG to the plain kidney template, and render the sample dots dynamically and visibly from the overlay data (placed via the existing calibration transform). This is what makes compartment filtering possible.
+Dot styling — match the existing static-map conventions: fill = VAF on the YlGnBu scale with the same global cap (p99 = 0.230), absent sites (VAF = 0) keep the red-X marker as today. Add a compartment-colored outline on each dot (5 distinct outline colors) so compartments are still distinguishable when several are shown at once. Dot size ~1.5× like the current maps. Keep the hover tooltip (sample_id, compartment, VAF, depth/alt + QC link).
+Compartment checkboxes — a sticky filter bar with 5 checkboxes (cortex, medulla, calyx, ureter, fat), all checked by default (so default view = current all-sites view, no regression). Toggling a compartment shows/hides its dots live across all the chain's kidney panels at once. Include a tiny compartment-color legend next to the checkboxes.
+Apply across both trees (315/567), both orientations, and both themes (in dark mode the kidney card stays the light "paper" card from the dark-mode work).
+
+Verify (Playwright + screenshots, actually eyeball): dots render correctly on the plain template at the right positions (compare against an old baked PNG for a couple of mutations to confirm placement matches); VAF colors + red-X match the old maps; toggling each checkbox hides/shows only that compartment across all panels; all-on = looks like before; hover tooltip + panel-hover pin still work; dark mode card stays legible; no console errors/404s.
+
+Then commit locally with a clear message but DO NOT push — I'll review screenshots first. Report per-file changes and paste screenshots (all-on, and a couple of compartments filtered).
