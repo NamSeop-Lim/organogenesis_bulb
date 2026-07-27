@@ -1,0 +1,20 @@
+Working directory: /home/namseop/0_kidney/lineage_bulb/db15/ (and organogenesis_bulb/data/DB15/ if needed)
+
+Read CLAUDE.md first. This is a pre-integration verification step. The goal is to render the newly built 567 full-resolution tree to a PNG so I can visually confirm how it looks before any frontend work. Do NOT touch the frontend (js/, index.html).
+
+Tasks:
+
+Render 567_tgeem_singlecell_lineage_full.nwk to PNG in ladderized form. Reuse/extend the existing scripts/render_lineage_tree.py (ete3) that produced the 315 PDF. Handle it via options (--input / --output) and keep the existing 315 render behavior intact.
+With 501 leaves the tip labels will overlap, so turn labels off or make them very small, and render tall so the lab's standard clean staircase (ladderized) shape is clearly visible. Reference style: 315_tgeem_singlecell_lineage_tree.pdf / DB3_raw_tree.pdf.
+Also re-render the 315 tree in the same style for side-by-side comparison, so I can see the topology difference.
+(If feasible) Distinguish mutation panel membership: read the in-panel (314) / no-TG-data (253) flag from organogenesis_bulb/data/DB15/tree_full.json (or chains_full.json), and draw no-TG-data branches as a dashed line or a different color (to preview the dashed/X design the frontend will use) while in-panel branches stay solid. If this takes long, just do tasks 1–3 and report back.
+
+Output: save the PNGs to lineage_bulb/db15/ (e.g. 567_full_tree_preview.png, 315_tree_preview.png). Stamp the node/leaf counts and the root split (252 L1 / 249 L2) as a caption on each image for a sanity check.
+
+Cautions:
+
+Back up render_lineage_tree.py (.bak) before editing it.
+Treat the .nwk / .json data files as read-only — do not reorder or rewrite their contents.
+After rendering, open the actual PNGs and visually verify L1/L2 aren't mixed and the ladderization came out correctly, then report the result.
+
+Frontend integration will be done separately after this PNG check is confirmed.

@@ -1,0 +1,22 @@
+Working directory: /home/namseop/0_kidney/organogenesis_bulb/ (data) and /home/namseop/0_kidney/lineage_bulb/db15/ (output)
+
+I want a static PNG that faithfully previews how the 567 tree will actually be projected in the frontend — including the real dashed-line / X-marker treatment for no-TG-data branches that the ete3/Qt backend couldn't render. This is a design preview to review before building the real frontend toggle. Do NOT edit any frontend files (js/, index.html, css/) — only read them for styling reference. Treat all .nwk / .json data files as read-only. Build this as a standalone throwaway preview script (e.g. scripts/preview_frontend_tree.py), separate from render_lineage_tree.py.
+
+Use matplotlib (renders dashed linestyles and X markers cleanly, unlike the ete3/Qt PNG backend).
+
+Data source: read the exact files the frontend consumes — organogenesis_bulb/data/DB15/tree_full.json and chains_full.json — and use their per-mutation panel-membership flag (in-panel / no-TG-data). Do NOT rebuild from the .nwk.
+
+Match the frontend's intended look as closely as possible — read js/tree.js and css/style.css (read-only) to pick up the actual layout and colors:
+
+Phylogram, branch-length-proportional, vertical orientation (frontend default), ladderized.
+Tall aspect, leaf labels off or tiny.
+in-panel branches: normal solid style.
+no-TG-data branches: dashed line + an X marker at the tip — this is the key thing I want to preview.
+Small legend explaining solid vs dashed/X.
+
+Produce two PNGs, saved to lineage_bulb/db15/:
+
+567_frontend_preview_full.png — the whole 567 tree in this frontend style, so I can see the overall distribution of solid vs dashed/X branches.
+567_frontend_preview_chain.png — pick one representative deep chain from chains_full.json that contains both in-panel and no-TG-data mutations, and render the "selected chain" state: root-to-node path highlighted (in-panel segments solid, no-TG-data segments dashed + X), the rest of the tree dimmed. This previews the actual click-to-select interaction. Note in the caption which chain/node you picked.
+
+After rendering, open both PNGs and confirm the dashed/X styling reads clearly and the chain highlight looks right. Confirm tree_full.json / chains_full.json checksums are unchanged and no frontend file was modified. Report what you see.

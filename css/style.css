@@ -125,7 +125,8 @@ body {
 .panel-controls {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
   font-size: 0.8rem;
   color: var(--muted);
 }
@@ -386,4 +387,46 @@ a.info-icon {
 .chain-entry-map {
   display: flex;
   justify-content: center;
+}
+
+.chain-entry-nodata {
+  width: 100%;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-style: italic;
+}
+
+.tree-legend-nopanel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.tree-legend-swatch {
+  display: inline-block;
+  width: 1.1em;
+  height: 0;
+  border-top: 2px solid;
+  margin-right: 0.1rem;
+}
+
+.tree-legend-swatch--solid {
+  border-top-style: solid;
+  border-top-color: #8a97a5;
+}
+
+.tree-legend-swatch--dashed {
+  border-top-style: dashed;
+  border-top-color: #b7bfc7;
+  margin-left: 0.5rem;
 }

@@ -1,0 +1,21 @@
+Working directory: /home/namseop/0_kidney/organogenesis_bulb/
+
+This is the real frontend integration — previous work was all read-only previews, now confirmed. Implement everything below in the actual site, verify it works, then commit and push to GitHub. Read CLAUDE.md and PROGRESS_SUMMARY.md first.
+
+Before editing any file, make an on-disk .bak of it (tree.js, chainpanel.js, index.html, css/style.css, main.js as touched). The 315 tree stays the default; confirm no regression to it.
+
+Tree-version toggle — add a 315-marker "TG panel" ↔ 567-marker "full resolution" toggle near the existing Horizontal/Vertical toggle. 315 is the default on load. 567 loads tree_full.json / chains_full.json; 315 loads tree.json / chains.json. Switching must fully reset selection/highlight state.
+Link-drawing fix (bracket style) — replace tree.js linkGen's per-child full-elbow path with the bracket approach validated in the preview: one shared vertical bracket per parent (parent depth → max child depth, neutral style) + each child's own horizontal peel-off in its own style. Required, because step 3's dashed styling would otherwise reproduce the mid-branch overwrite artifact. Verify siblings branch off one shared point (DB3 style) in both orientations and both trees.
+no-TG-data styling (567 only) — in the 567 tree, branches whose mutation is not in the 315 panel render dashed + red X at the tip (match the preview: dashed, 
+#e02020 X reusing the .vaf-legend-absent-x convention); in-panel branches stay solid. On a selected 567 chain, no-TG-data segments in the highlighted path render dashed (highlight color) + X instead of solid.
+kidney-map panel for no-TG-data — in chainpanel.js, chain mutations not in the panel (no VAF/PNG) must NOT request a PNG (no 404); show an explicit "no spatial data" placeholder card in chain order instead. Also guard any in-panel mutation with a genuinely missing PNG (e.g. the all-zero ('18',54788409) case) so it degrades to the same placeholder rather than 404.
+No 315 regression — confirm 315 is default and behaves exactly as before (click-to-select, kidney panels, hover tooltips, h/v toggle).
+NEW — panel-hover → tree segment highlight — currently clicking a tree branch renders that chain's kidney VAF panels. Add: hovering a kidney VAF panel gives the corresponding mutation's branch segment in the currently-highlighted tree path a second-level highlight — visibly stronger than the base orange (e.g. thicker stroke + a distinct brighter/darker accent that reads clearly against the orange; match the css palette). On mouse-leave, revert to the normal chain-highlight style. Map panel → mutation_id → node → its link segment; if several mutations share one branch, hovering any of their panels highlights that shared segment. Applies to in-panel mutations (the ones with panels); no-TG-data has no panel to hover, so no change there.
+
+Verify before pushing:
+
+Preview the site locally and manually check: 315 default unchanged; 567 shows dashed/X for no-panel branches; a 567 chain with mixed in-panel/no-panel mutations renders highlighted path + kidney panels + no-data placeholders correctly; hovering kidney panels super-highlights the matching tree segment and reverts; siblings share single branch points in both trees and both orientations.
+Take screenshots of the key states and actually eyeball them.
+Confirm no console errors and no 404s.
+
+Then commit with a clear message (567 toggle, bracket link fix, no-TG-data dashed/X, no-data placeholder, panel-hover tree highlight) and push to GitHub (PAT credential.helper already set up). Confirm the push succeeded; note the live GitHub Pages URL will update. Report per-file changes and your screenshot observations.

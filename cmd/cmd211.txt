@@ -1,0 +1,10 @@
+Confirmed: drop the 15CFb2_2beon_C12 column (that sample should be
+excluded). Keep everything else the same — use the file's native column
+order for the remaining 502 samples (do NOT reorder to match the
+315-tree's curated order; native order is already correctly curated for
+this 567-mutation file, as verified).
+
+Rebuild tree_full.json/chains_full.json from this 567-mutation x 502-
+sample (native order, minus 2beon) matrix. Confirm the root recovers the
+clean L1/L2 split (expect ~252/250) before reporting back — if it
+doesn't, stop and report the actual structure rather than forcing it.

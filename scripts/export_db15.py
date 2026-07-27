@@ -52,6 +52,19 @@ def build_carrier_groups(mutation_ids, sample_ids, matrix):
     return groups
 
 
+def ladderize_tree(tree):
+    """Standard ladderize convention (matches the lab's ete3 reference
+    output): at every internal node, sort children by descendant leaf
+    count, LARGER subtree first, consistently at every node -- not raw
+    newick insertion order. Produces the clean, non-crossing, monotonic
+    staircase layout. Applied once at the data level (before node-id
+    assignment/traversal), so it's baked into tree.json's children arrays
+    and stable across any rendering choice (horizontal/vertical, zoom)."""
+    for node in tree.traverse('postorder'):
+        if not node.is_leaf():
+            node.children.sort(key=lambda c: len(c.get_leaves()), reverse=True)
+
+
 def assign_node_ids(tree):
     """Deterministic ids via preorder traversal (root first)."""
     id_of = {}
@@ -144,6 +157,7 @@ def main():
 
     # ---- 1+2: tree.json + chains.json ----
     tree = Tree(open(NWK).read().strip(), format=1)
+    ladderize_tree(tree)
     mutation_ids, sample_ids, matrix = load_aligned_heatmap()
     carrier_groups = build_carrier_groups(mutation_ids, sample_ids, matrix)
 

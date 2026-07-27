@@ -1,0 +1,43 @@
+Two data-pipeline additions to organogenesis_bulb, before any frontend
+work:
+
+1. LADDERIZE the existing 315-mutation tree (the current tree.json
+   source): at every internal node, sort children by descendant leaf
+   count (standard convention — e.g. larger subtree first, consistently
+   in the same direction at every node). This is what produces the
+   clean, non-crossing, monotonic "staircase" layout seen in the
+   reference PDF (DB3_raw_tree.pdf, the lab's standard ete3 output) —
+   currently tree.json's children arrays preserve raw newick insertion
+   order, not leaf-count order, which is why branches currently bend
+   inconsistently instead of stepping down cleanly. Apply this ordering
+   at the data level (when building tree.json), not as a rendering hack,
+   so it's stable across horizontal/vertical toggle and any future tree.
+
+2. Build a SECOND, full-resolution lineage tree from the newly provided
+   567-mutation × 502-sample single-cell heatmap
+   (DB15_singlecell_complete_eem_heatmap_namseop.csv, uploaded to
+   /mnt/user-data/uploads/ — copy it into lineage_bulb/db15/csv/ first).
+   This is the pre-target-panel-filtering EEM set (per CLAUDE.md, this
+   matches the historical "567-mutation original heatmap" that predates
+   the 314/315-mutation panel-confirmed subset). Run the SAME
+   perfect-phylogeny pipeline already used for the 315-mutation tree
+   (csv_newick_gil_ver3.py, same carrier-set-merge logic) on this larger
+   matrix to produce a new, higher-resolution Newick tree. Apply the same
+   ladderizing from step 1. Export as
+   organogenesis_bulb/data/DB15/tree_full.json (parallel structure to the
+   existing tree.json), and a matching chains_full.json (same
+   chain-precomputation logic as before — root-to-node path, private
+   mutations excluded for leaves).
+
+3. For every mutation_id in tree_full.json / chains_full.json, add a flag
+   indicating whether it's part of the 315-mutation target-sequencing
+   panel (i.e. has actual kidney VAF data / a PNG in kidney_vaf_maps/) or
+   not. Report how many of the 567 do vs. don't have panel/VAF data —
+   this should reconcile with the known 315 confirmed + ~252ish without
+   TG data, but confirm the real number rather than assuming.
+
+Report back: confirmation the ladderized 315-tree visually matches the
+staircase pattern in the reference PDF (describe a few branch points), 
+the full-tree's node/leaf counts, and the panel-membership flag counts.
+Don't touch the frontend (js/, index.html) yet — that's a separate
+follow-up task once this data is confirmed correct.

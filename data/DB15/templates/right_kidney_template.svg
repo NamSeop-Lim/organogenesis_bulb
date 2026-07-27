@@ -11,8 +11,8 @@
          two-tone body fill cls-3/cls-4) get a thin, light-gray line instead. */
       .cls-1, .cls-3, .cls-4 {
         fill: #f8f8f8;
-        stroke: #b3b3b3;
-        stroke-width: .5px;
+        stroke: #595959;
+        stroke-width: 1px;
         stroke-miterlimit: 10;
       }
 

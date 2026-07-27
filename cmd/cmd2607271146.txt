@@ -1,0 +1,10 @@
+Working directory: /home/namseop/0_kidney/lineage_bulb/db15/
+
+Follow-up to the tree preview renders. The first 567_full_tree_preview.png colored branches by panel membership, which does NOT let me visually verify the L1/L2 split or compare against the lab's standard staircase. Add two more preview renders using the same extended render_lineage_tree.py. Do NOT touch the frontend (js/, index.html), and treat all .nwk / .json data files as read-only.
+
+L1/L2-colored version. Render the 567 tree (ladderized, same tall aspect, no leaf labels) but color each branch/leaf by founder lineage — L1 in one distinct color, L2 in another (e.g. red vs blue). Get the L1/L2 assignment from the same source the build used (e.g. csv/DB15_singlecell_lineage_assignment.csv or wherever the root split was validated). The point is to visually confirm the root splits into exactly two monochrome clades (252 L1 / 249 L2) with zero mixing. Save as 567_full_tree_L1L2.png. Stamp the L1/L2 leaf counts in the caption.
+Cladogram version. Render the 567 tree as a cladogram — ignore branch lengths, equal branch spacing — ladderized, so it shows the clean staircase topology like DB3_raw_tree.pdf. Same tall aspect, no leaf labels. Save as 567_full_tree_cladogram.png.
+
+Also, in the bottom-left of the existing 567_full_tree_preview.png there's a small black block and a striped black/white pattern, plus a few branches dangling far down near the bottom-center. Tell me what those are (scale bar? legend? the 2 unassigned mutations? borderline/outlier samples?) — zoom into the actual pixels to check, don't guess.
+
+Back up render_lineage_tree.py again before editing if you touch it. After rendering, open both new PNGs and confirm: (1) the L1/L2 version shows two clean non-mixed clades at the root, (2) the cladogram shows a clean ladderized staircase. Report what you see, and confirm the .nwk/.json files are still unchanged (checksum).

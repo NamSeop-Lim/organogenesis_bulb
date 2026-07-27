@@ -1,14 +1,38 @@
-// Renders data/<donor>/tree.json as a pannable/zoomable D3 dendrogram.
-// tree.json shape: { nodes: { id: {id, is_leaf, leaf_name, parent_id, children, mutation_ids, n_mutations} }, root_id, unassigned_mutation_ids }
+// Renders data/<donor>/tree.json (or tree_full.json) as a pannable/zoomable
+// D3 dendrogram. tree.json shape: { nodes: { id: {id, is_leaf, leaf_name,
+// parent_id, children, mutation_ids, n_mutations} }, root_id,
+// unassigned_mutation_ids, panel_mutation_ids? }. panel_mutation_ids is only
+// present on tree_full.json (the 567-mutation full-resolution tree) --
+// tree.json (315, TG-panel-confirmed) omits it since every mutation there
+// already has kidney VAF data by construction.
 
 let treeOrientation = 'vertical'; // 'horizontal' | 'vertical' -- vertical is the default per stage3
+let treeVersion = '315'; // '315' (TG panel, default) | '567' (full resolution)
 let treeZoomScale = 1; // preserved across orientation toggles (translate is not, see drawTree)
 let treeLastData = null; // cached last-loaded tree.json, so toggling orientation doesn't refetch
 let treeDonor = 'DB15'; // set by renderTree(donor); used when a click needs to look up chains.json
 let selectedNodeId = null; // click-to-select state, persists across orientation toggles/redraws
 
+// Module-level state kept in sync by the most recent drawTree() call, so the
+// exposed highlightChainSegment/clearChainSegmentHighlight functions (called
+// from chainpanel.js on kidney-panel hover, outside drawTree's own closure)
+// can look up the latest tree without needing drawTree to re-run.
+let currentPathIds = new Set();
+let currentMutationIdToNodeId = {};
+let currentNodeStyleById = {}; // nodeId -> { panelStyle: 'in_panel'|'no_panel'|'neutral' }
+
+const TREE_FILES = {
+  315: { tree: 'tree.json', chains: 'chains.json' },
+  567: { tree: 'tree_full.json', chains: 'chains_full.json' },
+};
+
 const MIN_STUB_PX = 4; // minimum visible branch-segment length, even for 0/1-mutation branches
 const SELECTED_COLOR = '#ff6b35';
+const DEFAULT_LINK_COLOR = '#8a97a5';
+const HOVER_LINK_COLOR = '#2f6fb0';
+const NO_PANEL_COLOR = '#b7bfc7'; // muted -- dashed no-TG-data branches (567 only)
+const NO_PANEL_X_COLOR = '#e02020'; // reuses the .vaf-legend-absent-x convention
+const SUPER_HIGHLIGHT_COLOR = '#c2185b'; // kidney-panel-hover second-level accent -- reads clearly against SELECTED_COLOR orange
 
 async function renderTree(donor) {
   const status = document.getElementById('tree-status');
@@ -19,16 +43,30 @@ async function renderTree(donor) {
 
   let data;
   try {
-    const res = await fetch(`data/${donor}/tree.json`);
+    const res = await fetch(`data/${donor}/${TREE_FILES[treeVersion].tree}`);
     data = await res.json();
   } catch (err) {
-    status.textContent = 'failed to load tree.json';
+    status.textContent = `failed to load ${TREE_FILES[treeVersion].tree}`;
     console.error(err);
     return;
   }
 
   treeLastData = data;
   drawTree(data);
+}
+
+function setTreeVersion(version) {
+  if (version === treeVersion) return;
+  treeVersion = version;
+  document.getElementById('version-315').classList.toggle('is-active', version === '315');
+  document.getElementById('version-567').classList.toggle('is-active', version === '567');
+  document.getElementById('tree-legend-nopanel').style.display = version === '567' ? '' : 'none';
+  // Full reset: a node id from one tree has no meaning in the other (the two
+  // trees are built from different newicks with independently-assigned ids),
+  // so any carried-over selection would silently point at the wrong node.
+  selectedNodeId = null;
+  if (typeof showChainPlaceholder === 'function') showChainPlaceholder();
+  renderTree(treeDonor);
 }
 
 function drawTree(data) {
@@ -45,6 +83,7 @@ function drawTree(data) {
   const isVertical = treeOrientation === 'vertical';
 
   const nodesArr = Object.values(data.nodes);
+  const panelIds = data.panel_mutation_ids ? new Set(data.panel_mutation_ids) : null;
 
   // d3.stratify wants parentId(root) === undefined/null, which matches our schema directly.
   const root = d3.stratify()
@@ -106,6 +145,9 @@ function drawTree(data) {
   // vertical = root-top/leaves-bottom (leaf -> x, depth -> y).
   const screenX = isVertical ? (d) => d.x : (d) => d.branchPos;
   const screenY = isVertical ? (d) => d.branchPos : (d) => d.x;
+  // depth-axis / leaf-axis screen coordinate, orientation-independent --
+  // used by the bracket/peel-off link geometry below.
+  const depthScreen = isVertical ? screenY : screenX;
 
   // Aligned position (iTOL/ete3 "aligned tip labels" convention): leaf-axis
   // coordinate unchanged, depth-axis coordinate pinned to the alignment
@@ -151,20 +193,8 @@ function drawTree(data) {
     tooltip.style('display', 'none');
   }
 
-  // Right-angle "elbow" links, drawn to TRUE (unaligned) positions: straight
-  // out from the source node along the depth axis to the child's depth,
-  // then a single 90-degree turn along the leaf axis into the child's
-  // row/column. Orientation only changes which segment (H or V) comes first.
-  function linkGen(d) {
-    const sx = screenX(d.source);
-    const sy = screenY(d.source);
-    const tx = screenX(d.target);
-    const ty = screenY(d.target);
-    return isVertical ? `M${sx},${sy}V${ty}H${tx}` : `M${sx},${sy}H${tx}V${ty}`;
-  }
-
-  function linkTooltipHtml(d) {
-    const n = d.target.data;
+  function branchTooltipHtml(d) {
+    const n = d.data;
     const ids = n.mutation_ids || [];
     const shown = ids.slice(0, 10).join(', ');
     const more = ids.length > 10 ? ` (+${ids.length - 10} more)` : '';
@@ -175,9 +205,10 @@ function drawTree(data) {
   // Click-to-select lineage chain highlighting. currentPathIds = set of
   // node ids from root down to the selected node (inclusive), recomputed
   // from THIS render's root each time -- selectedNodeId itself persists
-  // across redraws (orientation toggles), but the d3 hierarchy is rebuilt
-  // from scratch every drawTree() call, so the id-set can't be cached.
-  let currentPathIds = new Set();
+  // across redraws (orientation/version toggles), but the d3 hierarchy is
+  // rebuilt from scratch every drawTree() call, so the id-set can't be
+  // cached. currentPathIds is module-level (not `let` redeclared here) so
+  // the exposed hover-highlight functions can read the latest value.
   function recomputePathIds() {
     currentPathIds = new Set();
     if (!selectedNodeId) return;
@@ -190,14 +221,43 @@ function drawTree(data) {
   }
   recomputePathIds();
 
-  function linkBaseStroke(d) {
-    return currentPathIds.has(d.target.data.id) ? SELECTED_COLOR : '#8a97a5';
+  // Panel-membership style for a node's OWN branch (its mutation_ids, not
+  // its chain): 'in_panel' (>=1 own mutation has kidney VAF data), 'no_panel'
+  // (own mutations exist, none in-panel -- 567 only), 'neutral' (0 own
+  // mutations, e.g. many pass-through/multifurcation nodes -- nothing to
+  // flag either way). On the 315 tree panelIds is null, so every branch with
+  // mutations reads as 'in_panel' -- no dashed styling there, by design.
+  function branchPanelStyle(d) {
+    const muts = d.data.mutation_ids || [];
+    if (!panelIds) return muts.length ? 'in_panel' : 'neutral';
+    if (!muts.length) return 'neutral';
+    return muts.some((m) => panelIds.has(m)) ? 'in_panel' : 'no_panel';
   }
-  function linkBaseWidth(d) {
-    return currentPathIds.has(d.target.data.id) ? 3 : 1.2;
+
+  // mutation_id -> node id (the node that OWNS this mutation on its own
+  // branch), rebuilt every draw -- exposed at module level for chainpanel.js
+  // kidney-panel-hover -> tree-segment lookups.
+  currentMutationIdToNodeId = {};
+  currentNodeStyleById = {};
+  root.descendants().forEach((d) => {
+    const style = branchPanelStyle(d);
+    currentNodeStyleById[d.data.id] = style;
+    (d.data.mutation_ids || []).forEach((m) => { currentMutationIdToNodeId[m] = d.data.id; });
+  });
+
+  function peeloffBaseStroke(d) {
+    if (currentPathIds.has(d.data.id)) return SELECTED_COLOR;
+    const style = currentNodeStyleById[d.data.id];
+    return style === 'no_panel' ? NO_PANEL_COLOR : DEFAULT_LINK_COLOR;
   }
-  function linkBaseOpacity(d) {
-    return currentPathIds.size && !currentPathIds.has(d.target.data.id) ? 0.25 : 0.8;
+  function peeloffBaseWidth(d) {
+    return currentPathIds.has(d.data.id) ? 3 : 1.2;
+  }
+  function peeloffBaseOpacity(d) {
+    return currentPathIds.size && !currentPathIds.has(d.data.id) ? 0.25 : 0.8;
+  }
+  function peeloffDashArray(d) {
+    return currentNodeStyleById[d.data.id] === 'no_panel' ? '4,3' : null;
   }
   function circleBaseStroke(d) {
     return d.data.id === selectedNodeId ? SELECTED_COLOR : 'none';
@@ -213,22 +273,34 @@ function drawTree(data) {
     return d.data.is_leaf ? leafHitRadius : 10;
   }
 
+  function restyleAllLinks() {
+    peeloffVisibleSel
+      .attr('stroke', peeloffBaseStroke)
+      .attr('stroke-width', peeloffBaseWidth)
+      .attr('stroke-opacity', peeloffBaseOpacity)
+      .attr('stroke-dasharray', peeloffDashArray);
+    peeloffXMarkerSel
+      .attr('opacity', (d) => (currentNodeStyleById[d.data.id] === 'no_panel'
+        ? (currentPathIds.size && !currentPathIds.has(d.data.id) ? 0.35 : 1) : 0));
+    bracketVisibleSel
+      .attr('stroke-opacity', bracketBaseOpacity);
+    bracketOverlaySel
+      .attr('d', bracketOverlayPath)
+      .style('display', (d) => (bracketHighlightChild(d) ? null : 'none'));
+  }
+
   function selectNode(d) {
     const newId = d.data.id;
     selectedNodeId = selectedNodeId === newId ? null : newId; // click again to deselect
     recomputePathIds();
-
-    linksSel
-      .attr('stroke', linkBaseStroke)
-      .attr('stroke-width', linkBaseWidth)
-      .attr('stroke-opacity', linkBaseOpacity);
+    restyleAllLinks();
     circlesSel
       .attr('stroke', circleBaseStroke)
       .attr('stroke-width', circleBaseStrokeWidth)
       .attr('r', circleBaseRadius);
 
     if (selectedNodeId) {
-      showChainForNode(selectedNodeId, treeDonor);
+      showChainForNode(selectedNodeId, treeDonor, TREE_FILES[treeVersion].chains);
     } else {
       showChainPlaceholder();
     }
@@ -237,53 +309,162 @@ function drawTree(data) {
   const contentLayer = zoomLayer.append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`);
 
-  // Each link is a thin VISIBLE path (pure decoration, pointer-events:none,
-  // keeps the phylogram's intentionally-thin line weight) plus a wider
-  // invisible HIT path layered on top carrying all interaction -- the
-  // standard "fat invisible hitline" technique for making thin lines easy
-  // to click/tap. linksSel below refers to the visible paths (what
-  // selectNode()'s bulk restyle and hover need to touch); the hit paths
-  // are local to this block only, they just dispatch to their visible
-  // sibling via the shared parent <g>.
-  const linkGroupsSel = contentLayer.append('g')
-    .attr('class', 'links')
-    .selectAll('g')
-    .data(root.links())
-    .join('g')
-    .attr('data-target-id', (d) => d.target.data.id);
+  // --- Links, drawn as one shared BRACKET per parent + one HORIZONTAL/
+  // VERTICAL (orientation-dependent) PEEL-OFF per child -- NOT one
+  // independent full elbow per child. Each child's own vertical+horizontal
+  // elbow used to be drawn as its own separate path from the parent's exact
+  // position; siblings at different depths made those paths overlap along
+  // the shared trunk, and whichever sibling was drawn last in DOM order
+  // visually overwrote the others there -- harmless while every branch
+  // shared one style, but it silently corrupts a differently-styled
+  // sibling's apparent line style the moment two different styles (solid
+  // in-panel vs dashed no-panel) meet on that shared stretch. Fixed by
+  // drawing the shared trunk exactly once, in a neutral style owned by no
+  // child, and giving each child only its own short peel-off segment (which
+  // never overlaps a sibling's, since peel-offs sit at different depths and
+  // never share the same run) in that child's own style. See the
+  // cmd2607271309/cmd2607271326 chat record for the full diagnosis --
+  // validated first in lineage_bulb/db15/scripts/preview_frontend_tree.py.
+  const bracketParents = root.descendants().filter((d) => d.children && d.children.length);
 
-  const linksSel = linkGroupsSel.append('path')
-    .attr('class', 'link-visible')
+  function bracketMaxChildDepth(d) {
+    return d3.max(d.children, depthScreen);
+  }
+  function bracketPath(d) {
+    const px = screenX(d);
+    const py = screenY(d);
+    const maxDepth = bracketMaxChildDepth(d);
+    return isVertical ? `M${px},${py}V${maxDepth}` : `M${px},${py}H${maxDepth}`;
+  }
+  // Single, unambiguous exception to "bracket is neutral": if exactly one of
+  // this parent's children sits on the currently-selected chain path, an
+  // orange overlay is drawn on top of the neutral bracket from the parent's
+  // own depth to THAT child's depth -- there's never more than one such
+  // child, so this never reintroduces the multi-sibling style-overlap bug.
+  function bracketHighlightChild(d) {
+    return d.children.find((c) => currentPathIds.has(c.data.id)) || null;
+  }
+  function bracketOverlayPath(d) {
+    const child = bracketHighlightChild(d);
+    if (!child) return '';
+    const px = screenX(d);
+    const py = screenY(d);
+    const depth = depthScreen(child);
+    return isVertical ? `M${px},${py}V${depth}` : `M${px},${py}H${depth}`;
+  }
+  function bracketBaseOpacity(d) {
+    if (!currentPathIds.size) return 0.8;
+    const onPath = currentPathIds.has(d.data.id) || bracketHighlightChild(d);
+    return onPath ? 0.8 : 0.25;
+  }
+
+  const bracketGroupSel = contentLayer.append('g')
+    .attr('class', 'brackets')
+    .selectAll('g')
+    .data(bracketParents)
+    .join('g')
+    .attr('data-bracket-parent-id', (d) => d.data.id);
+
+  const bracketVisibleSel = bracketGroupSel.append('path')
+    .attr('class', 'bracket-visible')
     .attr('fill', 'none')
-    .attr('d', linkGen)
-    .attr('stroke', linkBaseStroke)
-    .attr('stroke-width', linkBaseWidth)
-    .attr('stroke-opacity', linkBaseOpacity)
+    .attr('d', bracketPath)
+    .attr('stroke', DEFAULT_LINK_COLOR)
+    .attr('stroke-width', 1.2)
+    .attr('stroke-opacity', bracketBaseOpacity)
     .style('pointer-events', 'none');
 
-  linkGroupsSel.append('path')
-    .attr('class', 'link-hit')
+  const bracketOverlaySel = bracketGroupSel.append('path')
+    .attr('class', 'bracket-overlay')
     .attr('fill', 'none')
-    .attr('d', linkGen)
+    .attr('d', bracketOverlayPath)
+    .attr('stroke', SELECTED_COLOR)
+    .attr('stroke-width', 3)
+    .style('display', (d) => (bracketHighlightChild(d) ? null : 'none'))
+    .style('pointer-events', 'none');
+
+  bracketGroupSel.append('path')
+    .attr('class', 'bracket-hit')
+    .attr('fill', 'none')
+    .attr('d', bracketPath)
+    .attr('stroke', 'rgba(0,0,0,0.001)')
+    .attr('stroke-width', 12)
+    .attr('stroke-linecap', 'round')
+    .style('cursor', 'pointer')
+    .style('pointer-events', 'stroke')
+    .on('mouseenter', function (event, d) {
+      d3.select(this.parentNode).select('.bracket-visible')
+        .attr('stroke', HOVER_LINK_COLOR).attr('stroke-width', 2).attr('stroke-opacity', 1);
+      showTooltip(event, branchTooltipHtml(d));
+    })
+    .on('mousemove', moveTooltip)
+    .on('mouseleave', function () {
+      d3.select(this.parentNode).select('.bracket-visible')
+        .attr('stroke', DEFAULT_LINK_COLOR).attr('stroke-width', 1.2).attr('stroke-opacity', bracketBaseOpacity);
+      hideTooltip();
+    })
+    .on('click', (event, d) => selectNode(d));
+
+  function peeloffPath(d) {
+    const px = screenX(d.parent);
+    const py = screenY(d.parent);
+    const cx = screenX(d);
+    const cy = screenY(d);
+    return isVertical ? `M${px},${cy}H${cx}` : `M${cx},${py}V${cy}`;
+  }
+
+  const peeloffGroupSel = contentLayer.append('g')
+    .attr('class', 'peeloffs')
+    .selectAll('g')
+    .data(root.descendants().filter((d) => d.parent))
+    .join('g')
+    .attr('data-child-id', (d) => d.data.id);
+
+  const peeloffVisibleSel = peeloffGroupSel.append('path')
+    .attr('class', 'link-peeloff')
+    .attr('fill', 'none')
+    .attr('d', peeloffPath)
+    .attr('stroke', peeloffBaseStroke)
+    .attr('stroke-width', peeloffBaseWidth)
+    .attr('stroke-opacity', peeloffBaseOpacity)
+    .attr('stroke-dasharray', peeloffDashArray)
+    .style('pointer-events', 'none');
+
+  // Small red X at the tip of every no-TG-data branch (567 only; null-style
+  // on 315 since panelIds is null there) -- reuses the .vaf-legend-absent-x
+  // red (#e02020) for visual-language consistency with the kidney-map panel.
+  const peeloffXMarkerSel = peeloffGroupSel.append('g')
+    .attr('class', 'link-peeloff-x')
+    .attr('transform', (d) => `translate(${screenX(d)},${screenY(d)})`)
+    .style('pointer-events', 'none')
+    .attr('opacity', (d) => (currentNodeStyleById[d.data.id] === 'no_panel'
+      ? (currentPathIds.size && !currentPathIds.has(d.data.id) ? 0.35 : 1) : 0));
+  peeloffXMarkerSel.append('line').attr('x1', -3).attr('y1', -3).attr('x2', 3).attr('y2', 3)
+    .attr('stroke', NO_PANEL_X_COLOR).attr('stroke-width', 1.3);
+  peeloffXMarkerSel.append('line').attr('x1', -3).attr('y1', 3).attr('x2', 3).attr('y2', -3)
+    .attr('stroke', NO_PANEL_X_COLOR).attr('stroke-width', 1.3);
+
+  peeloffGroupSel.append('path')
+    .attr('class', 'link-peeloff-hit')
+    .attr('fill', 'none')
+    .attr('d', peeloffPath)
     .attr('stroke', 'rgba(0,0,0,0.001)') // effectively invisible, but still hit-testable (same trick as kidneymap.js's dot overlay)
     .attr('stroke-width', 12)
     .attr('stroke-linecap', 'round')
     .style('cursor', 'pointer')
     .style('pointer-events', 'stroke')
-    .on('mouseenter', (event, d) => {
-      d3.select(event.currentTarget.parentNode).select('.link-visible')
-        .attr('stroke', '#2f6fb0').attr('stroke-width', 2).attr('stroke-opacity', 1);
-      showTooltip(event, linkTooltipHtml(d));
+    .on('mouseenter', function (event, d) {
+      d3.select(this.parentNode).select('.link-peeloff')
+        .attr('stroke', HOVER_LINK_COLOR).attr('stroke-width', 2).attr('stroke-opacity', 1);
+      showTooltip(event, branchTooltipHtml(d));
     })
     .on('mousemove', moveTooltip)
-    .on('mouseleave', (event, d) => {
-      d3.select(event.currentTarget.parentNode).select('.link-visible')
-        .attr('stroke', linkBaseStroke(d))
-        .attr('stroke-width', linkBaseWidth(d))
-        .attr('stroke-opacity', linkBaseOpacity(d));
+    .on('mouseleave', function (event, d) {
+      d3.select(this.parentNode).select('.link-peeloff')
+        .attr('stroke', peeloffBaseStroke(d)).attr('stroke-width', peeloffBaseWidth(d)).attr('stroke-opacity', peeloffBaseOpacity(d));
       hideTooltip();
     })
-    .on('click', (event, d) => selectNode(d.target));
+    .on('click', (event, d) => selectNode(d));
 
   // Dashed alignment guides: only for leaves whose true branch endpoint
   // isn't already at the alignment line -- a thin dashed segment from the
@@ -396,6 +577,32 @@ function drawTree(data) {
   console.log('[tree]', qaDetail);
 }
 
+// Kidney-panel-hover -> tree-segment second-level highlight. Called from
+// chainpanel.js when the user hovers an in-panel mutation's kidney-map card
+// (only ever attached there -- no-TG-data placeholder cards have no panel to
+// hover, so chainpanel.js never calls this for those). Only takes effect if
+// the mutation's owning node is actually on the currently-selected chain
+// path -- it always should be, since the chain panel only ever shows the
+// selected node's own chain, but the guard keeps this safe against any
+// future caller that isn't.
+function highlightChainSegment(mutationId) {
+  const nodeId = currentMutationIdToNodeId[mutationId];
+  if (!nodeId || !currentPathIds.has(nodeId)) return;
+  d3.select(`.peeloffs g[data-child-id="${nodeId}"] .link-peeloff`)
+    .attr('stroke', SUPER_HIGHLIGHT_COLOR)
+    .attr('stroke-width', 5);
+}
+
+function clearChainSegmentHighlight(mutationId) {
+  const nodeId = currentMutationIdToNodeId[mutationId];
+  if (!nodeId) return;
+  const sel = d3.select(`.peeloffs g[data-child-id="${nodeId}"] .link-peeloff`);
+  if (sel.empty()) return;
+  // Revert to the normal on-path selected style (this is only ever called
+  // for segments that were on the path to begin with).
+  sel.attr('stroke', SELECTED_COLOR).attr('stroke-width', 3);
+}
+
 function setTreeOrientation(orientation) {
   if (orientation === treeOrientation) return;
   treeOrientation = orientation;
@@ -406,3 +613,5 @@ function setTreeOrientation(orientation) {
 
 document.getElementById('orient-horizontal').addEventListener('click', () => setTreeOrientation('horizontal'));
 document.getElementById('orient-vertical').addEventListener('click', () => setTreeOrientation('vertical'));
+document.getElementById('version-315').addEventListener('click', () => setTreeVersion('315'));
+document.getElementById('version-567').addEventListener('click', () => setTreeVersion('567'));

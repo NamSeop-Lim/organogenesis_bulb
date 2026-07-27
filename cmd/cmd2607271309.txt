@@ -1,0 +1,19 @@
+Working directory: /home/namseop/0_kidney/lineage_bulb/db15/ and /home/namseop/0_kidney/organogenesis_bulb/
+
+Apply the fix you proposed for the mid-branch artifact in scripts/preview_frontend_tree.py, so the tree draws like the lab's DB3 style — every parent's children branch off a single shared branch endpoint (one clean bracket per parent), never appearing to peel off the middle of a sibling's line.
+
+Implement it exactly as you described:
+
+Draw one neutral vertical line per parent, spanning from the parent's own depth to the max child depth, owned by no particular child (neutral/default style, not any child's solid/dashed style).
+Then give each child only its own horizontal peel-off segment at that child's depth, in that child's own style (solid for in-panel, dashed + red X for no-TG-data).
+Horizontal segments at different depths never overlap, so this removes the draw-order ambiguity entirely.
+
+Before editing: back up the script (.bak). Keep all data (.nwk / .json) and frontend files read-only — this change is only in the standalone preview script for now.
+
+Then:
+
+Re-render 567_frontend_preview_full.png and 567_frontend_preview_chain.png with the fix.
+Zoom into the previously-problematic top-right region and the n1 children (n2/n133/n244/n326) at pixel level and confirm every sibling set now comes off one shared vertical bracket, with no branch appearing to start mid-way down another.
+Separately, inspect js/tree.js (read-only, do NOT edit yet) and tell me whether the real frontend draws links the same per-child 2-segment way — i.e. whether it has the same latent artifact that will surface once dashed no-panel styling is added during integration. Report yes/no with the relevant code.
+
+Confirm .nwk/.json checksums unchanged and no frontend file modified. Report what the re-rendered PNGs look like.

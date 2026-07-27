@@ -21,10 +21,18 @@
         <h2>Lineage tree</h2>
         <div class="panel-controls">
           <label><input type="checkbox" id="tree-show-labels"> Show leaf labels</label>
+          <div class="orientation-toggle" role="group" aria-label="Tree version">
+            <button type="button" id="version-315" class="orient-btn is-active" title="315 mutations with kidney target-seq VAF data (default)">TG panel (315)</button>
+            <button type="button" id="version-567" class="orient-btn" title="567 mutations, full-resolution single-cell tree -- 253 of these have no kidney VAF data">Full resolution (567)</button>
+          </div>
           <div class="orientation-toggle" role="group" aria-label="Tree orientation">
             <button type="button" id="orient-horizontal" class="orient-btn">Horizontal</button>
             <button type="button" id="orient-vertical" class="orient-btn is-active">Vertical</button>
           </div>
+          <span id="tree-legend-nopanel" class="tree-legend-nopanel" style="display:none">
+            <span class="tree-legend-swatch tree-legend-swatch--solid"></span>in-panel
+            <span class="tree-legend-swatch tree-legend-swatch--dashed"></span>no-TG-data ✕
+          </span>
           <span id="tree-status" class="status"></span>
           <span id="tree-status-info" class="info-icon" title="">ⓘ</span>
         </div>

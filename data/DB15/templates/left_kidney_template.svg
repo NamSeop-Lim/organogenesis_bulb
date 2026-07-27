@@ -12,8 +12,8 @@
          light-gray line instead. */
       .cls-1, .cls-2, .cls-4, .cls-5, .cls-6 {
         fill: #f8f8f8;
-        stroke: #b3b3b3;
-        stroke-width: .5px;
+        stroke: #595959;
+        stroke-width: 1px;
         stroke-miterlimit: 10;
       }
 

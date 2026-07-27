@@ -1,18 +1,23 @@
 // Phase 3 Step 2: renders the vertically-stacked kidney-map sequence for
 // whichever tree node is currently click-selected (js/tree.js calls
 // showChainForNode / showChainPlaceholder directly on selection change).
-// chains.json shape: { node_id: { chain_mutation_ids: [...], depth, n_mutations_in_chain } }
+// chains.json (315) shape: { node_id: { chain_mutation_ids: [...], depth, n_mutations_in_chain } }
+// chains_full.json (567) shape: { chains: { node_id: {...} }, panel_mutation_ids: [...] } --
+// normalized to the same flat node_id-keyed shape below so the rest of this
+// file doesn't need to know which tree version is active.
 // chain_mutation_ids is already in root-to-node order (private terminal
 // mutations excluded for leaves) -- rendered top-to-bottom as-is, no
 // re-sorting here.
 
-const chainDataCache = {}; // donor -> chains.json content
+const chainDataCache = {}; // `${donor}:${chainsFile}` -> normalized {node_id: {...}} content
 
-async function loadChainsData(donor) {
-  if (chainDataCache[donor]) return chainDataCache[donor];
-  const res = await fetch(`data/${donor}/chains.json`);
-  const data = await res.json();
-  chainDataCache[donor] = data;
+async function loadChainsData(donor, chainsFile) {
+  const cacheKey = `${donor}:${chainsFile}`;
+  if (chainDataCache[cacheKey]) return chainDataCache[cacheKey];
+  const res = await fetch(`data/${donor}/${chainsFile}`);
+  const raw = await res.json();
+  const data = raw.chains ? raw.chains : raw; // unwrap chains_full.json's nested shape
+  chainDataCache[cacheKey] = data;
   return data;
 }
 
@@ -24,7 +29,7 @@ function showChainPlaceholder() {
   if (status) status.textContent = '';
 }
 
-async function showChainForNode(nodeId, donor) {
+async function showChainForNode(nodeId, donor, chainsFile = 'chains.json') {
   const list = document.getElementById('chain-list');
   const status = document.getElementById('chain-status');
   if (!list) return;
@@ -32,9 +37,9 @@ async function showChainForNode(nodeId, donor) {
 
   let chains;
   try {
-    chains = await loadChainsData(donor);
+    chains = await loadChainsData(donor, chainsFile);
   } catch (err) {
-    list.innerHTML = '<p class="status chain-placeholder">failed to load chains.json</p>';
+    list.innerHTML = `<p class="status chain-placeholder">failed to load ${chainsFile}</p>`;
     console.error(err);
     return;
   }
@@ -75,7 +80,18 @@ async function showChainForNode(nodeId, donor) {
     entryDiv.appendChild(mapDiv);
 
     list.appendChild(entryDiv);
-    renderKidneyMap(mapDiv, mutationId, donor);
+    renderKidneyMap(mapDiv, mutationId, donor).then((hasData) => {
+      // Kidney-panel-hover -> tree-segment second-level highlight only makes
+      // sense when there's an actual panel rendered (in-panel mutations) --
+      // no-TG-data placeholder cards have nothing to highlight against, so
+      // hasData===false intentionally leaves them with no hover listeners.
+      if (!hasData) return;
+      if (typeof highlightChainSegment !== 'function') return;
+      entryDiv.addEventListener('mouseenter', () => highlightChainSegment(mutationId));
+      entryDiv.addEventListener('mouseleave', () => {
+        if (typeof clearChainSegmentHighlight === 'function') clearChainSegmentHighlight(mutationId);
+      });
+    });
   });
 }
 

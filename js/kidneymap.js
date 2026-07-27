@@ -42,9 +42,17 @@ function toPixel(transform, kidney, x, y) {
   };
 }
 
+function noDataPlaceholder(container, message) {
+  container.innerHTML = `<div class="chain-entry-nodata">${message}</div>`;
+}
+
 /**
  * Render a kidney VAF map for one mutation into `container` (any DOM element).
  * Clears and replaces the container's contents on each call.
+ * Returns true if a real map (image + hoverable overlay) was rendered, false
+ * if a "no spatial data" placeholder was shown instead -- callers (chainpanel.js)
+ * use this to decide whether to wire up the kidney-panel-hover tree-segment
+ * highlight (only meaningful when there's an actual panel to hover).
  */
 async function renderKidneyMap(container, mutationId, donor = 'DB15') {
   container.innerHTML = '<p class="status">loading…</p>';
@@ -55,14 +63,27 @@ async function renderKidneyMap(container, mutationId, donor = 'DB15') {
   } catch (err) {
     container.innerHTML = '<p class="status">failed to load kidney map data</p>';
     console.error(err);
-    return;
+    return false;
   }
 
   const { transform, byMutation } = data;
   const points = byMutation[mutationId] || [];
   if (points.length === 0) {
-    container.innerHTML = `<p class="status">no kidney data for ${mutationId} (mutation not in kidney panel, or all-zero VAF -- image was skipped at render time)</p>`;
-    return;
+    // Not in kidney_vaf_long.json at all -- either a 567-tree no-TG-data
+    // mutation (never target-seq'd) or, on 315, genuinely absent (shouldn't
+    // happen there). No PNG was ever generated for this id -- don't attempt
+    // to fetch one.
+    noDataPlaceholder(container, `no spatial data<br>(${mutationId} not in the 315 kidney target-seq panel)`);
+    return false;
+  }
+  if (points.every((p) => p.vaf === 0)) {
+    // All-zero VAF across every kidney sample -- render_kidney_vaf_maps.py
+    // skips generating a PNG for these (e.g. ('18', 54788409)), so a real
+    // in-panel mutation can still have no image. Same placeholder, worded
+    // for this case specifically -- caught here BEFORE creating the <img>
+    // tag, so this never causes a 404 either.
+    noDataPlaceholder(container, `no spatial data<br>(${mutationId} is all-zero VAF -- map was skipped at render time)`);
+    return false;
   }
 
   container.innerHTML = '';
@@ -76,13 +97,19 @@ async function renderKidneyMap(container, mutationId, donor = 'DB15') {
   img.alt = `Kidney VAF map for ${mutationId}`;
   wrap.appendChild(img);
 
-  await new Promise((resolve, reject) => {
-    if (img.complete) return resolve();
-    img.onload = resolve;
-    img.onerror = () => reject(new Error(`image failed to load: ${img.src}`));
-  }).catch((err) => {
-    console.error(err);
+  const loaded = await new Promise((resolve) => {
+    if (img.complete) return resolve(true);
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
   });
+  if (!loaded) {
+    // Defensive fallback for any PNG missing for a reason the two checks
+    // above didn't anticipate -- degrade to the same placeholder rather
+    // than leaving a broken-image icon on screen.
+    console.error(new Error(`image failed to load: ${img.src}`));
+    noDataPlaceholder(container, `no spatial data<br>(${mutationId} image failed to load)`);
+    return false;
+  }
 
   const w = transform.png_width;
   const h = transform.png_height;
@@ -149,4 +176,6 @@ async function renderKidneyMap(container, mutationId, donor = 'DB15') {
       d3.select(this).attr('stroke', 'none').attr('fill', 'rgba(0,0,0,0.001)');
       hideTooltip();
     });
+
+  return true;
 }
