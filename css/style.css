@@ -5,6 +5,51 @@
   --text: #1f2933;
   --muted: #6b7785;
   --accent: #2f6fb0;
+
+  /* Kidney VAF maps are fixed light-background PNGs (YlGnBu scale) --
+     --card-bg/--card-border are deliberately NOT overridden in the dark
+     block below, so .chain-entry cards stay a legible light "paper"
+     surface in both themes regardless of what --panel-bg does. */
+  --card-bg: #ffffff;
+  --card-border: #d6dbe1;
+  --card-text: #1f2933;
+  --card-muted: #6b7785;
+
+  --tooltip-bg: rgba(31, 41, 51, 0.94);
+  --tooltip-text: #ffffff;
+
+  /* Tree data-encoding colors -- meaning (blue=TG-confirmed, gray=no-TG-
+     data, orange=chain-selection, magenta=panel-hover link) stays constant
+     across themes; only luminance is tuned per theme for contrast. Read by
+     js/tree.js via getComputedStyle at draw time. */
+  --tree-blue: #2f6fb0;
+  --tree-gray: #9aa5b1;
+  --tree-orange: #ff6b35;
+  --tree-structural: #c3cad1;
+  --tree-hover: #2f6fb0;
+  --tree-x: #6b7785;
+  --tree-magenta: #e6007a;
+}
+
+[data-theme="dark"] {
+  --border: #3a3f47;
+  --bg: #14161a;
+  --panel-bg: #1c1f24;
+  --text: #e6e9ee;
+  --muted: #9aa5b1;
+  --accent: #5b9bdc;
+
+  --tooltip-bg: rgba(8, 9, 11, 0.96);
+  --tooltip-text: #ffffff;
+
+  /* Brightened for contrast against the dark tree background; same
+     data-encoding meaning as light mode. */
+  --tree-blue: #5b9bdc;
+  --tree-gray: #b8c2cc;
+  --tree-orange: #ff8659;
+  --tree-structural: #5a6472;
+  --tree-hover: #5b9bdc;
+  --tree-x: #9aa5b1;
 }
 
 * { box-sizing: border-box; }
@@ -53,7 +98,8 @@ body {
   padding: 0.25rem 0.5rem;
   border: 1px solid var(--border);
   border-radius: 4px;
-  background: white;
+  background: var(--panel-bg);
+  color: var(--text);
 }
 
 #panels {
@@ -94,8 +140,8 @@ body {
   position: absolute;
   z-index: 10;
   pointer-events: none;
-  background: rgba(31, 41, 51, 0.94);
-  color: #fff;
+  background: var(--tooltip-bg);
+  color: var(--tooltip-text);
   font-size: 0.75rem;
   line-height: 1.4;
   padding: 0.4rem 0.55rem;
@@ -170,7 +216,7 @@ a.info-icon {
   font-size: 0.75rem;
   padding: 0.2rem 0.55rem;
   border: none;
-  background: white;
+  background: var(--panel-bg);
   color: var(--muted);
   cursor: pointer;
 }
@@ -279,8 +325,8 @@ a.info-icon {
   position: absolute;
   z-index: 10;
   pointer-events: none;
-  background: rgba(31, 41, 51, 0.94);
-  color: #fff;
+  background: var(--tooltip-bg);
+  color: var(--tooltip-text);
   font-size: 0.75rem;
   line-height: 1.4;
   padding: 0.4rem 0.55rem;
@@ -362,7 +408,13 @@ a.info-icon {
 }
 
 .chain-entry {
-  border: 1px solid var(--border);
+  /* Fixed light "paper" card regardless of theme -- the kidney VAF PNGs
+     inside are baked light-background images (YlGnBu scale), so the card
+     itself must stay light even when the rest of the page goes dark, or
+     the maps and legend go illegible/glaring. See --card-bg comment. */
+  background: var(--card-bg);
+  color: var(--card-text);
+  border: 1px solid var(--card-border);
   border-radius: 6px;
   padding: 0.5rem;
   cursor: pointer;
@@ -381,7 +433,7 @@ a.info-icon {
   margin: 0 0 0.4rem 0;
   font-size: 0.78rem;
   font-weight: 600;
-  color: var(--text);
+  color: var(--card-text);
 }
 
 .chain-entry-map {
@@ -397,9 +449,9 @@ a.info-icon {
   justify-content: center;
   text-align: center;
   padding: 1rem;
-  border: 1px dashed var(--border);
+  border: 1px dashed var(--card-border);
   border-radius: 4px;
-  color: var(--muted);
+  color: var(--card-muted);
   font-size: 0.72rem;
   font-style: italic;
 }
@@ -422,12 +474,12 @@ a.info-icon {
 
 .tree-legend-swatch--solid {
   border-top-style: solid;
-  border-top-color: #2f6fb0;
+  border-top-color: var(--tree-blue);
 }
 
 .tree-legend-swatch--gray {
   border-top-style: solid;
-  border-top-color: #9aa5b1;
+  border-top-color: var(--tree-gray);
   margin-left: 0.5rem;
 }
 

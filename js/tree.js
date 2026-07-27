@@ -40,13 +40,17 @@ const TREE_FILES = {
 
 const STEP_PX = 10; // px per discrete mutation step, along the depth axis
 const CAP_PX = 5; // px for a 0-mutation edge's neutral "cap" stub (shorter than one step -- DB3-style knot)
-const SELECTED_COLOR = '#ff6b35'; // chain-selection halo
-const TG_CONFIRMED_COLOR = '#2f6fb0'; // blue -- same as css --accent
-const NO_PANEL_COLOR = '#9aa5b1'; // gray -- matches the existing leaf-node fill color
-const STRUCTURAL_COLOR = '#c3cad1'; // lighter neutral -- brackets + 0-mutation caps (not a real mutation, no panel color applies)
-const HOVER_LINK_COLOR = '#2f6fb0';
-const NO_PANEL_X_COLOR = '#6b7785'; // gray X (was red pre-redesign) -- matches css --muted
-const PANEL_LINK_COLOR = '#e6007a'; // magenta -- cmd2607271517 cross-column kidney-panel<->tree-segment leader line + glow
+
+// Data-encoding tree colors are read from CSS custom properties (see
+// --tree-* in css/style.css, including its [data-theme="dark"] overrides)
+// at the top of drawTree() rather than hardcoded here -- cmd2607271542
+// theme toggle. SVG stroke attributes are baked in at draw time (not a
+// live CSS reference), so a theme switch re-runs drawTree() to pick up the
+// new palette; see setTheme() in js/theme.js.
+function cssVar(name, fallback) {
+  const v = getComputedStyle(document.documentElement).getPropertyValue(name);
+  return v && v.trim() ? v.trim() : fallback;
+}
 
 // Module-level (not local to drawTree) so the exposed cross-column
 // leader-line helpers (called from js/panelhighlight.js on kidney-panel
@@ -91,6 +95,15 @@ function setTreeVersion(version) {
 }
 
 function drawTree(data) {
+  const SELECTED_COLOR = cssVar('--tree-orange', '#ff6b35'); // chain-selection halo
+  const TG_CONFIRMED_COLOR = cssVar('--tree-blue', '#2f6fb0'); // blue
+  const NO_PANEL_COLOR = cssVar('--tree-gray', '#9aa5b1'); // gray -- matches the leaf-node fill color
+  const STRUCTURAL_COLOR = cssVar('--tree-structural', '#c3cad1'); // neutral -- brackets + 0-mutation caps
+  const HOVER_LINK_COLOR = cssVar('--tree-hover', '#2f6fb0');
+  const NO_PANEL_X_COLOR = cssVar('--tree-x', '#6b7785'); // gray X
+  const PANEL_LINK_COLOR = cssVar('--tree-magenta', '#e6007a'); // magenta -- panel-hover leader line + glow
+  const LEAF_LABEL_COLOR = cssVar('--text', '#1f2933');
+
   const svg = d3.select('#tree-svg');
   svg.selectAll('*').remove();
   // Drop any zoom listeners from a previous drawTree() call before attaching
@@ -588,7 +601,7 @@ function drawTree(data) {
   contentLayer.append('g')
     .attr('class', 'guides')
     .attr('fill', 'none')
-    .attr('stroke', '#c3cad1')
+    .attr('stroke', STRUCTURAL_COLOR)
     .attr('stroke-width', 0.75)
     .attr('stroke-dasharray', '2,2')
     .style('pointer-events', 'none')
@@ -611,7 +624,7 @@ function drawTree(data) {
   const circlesSel = nodeGroup.append('circle')
     .attr('class', 'node-visible')
     .attr('r', circleBaseRadius)
-    .attr('fill', (d) => (d.data.is_leaf ? '#9aa5b1' : '#2f6fb0'))
+    .attr('fill', (d) => (d.data.is_leaf ? NO_PANEL_COLOR : TG_CONFIRMED_COLOR))
     .attr('stroke', circleBaseStroke)
     .attr('stroke-width', circleBaseStrokeWidth)
     .style('pointer-events', 'none');
@@ -637,7 +650,7 @@ function drawTree(data) {
     .append('text')
     .attr('class', 'leaf-label')
     .attr('font-size', 7)
-    .attr('fill', '#333')
+    .attr('fill', LEAF_LABEL_COLOR)
     .text((d) => d.data.leaf_name)
     .style('display', 'none');
 

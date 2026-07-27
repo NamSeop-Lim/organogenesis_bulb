@@ -1,0 +1,18 @@
+Working directory: /home/namseop/0_kidney/organogenesis_bulb/
+
+Add a light/dark theme toggle to the site. Read CLAUDE.md first. Back up every file before editing (.bak). This is a theming change only — do not regress the tree layout, per-mutation coloring, kidney panels, or any interaction.
+
+Toggle — add a light/dark toggle near the existing version (315/567) and Horizontal/Vertical toggles. Persist the choice in localStorage; on first load, honor prefers-color-scheme, defaulting to light otherwise. Light stays the current look.
+Theming mechanism — drive all colors through CSS custom properties on :root, with a [data-theme="dark"] override block; switch by setting data-theme on <html>. Move existing hardcoded background/text/border/surface colors in css/style.css into variables so they flip cleanly. Tooltips, the sticky VAF legend, panel cards, headers, and footer must all adapt.
+Tree colors — keep the data-encoding colors' meaning constant across themes (blue = TG-confirmed, gray = no-TG-data, orange = chain highlight, magenta = panel-hover, red X). Adjust only their luminance for contrast on the dark background if needed (e.g. slightly brighter blue/gray), and make the tree read these from CSS variables where practical so they follow the theme.
+Kidney VAF maps (important) — these are fixed light-background PNGs. In dark mode, keep each kidney panel on a light "paper" card (light card background + subtle border) so the maps and the YlGnBu scale stay legible. Do NOT invert, filter, or recolor the images. The rest of the page around the cards goes dark.
+Legend/footer — make the VAF color legend and the footer credit line ("99.9% Nam Seop Lim · 0.1% Hanah Song 🎉") readable in both themes; keep the footer text intact.
+
+Verify (Playwright + screenshots, actually eyeball) in both themes × both trees × both orientations:
+
+Dark mode: background/text/borders/tooltips/legend all adapt; tree colors stay high-contrast and meaning-consistent; kidney panels sit on legible light cards (no glaring full-white page, no unreadable maps).
+Toggle persists across reload; system-preference default works on a fresh load.
+Light mode unchanged from current.
+No console errors/404s; no layout regressions.
+
+Then commit locally with a clear message but DO NOT push — I'll review screenshots first. Report per-file changes and paste screenshots of both themes.
