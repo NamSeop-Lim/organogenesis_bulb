@@ -422,11 +422,11 @@ a.info-icon {
 
 .tree-legend-swatch--solid {
   border-top-style: solid;
-  border-top-color: #8a97a5;
+  border-top-color: #2f6fb0;
 }
 
-.tree-legend-swatch--dashed {
-  border-top-style: dashed;
-  border-top-color: #b7bfc7;
+.tree-legend-swatch--gray {
+  border-top-style: solid;
+  border-top-color: #9aa5b1;
   margin-left: 0.5rem;
 }

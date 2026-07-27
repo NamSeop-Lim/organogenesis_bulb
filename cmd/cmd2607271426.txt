@@ -1,0 +1,20 @@
+Working directory: /home/namseop/0_kidney/organogenesis_bulb/
+
+Major tree-rendering redesign. Read CLAUDE.md and PROGRESS_SUMMARY.md first. Back up every file before editing (.bak). Treat all .json data files as READ-ONLY — this is a rendering change only; do NOT regenerate or reorder data. Apply everything to both tree versions (315 and 567) and both orientations (h/v).
+
+First, before writing any rendering code, inspect the data and report: confirm that tree.json/chains.json and tree_full.json/chains_full.json expose, per branch/edge, the ordered list of mutations on that edge and each mutation's TG-panel membership flag. The new layout needs per-mutation info, not just a scalar branch length. If that data isn't present, STOP and tell me what's missing before changing anything — do not silently touch the export scripts or data.
+
+New rendering model (replaces the current continuous branch-length-proportional layout):
+
+Discrete mutation-per-step. Each edge's length = (number of mutations on that edge) × one fixed step. Each mutation is one discrete segment along the edge (so a 6-mutation edge = 6 stacked cells).
+Zero-mutation edges → fixed min-stub. Any edge carrying 0 mutations is drawn as a short fixed-length mutation-less stub ("cap") so its bifurcation is always visible. The notable case is the root edge above the first L1/L2 split, which shares no mutations — render it DB3-style: a short root cap, then the bracket splits into L1 and L2, each descending by its own mutation count. Generalize this min-stub rule to any 0-mut edge, not just the root. (Reference: DB3_raw_tree.pdf — the short mutation-less knot at the top.)
+Shared clades need no special case. A clade's shared mutations simply are that clade's own edge (a real multi-step trunk), which then splits — this falls out of rule 1 automatically.
+Keep the shared-bracket split from the last fix (one shared bracket per parent + per-child peel-off; no mid-branch overwrite artifact).
+Per-mutation coloring. Color each mutation segment by TG-panel membership: TG-confirmed = normal accent (blue), no-TG-data = gray. Remove the dashed-line styling entirely. Keep the X marker on no-TG-data mutations, and make its dot/tick gray too. In the 315 tree every mutation is TG-confirmed, so it'll be all-blue (no gray) — that's expected; the discrete layout + root cap + bracket still apply.
+Highlight keeps per-mutation coloring. When a chain is selected, a branch's segments stay colored per mutation — e.g. a 4-mutation branch with 2 no-TG shows those 2 segments in gray even inside the highlighted path (not forced to the solid highlight color).
+Reconcile the panel-hover feature. Each kidney VAF panel = one mutation = one discrete segment now. Hovering a panel should give that exact mutation's segment the second-level (crimson) highlight, then revert on mouse-leave. (in-panel mutations only; no-TG have no panel.)
+Preserve all existing interactions: version toggle (315 default), click-to-select chain, kidney panels + no-data placeholders, hover tooltips, h/v toggle. Confirm no regression.
+
+Verify before committing: render both trees in both orientations, take screenshots, and actually eyeball — root cap → clean L1/L2 split, discrete per-mutation steps, gray+X for no-TG (567), all-blue (315), shared bracket (no mid-branch splits), highlight per-mutation coloring, panel-hover segment highlight. Confirm no console errors and no 404s.
+
+Then commit locally with a clear message, but DO NOT push yet — I want to review the screenshots of this layout change first. Report per-file changes and paste your screenshot observations.

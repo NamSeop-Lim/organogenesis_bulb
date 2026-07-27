@@ -5,6 +5,18 @@
 // present on tree_full.json (the 567-mutation full-resolution tree) --
 // tree.json (315, TG-panel-confirmed) omits it since every mutation there
 // already has kidney VAF data by construction.
+//
+// cmd2607271426: DISCRETE mutation-per-step layout (replaces the earlier
+// continuous branch-length-proportional depth axis). Each edge's length is
+// (number of mutations on that edge) * STEP_PX, and each mutation renders
+// as its own individually-colored, individually-addressable segment --
+// data/tree*.json's per-node mutation_ids array (an ordered list, confirmed
+// present + internally consistent with n_mutations on both tree files
+// before this rewrite -- see chat record) is what makes this possible. A
+// 0-mutation edge (including the synthetic root stub) draws as a short
+// neutral CAP_PX "knot" instead of a mutation-count-proportional run --
+// same DB3-style short root knot before the first real split, generalized
+// to every 0-mutation edge, not just the root's.
 
 let treeOrientation = 'vertical'; // 'horizontal' | 'vertical' -- vertical is the default per stage3
 let treeVersion = '315'; // '315' (TG panel, default) | '567' (full resolution)
@@ -19,19 +31,21 @@ let selectedNodeId = null; // click-to-select state, persists across orientation
 // can look up the latest tree without needing drawTree to re-run.
 let currentPathIds = new Set();
 let currentMutationIdToNodeId = {};
-let currentNodeStyleById = {}; // nodeId -> { panelStyle: 'in_panel'|'no_panel'|'neutral' }
+let currentPanelIds = null; // Set|null -- null on 315 (every mutation counts as TG-confirmed)
 
 const TREE_FILES = {
   315: { tree: 'tree.json', chains: 'chains.json' },
   567: { tree: 'tree_full.json', chains: 'chains_full.json' },
 };
 
-const MIN_STUB_PX = 4; // minimum visible branch-segment length, even for 0/1-mutation branches
-const SELECTED_COLOR = '#ff6b35';
-const DEFAULT_LINK_COLOR = '#8a97a5';
+const STEP_PX = 10; // px per discrete mutation step, along the depth axis
+const CAP_PX = 5; // px for a 0-mutation edge's neutral "cap" stub (shorter than one step -- DB3-style knot)
+const SELECTED_COLOR = '#ff6b35'; // chain-selection halo
+const TG_CONFIRMED_COLOR = '#2f6fb0'; // blue -- same as css --accent
+const NO_PANEL_COLOR = '#9aa5b1'; // gray -- matches the existing leaf-node fill color
+const STRUCTURAL_COLOR = '#c3cad1'; // lighter neutral -- brackets + 0-mutation caps (not a real mutation, no panel color applies)
 const HOVER_LINK_COLOR = '#2f6fb0';
-const NO_PANEL_COLOR = '#b7bfc7'; // muted -- dashed no-TG-data branches (567 only)
-const NO_PANEL_X_COLOR = '#e02020'; // reuses the .vaf-legend-absent-x convention
+const NO_PANEL_X_COLOR = '#6b7785'; // gray X (was red pre-redesign) -- matches css --muted
 const SUPER_HIGHLIGHT_COLOR = '#c2185b'; // kidney-panel-hover second-level accent -- reads clearly against SELECTED_COLOR orange
 
 async function renderTree(donor) {
@@ -84,6 +98,7 @@ function drawTree(data) {
 
   const nodesArr = Object.values(data.nodes);
   const panelIds = data.panel_mutation_ids ? new Set(data.panel_mutation_ids) : null;
+  currentPanelIds = panelIds;
 
   // d3.stratify wants parentId(root) === undefined/null, which matches our schema directly.
   const root = d3.stratify()
@@ -94,7 +109,6 @@ function drawTree(data) {
   const nLeaves = leaves.length;
 
   const leafSpacing = 9; // px between adjacent leaves, along the leaf axis
-  const pxPerMutation = 8; // px per mutation, along the branch-length axis
 
   // Leaf ordering/position comes from d3.cluster() (unrelated to branch
   // length) -- it spaces leaves uniformly by construction, so leaf-axis
@@ -120,24 +134,18 @@ function drawTree(data) {
     ? Math.min(10, Math.max(2.5, minLeafGap / 2 - 0.3))
     : 10;
 
-  // Branch-length (depth) position: true phylogram, cumulative n_mutations
-  // from the root, then floored so every branch segment -- even a 0- or
-  // 1-mutation one -- is at least MIN_STUB_PX long and visually distinct.
-  // Must run parent-before-child (eachBefore) since a floored parent
-  // position can itself push a child's floor further out.
+  // Discrete depth position: each edge's length = n_mutations * STEP_PX, or
+  // CAP_PX for a 0-mutation edge (root's own synthetic incoming edge is
+  // treated the same way -- a 0-mutation edge from an implicit point above
+  // it, giving the short DB3-style root knot before the first real split).
   root.eachBefore((d) => {
-    d.cumLen = d.parent ? d.parent.cumLen + (d.data.n_mutations || 0) : 0;
+    if (!d.parent) {
+      d.branchPos = CAP_PX;
+      return;
+    }
+    const n = d.data.n_mutations || 0;
+    d.branchPos = d.parent.branchPos + (n > 0 ? n * STEP_PX : CAP_PX);
   });
-  const maxCumLen = d3.max(root.descendants(), (d) => d.cumLen) || 1;
-  const targetDepthAxisPx = Math.max(400, maxCumLen * pxPerMutation);
-  const branchScale = d3.scaleLinear().domain([0, maxCumLen]).range([0, targetDepthAxisPx]);
-  root.eachBefore((d) => {
-    const raw = branchScale(d.cumLen);
-    d.branchPos = d.parent ? Math.max(raw, d.parent.branchPos + MIN_STUB_PX) : 0;
-  });
-  // Actual depth extent after flooring can exceed the original target
-  // (long chains of near-zero branches each add MIN_STUB_PX), so the
-  // alignment coordinate + viewBox use the real max, not the estimate.
   const depthAxisPx = d3.max(root.descendants(), (d) => d.branchPos);
 
   // screen-x/screen-y accessors for TRUE (unaligned) branch-endpoint
@@ -146,8 +154,9 @@ function drawTree(data) {
   const screenX = isVertical ? (d) => d.x : (d) => d.branchPos;
   const screenY = isVertical ? (d) => d.branchPos : (d) => d.x;
   // depth-axis / leaf-axis screen coordinate, orientation-independent --
-  // used by the bracket/peel-off link geometry below.
+  // used by the bracket/descent link geometry below.
   const depthScreen = isVertical ? screenY : screenX;
+  const leafAxisScreen = isVertical ? screenX : screenY;
 
   // Aligned position (iTOL/ete3 "aligned tip labels" convention): leaf-axis
   // coordinate unchanged, depth-axis coordinate pinned to the alignment
@@ -221,67 +230,77 @@ function drawTree(data) {
   }
   recomputePathIds();
 
-  // Panel-membership style for a node's OWN branch (its mutation_ids, not
-  // its chain): 'in_panel' (>=1 own mutation has kidney VAF data), 'no_panel'
-  // (own mutations exist, none in-panel -- 567 only), 'neutral' (0 own
-  // mutations, e.g. many pass-through/multifurcation nodes -- nothing to
-  // flag either way). On the 315 tree panelIds is null, so every branch with
-  // mutations reads as 'in_panel' -- no dashed styling there, by design.
-  function branchPanelStyle(d) {
-    const muts = d.data.mutation_ids || [];
-    if (!panelIds) return muts.length ? 'in_panel' : 'neutral';
-    if (!muts.length) return 'neutral';
-    return muts.some((m) => panelIds.has(m)) ? 'in_panel' : 'no_panel';
-  }
-
   // mutation_id -> node id (the node that OWNS this mutation on its own
   // branch), rebuilt every draw -- exposed at module level for chainpanel.js
   // kidney-panel-hover -> tree-segment lookups.
   currentMutationIdToNodeId = {};
-  currentNodeStyleById = {};
   root.descendants().forEach((d) => {
-    const style = branchPanelStyle(d);
-    currentNodeStyleById[d.data.id] = style;
     (d.data.mutation_ids || []).forEach((m) => { currentMutationIdToNodeId[m] = d.data.id; });
   });
 
-  function peeloffBaseStroke(d) {
-    if (currentPathIds.has(d.data.id)) return SELECTED_COLOR;
-    const style = currentNodeStyleById[d.data.id];
-    return style === 'no_panel' ? NO_PANEL_COLOR : DEFAULT_LINK_COLOR;
+  // Per-edge discrete segment list: one entry per mutation (in the data's
+  // own order), or a single synthetic "cap" entry for a 0-mutation edge.
+  // `start`/`end` are depth-axis screen coordinates (already includes the
+  // parent's own branchPos as the base). Used for both the root's synthetic
+  // stub (no `d`/mutation owner, handled separately below) and every real
+  // parent->child edge.
+  function segmentsFor(d) {
+    const startDepth = d.parent.branchPos;
+    const muts = d.data.mutation_ids || [];
+    if (!muts.length) {
+      return [{ start: startDepth, end: d.branchPos, mutationId: null, isCap: true }];
+    }
+    // Small gap trimmed off the trailing edge of every non-last segment, so
+    // "6 stacked cells" reads as visibly discrete steps even when adjacent
+    // mutations share the same TG-confirmed/no-TG color and would otherwise
+    // blend into one seamless run. No gap at the very first segment's start
+    // (stays attached to the bracket) or the very last segment's end (stays
+    // attached to the node dot).
+    const SEGMENT_GAP = 1.2;
+    return muts.map((m, i) => {
+      const segStart = startDepth + i * STEP_PX;
+      const segEnd = startDepth + (i + 1) * STEP_PX;
+      const isLast = i === muts.length - 1;
+      return {
+        start: segStart,
+        end: isLast ? segEnd : segEnd - SEGMENT_GAP,
+        mutationId: m,
+        isCap: false,
+      };
+    });
   }
-  function peeloffBaseWidth(d) {
-    return currentPathIds.has(d.data.id) ? 3 : 1.2;
+  function isTgConfirmed(mutationId) {
+    return !panelIds || panelIds.has(mutationId); // 315 (panelIds null): every mutation counts as confirmed
   }
-  function peeloffBaseOpacity(d) {
-    return currentPathIds.size && !currentPathIds.has(d.data.id) ? 0.25 : 0.8;
+  function segmentBaseColor(seg) {
+    if (seg.isCap) return STRUCTURAL_COLOR;
+    return isTgConfirmed(seg.mutationId) ? TG_CONFIRMED_COLOR : NO_PANEL_COLOR;
   }
-  function peeloffDashArray(d) {
-    return currentNodeStyleById[d.data.id] === 'no_panel' ? '4,3' : null;
+  function segmentCoords(d, seg) {
+    const leaf = leafAxisScreen(d);
+    return isVertical
+      ? { x1: leaf, y1: seg.start, x2: leaf, y2: seg.end }
+      : { x1: seg.start, y1: leaf, x2: seg.end, y2: leaf };
   }
-  function circleBaseStroke(d) {
-    return d.data.id === selectedNodeId ? SELECTED_COLOR : 'none';
+
+  function onPath(d) {
+    return currentPathIds.has(d.data.id);
   }
-  function circleBaseStrokeWidth(d) {
-    return d.data.id === selectedNodeId ? 2.5 : 0;
-  }
-  function circleBaseRadius(d) {
-    const base = d.data.is_leaf ? 2 : 3;
-    return d.data.id === selectedNodeId ? base + 3 : base;
-  }
-  function nodeHitRadius(d) {
-    return d.data.is_leaf ? leafHitRadius : 10;
+  function dimOpacity(d) {
+    return currentPathIds.size && !onPath(d) ? 0.3 : 0.9;
   }
 
   function restyleAllLinks() {
-    peeloffVisibleSel
-      .attr('stroke', peeloffBaseStroke)
-      .attr('stroke-width', peeloffBaseWidth)
-      .attr('stroke-opacity', peeloffBaseOpacity)
-      .attr('stroke-dasharray', peeloffDashArray);
-    peeloffXMarkerSel
-      .attr('opacity', (d) => (currentNodeStyleById[d.data.id] === 'no_panel'
-        ? (currentPathIds.size && !currentPathIds.has(d.data.id) ? 0.35 : 1) : 0));
+    descentHaloSel
+      .style('display', (d) => (onPath(d) ? null : 'none'));
+    // Per-mutation segment COLOR never changes on select/deselect (task
+    // requirement: stays colored per mutation even inside the highlighted
+    // path) -- only the whole descent's opacity dims when a selection
+    // exists and this edge isn't on the path. Setting it once on the outer
+    // wrapper <g> (bound to the child node `d`, inherited via .append())
+    // dims the segment lines AND their X markers together via normal SVG
+    // opacity compositing -- no need to touch individual segments/markers.
+    descentSegmentsWrapperSel.attr('opacity', dimOpacity);
     bracketVisibleSel
       .attr('stroke-opacity', bracketBaseOpacity);
     bracketOverlaySel
@@ -306,56 +325,66 @@ function drawTree(data) {
     }
   }
 
+  function circleBaseStroke(d) {
+    return d.data.id === selectedNodeId ? SELECTED_COLOR : 'none';
+  }
+  function circleBaseStrokeWidth(d) {
+    return d.data.id === selectedNodeId ? 2.5 : 0;
+  }
+  function circleBaseRadius(d) {
+    const base = d.data.is_leaf ? 2 : 3;
+    return d.data.id === selectedNodeId ? base + 3 : base;
+  }
+  function nodeHitRadius(d) {
+    return d.data.is_leaf ? leafHitRadius : 10;
+  }
+
   const contentLayer = zoomLayer.append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`);
 
-  // --- Links, drawn as one shared BRACKET per parent + one HORIZONTAL/
-  // VERTICAL (orientation-dependent) PEEL-OFF per child -- NOT one
-  // independent full elbow per child. Each child's own vertical+horizontal
-  // elbow used to be drawn as its own separate path from the parent's exact
-  // position; siblings at different depths made those paths overlap along
-  // the shared trunk, and whichever sibling was drawn last in DOM order
-  // visually overwrote the others there -- harmless while every branch
-  // shared one style, but it silently corrupts a differently-styled
-  // sibling's apparent line style the moment two different styles (solid
-  // in-panel vs dashed no-panel) meet on that shared stretch. Fixed by
-  // drawing the shared trunk exactly once, in a neutral style owned by no
-  // child, and giving each child only its own short peel-off segment (which
-  // never overlaps a sibling's, since peel-offs sit at different depths and
-  // never share the same run) in that child's own style. See the
-  // cmd2607271309/cmd2607271326 chat record for the full diagnosis --
-  // validated first in lineage_bulb/db15/scripts/preview_frontend_tree.py.
+  // --- Links: one shared, neutral, SINGLE-ROW/COLUMN BRACKET per parent
+  // (purely structural -- connects the parent's own depth-position out to
+  // each child's leaf-axis position, all at the parent's own fixed depth,
+  // so it is never more than one row/column and never represents any
+  // mutation itself) + one independent multi-segment DESCENT per child,
+  // entirely within that child's own leaf-axis column, subdivided into its
+  // own mutation_ids as individually-colored steps. Because each child's
+  // descent lives at its own unique leaf-axis position, siblings' descents
+  // never share a pixel run with each other -- no draw-order-dependent
+  // overwrite is possible, whether the difference is style (the earlier
+  // fix) or, now, full per-mutation color. See cmd2607271309/326/1426 chat
+  // record for the fuller diagnosis history.
   const bracketParents = root.descendants().filter((d) => d.children && d.children.length);
 
-  function bracketMaxChildDepth(d) {
-    return d3.max(d.children, depthScreen);
-  }
   function bracketPath(d) {
-    const px = screenX(d);
-    const py = screenY(d);
-    const maxDepth = bracketMaxChildDepth(d);
-    return isVertical ? `M${px},${py}V${maxDepth}` : `M${px},${py}H${maxDepth}`;
+    const parentDepth = depthScreen(d);
+    const parentLeaf = leafAxisScreen(d);
+    const childLeaves = d.children.map(leafAxisScreen);
+    const lo = Math.min(parentLeaf, ...childLeaves);
+    const hi = Math.max(parentLeaf, ...childLeaves);
+    return isVertical ? `M${lo},${parentDepth}H${hi}` : `M${parentDepth},${lo}V${hi}`;
   }
   // Single, unambiguous exception to "bracket is neutral": if exactly one of
   // this parent's children sits on the currently-selected chain path, an
-  // orange overlay is drawn on top of the neutral bracket from the parent's
-  // own depth to THAT child's depth -- there's never more than one such
-  // child, so this never reintroduces the multi-sibling style-overlap bug.
+  // orange overlay is drawn on top of the neutral bracket spanning from the
+  // parent's own leaf-position to THAT child's leaf-position -- there's
+  // never more than one such child, so this never reintroduces the
+  // multi-sibling overlap ambiguity.
   function bracketHighlightChild(d) {
     return d.children.find((c) => currentPathIds.has(c.data.id)) || null;
   }
   function bracketOverlayPath(d) {
     const child = bracketHighlightChild(d);
     if (!child) return '';
-    const px = screenX(d);
-    const py = screenY(d);
-    const depth = depthScreen(child);
-    return isVertical ? `M${px},${py}V${depth}` : `M${px},${py}H${depth}`;
+    const parentDepth = depthScreen(d);
+    const parentLeaf = leafAxisScreen(d);
+    const childLeaf = leafAxisScreen(child);
+    return isVertical ? `M${parentLeaf},${parentDepth}H${childLeaf}` : `M${parentDepth},${parentLeaf}V${childLeaf}`;
   }
   function bracketBaseOpacity(d) {
     if (!currentPathIds.size) return 0.8;
-    const onPath = currentPathIds.has(d.data.id) || bracketHighlightChild(d);
-    return onPath ? 0.8 : 0.25;
+    const highlighted = currentPathIds.has(d.data.id) || bracketHighlightChild(d);
+    return highlighted ? 0.8 : 0.25;
   }
 
   const bracketGroupSel = contentLayer.append('g')
@@ -369,7 +398,7 @@ function drawTree(data) {
     .attr('class', 'bracket-visible')
     .attr('fill', 'none')
     .attr('d', bracketPath)
-    .attr('stroke', DEFAULT_LINK_COLOR)
+    .attr('stroke', STRUCTURAL_COLOR)
     .attr('stroke-width', 1.2)
     .attr('stroke-opacity', bracketBaseOpacity)
     .style('pointer-events', 'none');
@@ -398,70 +427,130 @@ function drawTree(data) {
       showTooltip(event, branchTooltipHtml(d));
     })
     .on('mousemove', moveTooltip)
-    .on('mouseleave', function () {
+    .on('mouseleave', function (event, d) {
       d3.select(this.parentNode).select('.bracket-visible')
-        .attr('stroke', DEFAULT_LINK_COLOR).attr('stroke-width', 1.2).attr('stroke-opacity', bracketBaseOpacity);
+        .attr('stroke', STRUCTURAL_COLOR).attr('stroke-width', 1.2).attr('stroke-opacity', bracketBaseOpacity(d));
       hideTooltip();
     })
     .on('click', (event, d) => selectNode(d));
 
-  function peeloffPath(d) {
-    const px = screenX(d.parent);
-    const py = screenY(d.parent);
-    const cx = screenX(d);
-    const cy = screenY(d);
-    return isVertical ? `M${px},${cy}H${cx}` : `M${cx},${py}V${cy}`;
-  }
+  // Root's own synthetic incoming stub (0 mutations, CAP_PX) -- purely
+  // cosmetic (DB3-style short knot before the tree begins), selects the
+  // root on click for consistency with everything else being clickable.
+  const rootD = root;
+  const rootStubCoords = isVertical
+    ? { x1: leafAxisScreen(rootD), y1: 0, x2: leafAxisScreen(rootD), y2: rootD.branchPos }
+    : { x1: 0, y1: leafAxisScreen(rootD), x2: rootD.branchPos, y2: leafAxisScreen(rootD) };
+  const rootStubGroup = contentLayer.append('g').attr('class', 'root-stub');
+  rootStubGroup.append('line')
+    .attr('class', 'root-stub-visible')
+    .attr('x1', rootStubCoords.x1).attr('y1', rootStubCoords.y1)
+    .attr('x2', rootStubCoords.x2).attr('y2', rootStubCoords.y2)
+    .attr('stroke', STRUCTURAL_COLOR)
+    .attr('stroke-width', 1.2)
+    .style('pointer-events', 'none');
+  rootStubGroup.append('line')
+    .attr('x1', rootStubCoords.x1).attr('y1', rootStubCoords.y1)
+    .attr('x2', rootStubCoords.x2).attr('y2', rootStubCoords.y2)
+    .attr('stroke', 'rgba(0,0,0,0.001)')
+    .attr('stroke-width', 12)
+    .style('cursor', 'pointer')
+    .style('pointer-events', 'stroke')
+    .on('click', () => selectNode(rootD));
 
-  const peeloffGroupSel = contentLayer.append('g')
-    .attr('class', 'peeloffs')
+  const descentDataset = root.descendants().filter((d) => d.parent);
+
+  const descentGroupSel = contentLayer.append('g')
+    .attr('class', 'descents')
     .selectAll('g')
-    .data(root.descendants().filter((d) => d.parent))
+    .data(descentDataset)
     .join('g')
     .attr('data-child-id', (d) => d.data.id);
 
-  const peeloffVisibleSel = peeloffGroupSel.append('path')
-    .attr('class', 'link-peeloff')
-    .attr('fill', 'none')
-    .attr('d', peeloffPath)
-    .attr('stroke', peeloffBaseStroke)
-    .attr('stroke-width', peeloffBaseWidth)
-    .attr('stroke-opacity', peeloffBaseOpacity)
-    .attr('stroke-dasharray', peeloffDashArray)
-    .style('pointer-events', 'none');
-
-  // Small red X at the tip of every no-TG-data branch (567 only; null-style
-  // on 315 since panelIds is null there) -- reuses the .vaf-legend-absent-x
-  // red (#e02020) for visual-language consistency with the kidney-map panel.
-  const peeloffXMarkerSel = peeloffGroupSel.append('g')
-    .attr('class', 'link-peeloff-x')
-    .attr('transform', (d) => `translate(${screenX(d)},${screenY(d)})`)
+  // Orange halo, drawn BEHIND the per-mutation segments: one full-length
+  // line matching the whole descent's span, shown only when this edge is on
+  // the selected chain path. Individual mutation colors (blue/gray) still
+  // draw on top of it, unchanged -- this is how "stays colored per
+  // mutation, but visibly on the selected path" is achieved without forcing
+  // segments to the solid highlight color.
+  const descentHaloSel = descentGroupSel.append('line')
+    .attr('class', 'descent-halo')
+    .attr('x1', (d) => segmentCoords(d, { start: d.parent.branchPos, end: d.branchPos }).x1)
+    .attr('y1', (d) => segmentCoords(d, { start: d.parent.branchPos, end: d.branchPos }).y1)
+    .attr('x2', (d) => segmentCoords(d, { start: d.parent.branchPos, end: d.branchPos }).x2)
+    .attr('y2', (d) => segmentCoords(d, { start: d.parent.branchPos, end: d.branchPos }).y2)
+    .attr('stroke', SELECTED_COLOR)
+    .attr('stroke-width', 6)
+    .attr('stroke-linecap', 'round')
     .style('pointer-events', 'none')
-    .attr('opacity', (d) => (currentNodeStyleById[d.data.id] === 'no_panel'
-      ? (currentPathIds.size && !currentPathIds.has(d.data.id) ? 0.35 : 1) : 0));
-  peeloffXMarkerSel.append('line').attr('x1', -3).attr('y1', -3).attr('x2', 3).attr('y2', 3)
+    .style('display', (d) => (onPath(d) ? null : 'none'));
+
+  // Outer wrapper's bound datum is `d` (the child node), inherited
+  // automatically from descentGroupSel via .append() -- restyleAllLinks()
+  // toggles opacity on THIS selection (dimOpacity(d)), which cascades down
+  // through every segment + X marker nested inside via normal SVG group
+  // compositing, without needing to touch each one individually.
+  const descentSegmentsWrapperSel = descentGroupSel.append('g')
+    .attr('class', 'descent-segments')
+    .style('pointer-events', 'none')
+    .attr('opacity', dimOpacity);
+
+  const segmentsSel = descentSegmentsWrapperSel
+    .selectAll('g')
+    .data((d) => segmentsFor(d).map((seg) => ({ seg, d })))
+    .join('g')
+    .attr('data-mutation-id', ({ seg }) => seg.mutationId || '');
+
+  segmentsSel.append('line')
+    .attr('class', 'mut-segment')
+    .attr('x1', ({ seg, d }) => segmentCoords(d, seg).x1)
+    .attr('y1', ({ seg, d }) => segmentCoords(d, seg).y1)
+    .attr('x2', ({ seg, d }) => segmentCoords(d, seg).x2)
+    .attr('y2', ({ seg, d }) => segmentCoords(d, seg).y2)
+    .attr('stroke', ({ seg }) => segmentBaseColor(seg))
+    .attr('stroke-width', 2.4)
+    .attr('stroke-linecap', 'butt');
+
+  // Gray X centered on every no-TG-data mutation's own segment (one per
+  // mutation now, not one per branch tip -- a branch can carry a mix of
+  // TG-confirmed and no-TG mutations, each needs its own marker).
+  const descentXMarkerSel = segmentsSel.filter(({ seg }) => !seg.isCap && !isTgConfirmed(seg.mutationId))
+    .append('g')
+    .attr('class', 'mut-x-marker')
+    .attr('transform', ({ seg, d }) => {
+      const c = segmentCoords(d, seg);
+      const mx = (c.x1 + c.x2) / 2;
+      const my = (c.y1 + c.y2) / 2;
+      return `translate(${mx},${my})`;
+    });
+  descentXMarkerSel.append('line').attr('x1', -3).attr('y1', -3).attr('x2', 3).attr('y2', 3)
     .attr('stroke', NO_PANEL_X_COLOR).attr('stroke-width', 1.3);
-  peeloffXMarkerSel.append('line').attr('x1', -3).attr('y1', 3).attr('x2', 3).attr('y2', -3)
+  descentXMarkerSel.append('line').attr('x1', -3).attr('y1', 3).attr('x2', 3).attr('y2', -3)
     .attr('stroke', NO_PANEL_X_COLOR).attr('stroke-width', 1.3);
 
-  peeloffGroupSel.append('path')
-    .attr('class', 'link-peeloff-hit')
+  descentGroupSel.append('path')
+    .attr('class', 'descent-hit')
     .attr('fill', 'none')
-    .attr('d', peeloffPath)
+    .attr('d', (d) => {
+      const c = segmentCoords(d, { start: d.parent.branchPos, end: d.branchPos });
+      return `M${c.x1},${c.y1}L${c.x2},${c.y2}`;
+    })
     .attr('stroke', 'rgba(0,0,0,0.001)') // effectively invisible, but still hit-testable (same trick as kidneymap.js's dot overlay)
     .attr('stroke-width', 12)
     .attr('stroke-linecap', 'round')
     .style('cursor', 'pointer')
     .style('pointer-events', 'stroke')
     .on('mouseenter', function (event, d) {
-      d3.select(this.parentNode).select('.link-peeloff')
-        .attr('stroke', HOVER_LINK_COLOR).attr('stroke-width', 2).attr('stroke-opacity', 1);
+      d3.select(this.parentNode).selectAll('.mut-segment').attr('stroke', HOVER_LINK_COLOR);
       showTooltip(event, branchTooltipHtml(d));
     })
     .on('mousemove', moveTooltip)
     .on('mouseleave', function (event, d) {
-      d3.select(this.parentNode).select('.link-peeloff')
-        .attr('stroke', peeloffBaseStroke(d)).attr('stroke-width', peeloffBaseWidth(d)).attr('stroke-opacity', peeloffBaseOpacity(d));
+      d3.select(this.parentNode).selectAll('.mut-segment')
+        .attr('stroke', function () {
+          const segDatum = d3.select(this.parentNode).datum();
+          return segmentBaseColor(segDatum.seg);
+        });
       hideTooltip();
     })
     .on('click', (event, d) => selectNode(d));
@@ -577,18 +666,19 @@ function drawTree(data) {
   console.log('[tree]', qaDetail);
 }
 
-// Kidney-panel-hover -> tree-segment second-level highlight. Called from
-// chainpanel.js when the user hovers an in-panel mutation's kidney-map card
-// (only ever attached there -- no-TG-data placeholder cards have no panel to
-// hover, so chainpanel.js never calls this for those). Only takes effect if
-// the mutation's owning node is actually on the currently-selected chain
-// path -- it always should be, since the chain panel only ever shows the
-// selected node's own chain, but the guard keeps this safe against any
-// future caller that isn't.
+// Kidney-panel-hover -> exact mutation-segment second-level highlight.
+// Called from chainpanel.js when the user hovers an in-panel mutation's
+// kidney-map card (only ever attached there -- no-TG-data placeholder cards
+// have no panel to hover, so chainpanel.js never calls this for those).
+// Targets the SPECIFIC segment for this mutation_id (not the whole branch),
+// via the data-mutation-id attribute set on each segment's <g> wrapper.
+// Only takes effect if the mutation's owning node is on the currently-
+// selected chain path -- it always should be, since the chain panel only
+// ever shows the selected node's own chain, but the guard keeps this safe.
 function highlightChainSegment(mutationId) {
   const nodeId = currentMutationIdToNodeId[mutationId];
   if (!nodeId || !currentPathIds.has(nodeId)) return;
-  d3.select(`.peeloffs g[data-child-id="${nodeId}"] .link-peeloff`)
+  d3.select(`.descents g[data-child-id="${nodeId}"] g[data-mutation-id="${mutationId}"] .mut-segment`)
     .attr('stroke', SUPER_HIGHLIGHT_COLOR)
     .attr('stroke-width', 5);
 }
@@ -596,11 +686,12 @@ function highlightChainSegment(mutationId) {
 function clearChainSegmentHighlight(mutationId) {
   const nodeId = currentMutationIdToNodeId[mutationId];
   if (!nodeId) return;
-  const sel = d3.select(`.peeloffs g[data-child-id="${nodeId}"] .link-peeloff`);
+  const sel = d3.select(`.descents g[data-child-id="${nodeId}"] g[data-mutation-id="${mutationId}"] .mut-segment`);
   if (sel.empty()) return;
-  // Revert to the normal on-path selected style (this is only ever called
-  // for segments that were on the path to begin with).
-  sel.attr('stroke', SELECTED_COLOR).attr('stroke-width', 3);
+  // Revert to this mutation's own base color (blue TG-confirmed -- no-TG
+  // mutations never get highlighted in the first place, see the guard in
+  // chainpanel.js that only wires this up for in-panel entries).
+  sel.attr('stroke', TG_CONFIRMED_COLOR).attr('stroke-width', 2.4);
 }
 
 function setTreeOrientation(orientation) {
