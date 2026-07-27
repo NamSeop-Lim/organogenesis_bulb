@@ -46,7 +46,14 @@ const NO_PANEL_COLOR = '#9aa5b1'; // gray -- matches the existing leaf-node fill
 const STRUCTURAL_COLOR = '#c3cad1'; // lighter neutral -- brackets + 0-mutation caps (not a real mutation, no panel color applies)
 const HOVER_LINK_COLOR = '#2f6fb0';
 const NO_PANEL_X_COLOR = '#6b7785'; // gray X (was red pre-redesign) -- matches css --muted
-const SUPER_HIGHLIGHT_COLOR = '#c2185b'; // kidney-panel-hover second-level accent -- reads clearly against SELECTED_COLOR orange
+const PANEL_LINK_COLOR = '#e6007a'; // magenta -- cmd2607271517 cross-column kidney-panel<->tree-segment leader line + glow
+
+// Module-level (not local to drawTree) so the exposed cross-column
+// leader-line helpers (called from js/panelhighlight.js on kidney-panel
+// hover, well after drawTree's own closure has returned) can still pan the
+// live tree and query the live zoom scale.
+let currentZoomBehavior = null;
+let currentSvgSelection = null;
 
 async function renderTree(donor) {
   const status = document.getElementById('tree-status');
@@ -501,6 +508,24 @@ function drawTree(data) {
     .join('g')
     .attr('data-mutation-id', ({ seg }) => seg.mutationId || '');
 
+  // Magenta glow, pre-created hidden (display:none) and toggled on/off by
+  // glowSegment()/unglowSegment() during a kidney-panel hover -- cheaper and
+  // simpler than creating/destroying elements per hover, and its position
+  // in the DOM (inserted before .mut-segment) keeps it rendering BEHIND the
+  // segment's own per-mutation color line, never covering it.
+  segmentsSel.append('line')
+    .attr('class', 'mut-segment-glow')
+    .attr('x1', ({ seg, d }) => segmentCoords(d, seg).x1)
+    .attr('y1', ({ seg, d }) => segmentCoords(d, seg).y1)
+    .attr('x2', ({ seg, d }) => segmentCoords(d, seg).x2)
+    .attr('y2', ({ seg, d }) => segmentCoords(d, seg).y2)
+    .attr('stroke', PANEL_LINK_COLOR)
+    .attr('stroke-width', 13)
+    .attr('stroke-linecap', 'round')
+    .attr('stroke-opacity', 0.4)
+    .style('pointer-events', 'none')
+    .style('display', 'none');
+
   segmentsSel.append('line')
     .attr('class', 'mut-segment')
     .attr('x1', ({ seg, d }) => segmentCoords(d, seg).x1)
@@ -643,6 +668,8 @@ function drawTree(data) {
       treeZoomScale = event.transform.k;
     });
   svg.call(zoom);
+  currentZoomBehavior = zoom;
+  currentSvgSelection = svg;
   // Translate isn't meaningfully portable across an axis swap (a pan offset
   // means something different once x/y trade roles), so only the zoom
   // *scale* is preserved across orientation toggles; the svg's viewBox +
@@ -666,32 +693,73 @@ function drawTree(data) {
   console.log('[tree]', qaDetail);
 }
 
-// Kidney-panel-hover -> exact mutation-segment second-level highlight.
-// Called from chainpanel.js when the user hovers an in-panel mutation's
-// kidney-map card (only ever attached there -- no-TG-data placeholder cards
-// have no panel to hover, so chainpanel.js never calls this for those).
-// Targets the SPECIFIC segment for this mutation_id (not the whole branch),
-// via the data-mutation-id attribute set on each segment's <g> wrapper.
-// Only takes effect if the mutation's owning node is on the currently-
-// selected chain path -- it always should be, since the chain panel only
-// ever shows the selected node's own chain, but the guard keeps this safe.
-function highlightChainSegment(mutationId) {
+// Kidney-panel-hover cross-column leader line (cmd2607271517) -- these are
+// the low-level primitives js/panelhighlight.js orchestrates from; it owns
+// the overlay SVG, curve routing and auto-scroll sequencing since those
+// span both the tree AND the kidney-panel columns, neither of which tree.js
+// has exclusive ownership of. tree.js only knows how to find/glow/pan to
+// its own segments. Only takes effect if the mutation's owning node is on
+// the currently-selected chain path -- it always should be, since the
+// chain panel only ever shows the selected node's own chain, but the guard
+// keeps this safe against any future caller that isn't.
+function getSegmentElement(mutationId) {
   const nodeId = currentMutationIdToNodeId[mutationId];
-  if (!nodeId || !currentPathIds.has(nodeId)) return;
-  d3.select(`.descents g[data-child-id="${nodeId}"] g[data-mutation-id="${mutationId}"] .mut-segment`)
-    .attr('stroke', SUPER_HIGHLIGHT_COLOR)
-    .attr('stroke-width', 5);
+  if (!nodeId || !currentPathIds.has(nodeId)) return null;
+  const el = document.querySelector(
+    `.descents g[data-child-id="${nodeId}"] g[data-mutation-id="${mutationId}"] .mut-segment`
+  );
+  return el || null;
 }
 
-function clearChainSegmentHighlight(mutationId) {
+function glowSegment(mutationId) {
   const nodeId = currentMutationIdToNodeId[mutationId];
   if (!nodeId) return;
-  const sel = d3.select(`.descents g[data-child-id="${nodeId}"] g[data-mutation-id="${mutationId}"] .mut-segment`);
-  if (sel.empty()) return;
-  // Revert to this mutation's own base color (blue TG-confirmed -- no-TG
-  // mutations never get highlighted in the first place, see the guard in
-  // chainpanel.js that only wires this up for in-panel entries).
-  sel.attr('stroke', TG_CONFIRMED_COLOR).attr('stroke-width', 2.4);
+  const el = document.querySelector(
+    `.descents g[data-child-id="${nodeId}"] g[data-mutation-id="${mutationId}"] .mut-segment-glow`
+  );
+  if (el) el.style.display = null;
+}
+
+function unglowSegment(mutationId) {
+  const nodeId = currentMutationIdToNodeId[mutationId];
+  if (!nodeId) return;
+  const el = document.querySelector(
+    `.descents g[data-child-id="${nodeId}"] g[data-mutation-id="${mutationId}"] .mut-segment-glow`
+  );
+  if (el) el.style.display = 'none';
+}
+
+// Smoothly pans (never rescales -- keeps whatever zoom level the user is
+// currently at) the tree so the target segment's midpoint lands at the
+// center of the tree panel's visible viewport. Reads the segment's LOCAL
+// (pre-zoom-transform) coordinates straight off its own x1/y1/x2/y2
+// attributes, which are stable regardless of the current pan/zoom (only the
+// ancestor .zoom-layer's transform changes on pan/zoom, never the
+// segment's own attributes). Resolves once the transition completes, or
+// resolves immediately (false) if there's nothing to pan to.
+function panSegmentIntoView(mutationId) {
+  const el = getSegmentElement(mutationId);
+  if (!el || !currentZoomBehavior || !currentSvgSelection) return Promise.resolve(false);
+
+  const x1 = parseFloat(el.getAttribute('x1'));
+  const y1 = parseFloat(el.getAttribute('y1'));
+  const x2 = parseFloat(el.getAttribute('x2'));
+  const y2 = parseFloat(el.getAttribute('y2'));
+  const midX = (x1 + x2) / 2;
+  const midY = (y1 + y2) / 2;
+
+  const svgNode = document.getElementById('tree-svg');
+  const w = svgNode.clientWidth;
+  const h = svgNode.clientHeight;
+  const scale = treeZoomScale || 1;
+  const tx = w / 2 - midX * scale;
+  const ty = h / 2 - midY * scale;
+
+  return new Promise((resolve) => {
+    currentSvgSelection.transition().duration(450)
+      .call(currentZoomBehavior.transform, d3.zoomIdentity.translate(tx, ty).scale(scale))
+      .on('end', () => resolve(true));
+  });
 }
 
 function setTreeOrientation(orientation) {

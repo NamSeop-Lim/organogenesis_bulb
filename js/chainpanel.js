@@ -81,15 +81,15 @@ async function showChainForNode(nodeId, donor, chainsFile = 'chains.json') {
 
     list.appendChild(entryDiv);
     renderKidneyMap(mapDiv, mutationId, donor).then((hasData) => {
-      // Kidney-panel-hover -> tree-segment second-level highlight only makes
-      // sense when there's an actual panel rendered (in-panel mutations) --
-      // no-TG-data placeholder cards have nothing to highlight against, so
-      // hasData===false intentionally leaves them with no hover listeners.
+      // Kidney-panel-hover -> cross-column tree-segment leader line only
+      // makes sense when there's an actual panel rendered (in-panel
+      // mutations) -- no-TG-data placeholder cards have nothing to link to,
+      // so hasData===false intentionally leaves them with no hover listeners.
       if (!hasData) return;
-      if (typeof highlightChainSegment !== 'function') return;
-      entryDiv.addEventListener('mouseenter', () => highlightChainSegment(mutationId));
+      if (typeof showPanelLink !== 'function') return;
+      entryDiv.addEventListener('mouseenter', () => showPanelLink(entryDiv, mutationId));
       entryDiv.addEventListener('mouseleave', () => {
-        if (typeof clearChainSegmentHighlight === 'function') clearChainSegmentHighlight(mutationId);
+        if (typeof hidePanelLink === 'function') hidePanelLink();
       });
     });
   });

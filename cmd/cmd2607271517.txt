@@ -1,0 +1,25 @@
+Working directory: /home/namseop/0_kidney/organogenesis_bulb/
+
+Improve the panel→tree-segment highlight. Right now hovering a kidney VAF panel just turns the corresponding tree segment into a thin crimson line, which gets lost in the dense tree. Replace it with a much clearer cross-column link. Read CLAUDE.md first. Back up every file before editing (.bak). Keep the discrete per-mutation layout, per-mutation coloring, and all existing interactions intact — this is only the panel-hover highlight.
+
+On hovering a kidney VAF panel, do all of the following:
+
+Leader line on a full-screen overlay. Add a single top-level transparent overlay SVG (above both columns) and draw a curved connector from the hovered panel to its corresponding tree segment (matched via data-mutation-id). Compute both endpoints from getBoundingClientRect() and update the line on scroll and resize. Route the curve through the empty gap between the two columns so it doesn't tangle with dense branches. Color: magenta 
+#e6007a, ~2.5px, with small solid dots at both ends.
+Auto-scroll both ends into view. Before drawing, smoothly scroll the tree column and the panel grid so both the target segment and the panel are visible. If one end is still offscreen after that, clamp the line to that column's edge and cap it with an arrow (∧/∨) pointing toward the offscreen end.
+Glow halo on the target segment. Draw a soft wide magenta glow (
+#e6007a, low opacity, ~13px, rounded) behind the target mutation segment so it pops out. Keep the segment's own per-mutation color (blue/gray) on top — do NOT force it to solid magenta.
+Panel highlight. Give the hovered panel a magenta border + soft glow so it's clearly the source.
+Revert cleanly on mouse-leave — remove the line, halo, and panel border; restore the normal chain-highlight state.
+
+Replace the old thin-crimson segment styling with this. Works in both trees (315/567) and both orientations (h/v).
+
+Verify (Playwright + screenshots, actually eyeball):
+
+Hover a panel whose segment is onscreen: line + halo + panel border all render, magenta reads clearly against blue/gray/orange.
+Hover a panel whose corresponding segment is scrolled offscreen (use the long 567 tree): auto-scroll brings it into view and the line connects; if still offscreen, the edge arrow appears.
+Hover a panel in a dense tree region: the line routes through the column gap without tangling.
+Mouse-leave fully reverts; no leftover overlay artifacts.
+No console errors/404s; discrete layout, per-mutation coloring, chain-select, and h/v toggle all unregressed.
+
+Then commit locally with a clear message but DO NOT push — I'll review screenshots first. (Note: main is already 2 commits ahead of origin/main from prior unpushed work; this adds a third.) Report per-file changes and paste your screenshot observations.
