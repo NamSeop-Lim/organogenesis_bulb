@@ -1,0 +1,24 @@
+Working directory: /home/namseop/0_kidney/organogenesis_bulb/
+
+Add pin-on-enlarge behavior to the panel↔tree highlight. Right now the leader line + segment glow + panel border are hover-only (showPanelLink/hidePanelLink in js/panelhighlight.js / js/chainpanel.js), so moving the mouse away clears the highlight even after the user clicks a panel to enlarge it. Read CLAUDE.md first. Back up files before editing (.bak). Don't regress the discrete layout, per-mutation coloring, dark mode, or existing interactions.
+
+First, inspect the current click-to-enlarge behavior on the kidney VAF panels (whatever enlarges a panel today) and report how it's wired before changing it.
+
+Desired behavior:
+
+Click a panel to enlarge → pin its tree highlight. While a panel is enlarged, its leader line + segment glow + panel border stay shown and keep tracking on scroll/resize, regardless of mouse movement. The pin does NOT clear on mouseleave.
+Clear the pin when the enlarged panel is closed/collapsed. Use whatever the current close/collapse action is. On close, fully revert that mutation's highlight.
+Enlarging a different panel moves the pin to the new one (only one pinned at a time) — cleanly release the previous.
+Transient hover still works on non-pinned panels, but must not clobber the pin: when a transient hover ends, the pinned highlight is restored (don't leave the pinned segment cleared). If a panel is both pinned and hovered, keep it shown.
+Keep the magenta styling. Optionally make the pinned state read slightly stronger/persistent vs. transient hover (your call, keep it subtle) so the user can tell it's locked.
+Apply across both trees (315/567), both orientations (h/v), both themes (light/dark).
+
+Verify (Playwright + screenshots, actually eyeball):
+
+Click a panel to enlarge, then move the mouse far away / over other panels → the pinned highlight stays and the leader line keeps tracking.
+Close the enlarged panel → highlight fully reverts (DOM-verified, no leftover overlay/glow/border).
+Enlarge panel A, then panel B → pin moves to B, A fully released.
+Transient-hover a third panel while B is pinned → B's pin survives after the hover ends.
+No console errors/404s; discrete layout, per-mutation colors, chain-select, h/v toggle, dark mode all unregressed.
+
+Then commit locally with a clear message but DO NOT push — I'll review screenshots. (main is already 4 commits ahead of origin/main; this adds a fifth.) Report per-file changes and paste screenshot observations.

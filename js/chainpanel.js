@@ -25,6 +25,10 @@ function showChainPlaceholder() {
   const list = document.getElementById('chain-list');
   const status = document.getElementById('chain-status');
   if (!list) return; // chain panel not in the DOM yet during early script eval
+  // Any pinned/displayed panel-highlight (cmd2607271611) is about to lose
+  // its panelEl -- reset before the DOM under it is torn down, or the pin
+  // survives referencing a now-detached node.
+  if (typeof resetPanelLink === 'function') resetPanelLink();
   list.innerHTML = '<p class="status chain-placeholder">Click a branch or leaf in the tree to see its lineage chain’s kidney VAF maps.</p>';
   if (status) status.textContent = '';
 }
@@ -33,6 +37,7 @@ async function showChainForNode(nodeId, donor, chainsFile = 'chains.json') {
   const list = document.getElementById('chain-list');
   const status = document.getElementById('chain-status');
   if (!list) return;
+  if (typeof resetPanelLink === 'function') resetPanelLink();
   list.innerHTML = '<p class="status chain-placeholder">loading chain…</p>';
 
   let chains;
@@ -66,8 +71,19 @@ async function showChainForNode(nodeId, donor, chainsFile = 'chains.json') {
     // which still fires its own hover tooltip independently) toggles a
     // full-width expanded view -- simpler than a modal/lightbox overlay.
     entryDiv.title = 'Click to expand/collapse';
+    // Set once renderKidneyMap resolves below -- gates pin/unpin so a
+    // no-data placeholder card (nothing to link to) can still expand/
+    // collapse normally without touching the highlight pin.
+    let hasKidneyData = false;
     entryDiv.addEventListener('click', () => {
+      const willExpand = !entryDiv.classList.contains('chain-entry--expanded');
       entryDiv.classList.toggle('chain-entry--expanded');
+      if (!hasKidneyData) return;
+      if (willExpand) {
+        if (typeof pinPanelLink === 'function') pinPanelLink(entryDiv, mutationId);
+      } else if (typeof unpinPanelLink === 'function') {
+        unpinPanelLink(entryDiv);
+      }
     });
 
     const label = document.createElement('h3');
@@ -84,7 +100,10 @@ async function showChainForNode(nodeId, donor, chainsFile = 'chains.json') {
       // Kidney-panel-hover -> cross-column tree-segment leader line only
       // makes sense when there's an actual panel rendered (in-panel
       // mutations) -- no-TG-data placeholder cards have nothing to link to,
-      // so hasData===false intentionally leaves them with no hover listeners.
+      // so hasData===false intentionally leaves them with no hover listeners
+      // (and the click handler above leaves hasKidneyData false, so it never
+      // pins one either).
+      hasKidneyData = hasData;
       if (!hasData) return;
       if (typeof showPanelLink !== 'function') return;
       entryDiv.addEventListener('mouseenter', () => showPanelLink(entryDiv, mutationId));

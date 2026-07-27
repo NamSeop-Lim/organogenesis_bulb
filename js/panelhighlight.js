@@ -6,6 +6,15 @@
 // stacking/overflow/scroll state -- neither column's own SVG can host an
 // element that escapes its own clipping box.
 //
+// cmd2607271611: added a PIN state on top of the original hover-only
+// display. Clicking a panel to enlarge it (chainpanel.js's existing
+// chain-entry--expanded toggle) pins that mutation's highlight so it
+// survives mouseleave; only one pin at a time. `displayed` is whichever
+// mutation is CURRENTLY drawn on the single shared overlay -- normally the
+// pin, but a transient hover over a different panel temporarily takes over
+// `displayed` and hidePanelLink() hands it back to the pin (if any) instead
+// of clearing, rather than fully hiding.
+//
 // Orchestrates tree.js's lower-level per-segment primitives
 // (getSegmentElement/glowSegment/unglowSegment/panSegmentIntoView) plus its
 // own panel-side scroll/highlight -- this file is the only thing that knows
@@ -19,10 +28,11 @@ let linkPath = null;
 let dotStart = null;
 let dotEnd = null;
 let arrowMark = null;
-let activeMutationId = null;
-let activePanelEl = null;
+
+let displayed = null; // { panelEl, mutationId } | null -- whatever's currently drawn on the overlay
+let pinned = null; // { panelEl, mutationId } | null -- persists across mouseleave until explicitly unpinned
 let trackHandle = null; // requestAnimationFrame handle for the scroll/resize-driven redraw loop
-let hoverToken = 0; // invalidates a stale async auto-scroll sequence if the user moves to a different panel mid-flight
+let hoverToken = 0; // invalidates a stale in-flight auto-scroll sequence
 
 function ensureOverlay() {
   if (overlaySvg) return;
@@ -72,16 +82,17 @@ function arrowPathAt(x, y, direction) {
 }
 
 function redraw() {
-  if (!activeMutationId || !activePanelEl || !overlaySvg) return;
+  if (!displayed || !overlaySvg) return;
+  const { panelEl, mutationId } = displayed;
 
   const treePanel = document.getElementById('tree-panel');
   const chainScroll = document.getElementById('chain-scroll');
   if (!treePanel || !chainScroll) return;
   const treeRect = treePanel.getBoundingClientRect();
   const scrollRect = chainScroll.getBoundingClientRect();
-  const panelRect = activePanelEl.getBoundingClientRect();
+  const panelRect = panelEl.getBoundingClientRect();
 
-  const segEl = typeof getSegmentElement === 'function' ? getSegmentElement(activeMutationId) : null;
+  const segEl = typeof getSegmentElement === 'function' ? getSegmentElement(mutationId) : null;
 
   // --- panel-side endpoint: left-center of the card, facing the tree column ---
   let panelTrueX = panelRect.left;
@@ -147,12 +158,12 @@ function redraw() {
   }
 
   if (segEl) {
-    glowSegment(activeMutationId);
+    glowSegment(mutationId);
   }
 }
 
 function startTracking() {
-  stopTracking();
+  if (trackHandle) return; // already running -- idempotent
   const loop = () => {
     redraw();
     trackHandle = requestAnimationFrame(loop);
@@ -169,23 +180,69 @@ function stopTracking() {
   window.removeEventListener('resize', redraw);
 }
 
-/**
- * Called on kidney-map panel mouseenter. `panelEl` is the whole card
- * (.chain-entry); mutationId is that card's own mutation.
- */
-async function showPanelLink(panelEl, mutationId) {
+function isPinned(panelEl, mutationId) {
+  return !!pinned && pinned.panelEl === panelEl && pinned.mutationId === mutationId;
+}
+
+function applyPanelClasses(entry) {
+  if (!entry) return;
+  entry.panelEl.classList.add('chain-entry--panel-linked');
+  entry.panelEl.classList.toggle('chain-entry--panel-pinned', isPinned(entry.panelEl, entry.mutationId));
+}
+
+function clearPanelClasses(entry) {
+  if (!entry) return;
+  entry.panelEl.classList.remove('chain-entry--panel-linked');
+  entry.panelEl.classList.remove('chain-entry--panel-pinned');
+}
+
+// Switches `displayed` to (panelEl, mutationId), releasing the previous
+// displayed entry's glow/border first (unless it's the same one, in which
+// case this is a no-op re-application -- keeps re-hovering the pinned panel
+// itself from flickering).
+function setDisplayed(panelEl, mutationId) {
+  const same = displayed && displayed.panelEl === panelEl && displayed.mutationId === mutationId;
+  if (displayed && !same) {
+    if (typeof unglowSegment === 'function') unglowSegment(displayed.mutationId);
+    clearPanelClasses(displayed);
+  }
+  displayed = { panelEl, mutationId };
+  applyPanelClasses(displayed);
+}
+
+function clearAllDisplay() {
+  if (displayed) {
+    if (typeof unglowSegment === 'function') unglowSegment(displayed.mutationId);
+    clearPanelClasses(displayed);
+  }
+  displayed = null;
+  hideOverlayElements();
+  stopTracking();
+}
+
+// Instantly re-shows an already-known-good display (used to hand the
+// overlay back to the pin once a transient hover ends) -- no auto-scroll,
+// since the pin was already positioned before the hover interrupted it;
+// redraw()'s own offscreen-clamp+arrow handles anything that scrolled away
+// in the meantime.
+function restoreDisplay(panelEl, mutationId) {
+  setDisplayed(panelEl, mutationId);
+  redraw();
+  startTracking();
+}
+
+// Full async sequence for a NEW display target (a fresh hover or a fresh
+// pin): draw immediately with whatever's currently visible, then smoothly
+// bring both ends into view, then redraw once settled.
+async function runDisplaySequence(panelEl, mutationId) {
   ensureOverlay();
   if (!overlaySvg) return;
 
   const myToken = ++hoverToken;
-  activeMutationId = mutationId;
-  activePanelEl = panelEl;
-  panelEl.classList.add('chain-entry--panel-linked');
-
-  redraw(); // draw immediately with whatever's currently visible, before any scrolling
+  setDisplayed(panelEl, mutationId);
+  redraw();
   startTracking();
 
-  // Auto-scroll both ends into view, then redraw once settled.
   const chainScroll = document.getElementById('chain-scroll');
   const scrollRect = chainScroll.getBoundingClientRect();
   const panelRect = panelEl.getBoundingClientRect();
@@ -205,20 +262,75 @@ async function showPanelLink(panelEl, mutationId) {
   // itself awaitable) to finish alongside the tree's own transition.
   await new Promise((resolve) => setTimeout(resolve, 120));
 
-  if (myToken !== hoverToken) return; // hover moved to a different panel while we were scrolling
+  if (myToken !== hoverToken) return; // superseded by a newer hover/pin/unpin while we were scrolling
   redraw();
 }
 
+/**
+ * Called on kidney-map panel mouseenter. `panelEl` is the whole card
+ * (.chain-entry); mutationId is that card's own mutation. If this panel is
+ * already what's displayed (e.g. it's the pinned panel, or you're re-
+ * entering the same panel), just make sure tracking is alive -- no need to
+ * replay the auto-scroll dance for something already in view.
+ */
+function showPanelLink(panelEl, mutationId) {
+  if (displayed && displayed.panelEl === panelEl && displayed.mutationId === mutationId) {
+    startTracking();
+    return;
+  }
+  runDisplaySequence(panelEl, mutationId);
+}
+
+/**
+ * Called on kidney-map panel mouseleave. If a pin exists, the overlay is
+ * handed back to the pin (restored, not cleared) -- a transient hover must
+ * never leave the pinned segment un-highlighted. With no pin, this fully
+ * reverts, same as before pinning existed.
+ */
 function hidePanelLink() {
+  hoverToken++; // invalidate any in-flight auto-scroll sequence for the hover that just ended
+  if (pinned) {
+    const alreadyShowingPin = displayed && displayed.panelEl === pinned.panelEl && displayed.mutationId === pinned.mutationId;
+    if (!alreadyShowingPin) restoreDisplay(pinned.panelEl, pinned.mutationId);
+    return;
+  }
+  clearAllDisplay();
+}
+
+/**
+ * Called when a panel is clicked to enlarge (chainpanel.js's
+ * chain-entry--expanded toggle turning on). Only one pin at a time --
+ * pinning a new panel cleanly releases whatever was pinned before (its
+ * glow/border/line are torn down by setDisplayed() inside
+ * runDisplaySequence, same as any other display switch).
+ */
+function pinPanelLink(panelEl, mutationId) {
+  pinned = { panelEl, mutationId };
+  runDisplaySequence(panelEl, mutationId);
+}
+
+/**
+ * Called when the pinned panel is collapsed (chain-entry--expanded turning
+ * off). Only the actual pinned panel can unpin itself -- collapsing some
+ * other, non-pinned panel is a no-op here. Fully reverts the highlight per
+ * spec, regardless of whether the mouse is still physically over the panel.
+ */
+function unpinPanelLink(panelEl) {
+  if (!pinned || pinned.panelEl !== panelEl) return;
+  pinned = null;
   hoverToken++; // invalidate any in-flight auto-scroll sequence
-  stopTracking();
-  hideOverlayElements();
-  if (activeMutationId && typeof unglowSegment === 'function') {
-    unglowSegment(activeMutationId);
-  }
-  if (activePanelEl) {
-    activePanelEl.classList.remove('chain-entry--panel-linked');
-  }
-  activeMutationId = null;
-  activePanelEl = null;
+  clearAllDisplay();
+}
+
+/**
+ * Called by chainpanel.js right before it tears down/rebuilds #chain-list
+ * (new node selected, tree version switched) -- any pinned/displayed
+ * panelEl is about to go stale (removed from the DOM), so drop it
+ * unconditionally rather than let clearAllDisplay()/unglowSegment() run
+ * later against a detached node.
+ */
+function resetPanelLink() {
+  pinned = null;
+  hoverToken++;
+  clearAllDisplay();
 }

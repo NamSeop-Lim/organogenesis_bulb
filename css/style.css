@@ -497,3 +497,11 @@ a.info-icon {
   border-color: #e6007a;
   box-shadow: 0 0 0 2px rgba(230, 0, 122, 0.25), 0 0 14px rgba(230, 0, 122, 0.45);
 }
+
+.chain-entry--panel-pinned {
+  /* cmd2607271611: click-to-enlarge pins the highlight -- reads slightly
+     stronger/more persistent than a transient hover. An outline (not a
+     border-width change) so it never shifts layout. */
+  outline: 2px solid rgba(230, 0, 122, 0.55);
+  outline-offset: 2px;
+}
