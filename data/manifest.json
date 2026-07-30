@@ -14,7 +14,7 @@
         },
         "liver": {
           "label": "Liver",
-          "available": false,
+          "available": true,
           "dataDir": "liver",
           "templates": [
             { "id": "liver", "label": "Liver" }

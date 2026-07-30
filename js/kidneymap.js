@@ -98,6 +98,18 @@ const ORGAN_VISUALS = {
       left: { href: 'templates/left_kidney_template.svg', w: 855.71, h: 663.54, crop: { x: 196, y: 10, w: 430, h: 598 } },
     },
   },
+  liver: {
+    dataFile: 'liver_vaf_long.json',
+    sideField: null, // liver.svg's markers aren't split into sub-templates -- one panel, no filtering
+    templates: {
+      // cmd2607301646: marker coordinates (liver_package/liver_all_samples.csv,
+      // parsed from liver.svg's numbers group) are in this same viewBox with
+      // no transform (verified by plotting them back onto the plain template
+      // and confirming every one lands on its original marker) -- so, unlike
+      // kidney, no hand-picked crop is needed; the full native viewBox is used.
+      liver: { href: 'templates/liver_template.svg', w: 1291.34, h: 1006.96, crop: { x: 0, y: 0, w: 1291.34, h: 1006.96 } },
+    },
+  },
 };
 
 function hexToRgb(hex) {

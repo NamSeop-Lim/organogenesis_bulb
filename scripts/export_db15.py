@@ -280,8 +280,10 @@ def main():
                         "compartments": ["cortex", "medulla", "calyx", "pelves_ureter", "renal_fat"],
                     },
                     "liver": {
+                        # cmd2607301646: liver data landed (see
+                        # scripts/export_db15_liver.py) -- flipped True.
                         "label": "Liver",
-                        "available": False,
+                        "available": True,
                         "dataDir": "liver",
                         "templates": [{"id": "liver", "label": "Liver"}],
                         "compartments": None,
