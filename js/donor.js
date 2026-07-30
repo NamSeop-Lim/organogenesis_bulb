@@ -1,6 +1,11 @@
 // Reads data/manifest.json and populates the donor dropdown.
 // Does not assume any specific donor id -- works for however many
 // entries manifest.donors contains.
+// manifest.donors is a donor-id -> { organs: { organId: {...} } } object
+// (organ-aware config, see js/organ.js) -- cached on window.appManifest so
+// organ.js doesn't need a second fetch of the same file.
+let appManifest = null;
+
 async function initDonorPicker(onDonorChange) {
   const select = document.getElementById('donor-select');
 
@@ -14,7 +19,9 @@ async function initDonorPicker(onDonorChange) {
     return;
   }
 
-  const donors = manifest.donors || [];
+  appManifest = manifest;
+
+  const donors = Object.keys(manifest.donors || {});
   select.innerHTML = '';
   donors.forEach((donorId) => {
     const opt = document.createElement('option');

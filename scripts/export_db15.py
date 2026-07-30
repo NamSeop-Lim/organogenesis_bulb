@@ -21,6 +21,7 @@ from ete3 import Tree
 
 DB15_DIR = "/home/namseop/0_kidney/lineage_bulb/db15"
 OUT_DIR = "/home/namseop/0_kidney/organogenesis_bulb/data/DB15"
+KIDNEY_OUT_DIR = f"{OUT_DIR}/kidney"  # cmd2607301542 Part 2: kidney data moved under its own organ dir
 NWK = f"{DB15_DIR}/315_tgeem_singlecell_lineage.nwk"
 ALIGNED_CSV = f"{DB15_DIR}/csv/315_tgeem_singlecell_heatmap_aligned.csv"
 LINEAGE_CSV = f"{DB15_DIR}/csv/DB15_singlecell_lineage_assignment.csv"
@@ -239,7 +240,8 @@ def main():
     with open(f"{OUT_DIR}/singlecell_heatmap.json", 'w') as f:
         json.dump(heatmap_out, f)
 
-    # ---- 4: kidney_vaf_long.json ----
+    # ---- 4: kidney/kidney_vaf_long.json ----
+    os.makedirs(f"{KIDNEY_OUT_DIR}/templates", exist_ok=True)
     kidney_out = []
     for r in kidney_rows:
         kidney_out.append({
@@ -253,23 +255,49 @@ def main():
             "depth": int(r["depth"]) if r.get("depth") not in (None, "") else None,
             "alt_read_count": int(r["alt_read_count"]) if r.get("alt_read_count") not in (None, "") else None,
         })
-    with open(f"{OUT_DIR}/kidney_vaf_long.json", 'w') as f:
+    with open(f"{KIDNEY_OUT_DIR}/kidney_vaf_long.json", 'w') as f:
         json.dump(kidney_out, f)
 
     # ---- 5: template svgs ----
-    shutil.copy(RIGHT_TEMPLATE, f"{OUT_DIR}/templates/right_kidney_template.svg")
-    shutil.copy(LEFT_TEMPLATE, f"{OUT_DIR}/templates/left_kidney_template.svg")
+    shutil.copy(RIGHT_TEMPLATE, f"{KIDNEY_OUT_DIR}/templates/right_kidney_template.svg")
+    shutil.copy(LEFT_TEMPLATE, f"{KIDNEY_OUT_DIR}/templates/left_kidney_template.svg")
 
     # ---- 6: manifest.json ----
-    manifest = {"donors": ["DB15"]}
+    # cmd2607301542 Part 2: donor -> organ config, not a flat donor list --
+    # see data/manifest.json / js/organ.js for how this is consumed.
+    manifest = {
+        "donors": {
+            "DB15": {
+                "organs": {
+                    "kidney": {
+                        "label": "Kidney",
+                        "available": True,
+                        "dataDir": "kidney",
+                        "templates": [
+                            {"id": "right", "label": "Right Kidney"},
+                            {"id": "left", "label": "Left Kidney"},
+                        ],
+                        "compartments": ["cortex", "medulla", "calyx", "pelves_ureter", "renal_fat"],
+                    },
+                    "liver": {
+                        "label": "Liver",
+                        "available": False,
+                        "dataDir": "liver",
+                        "templates": [{"id": "liver", "label": "Liver"}],
+                        "compartments": None,
+                    },
+                },
+            },
+        },
+    }
     with open("/home/namseop/0_kidney/organogenesis_bulb/data/manifest.json", 'w') as f:
         json.dump(manifest, f, indent=2)
 
     print("\nfile sizes:")
     for fp in [
         f"{OUT_DIR}/tree.json", f"{OUT_DIR}/chains.json",
-        f"{OUT_DIR}/singlecell_heatmap.json", f"{OUT_DIR}/kidney_vaf_long.json",
-        f"{OUT_DIR}/templates/right_kidney_template.svg", f"{OUT_DIR}/templates/left_kidney_template.svg",
+        f"{OUT_DIR}/singlecell_heatmap.json", f"{KIDNEY_OUT_DIR}/kidney_vaf_long.json",
+        f"{KIDNEY_OUT_DIR}/templates/right_kidney_template.svg", f"{KIDNEY_OUT_DIR}/templates/left_kidney_template.svg",
         "/home/namseop/0_kidney/organogenesis_bulb/data/manifest.json",
     ]:
         print(f"  {fp}: {os.path.getsize(fp)} bytes")

@@ -42,6 +42,7 @@
             <button type="button" id="orient-horizontal" class="orient-btn">Horizontal</button>
             <button type="button" id="orient-vertical" class="orient-btn is-active">Vertical</button>
           </div>
+          <div class="orientation-toggle" id="organ-toggle" role="group" aria-label="Organ"></div>
           <div class="orientation-toggle" role="group" aria-label="Theme">
             <button type="button" id="theme-light" class="orient-btn" title="Light theme">☀ Light</button>
             <button type="button" id="theme-dark" class="orient-btn" title="Dark theme">🌙 Dark</button>
@@ -70,7 +71,7 @@
         <span class="vaf-legend-tick">0.00</span>
         <span class="vaf-legend-tick vaf-legend-tick-max">0.230</span>
         <span class="vaf-legend-absent"><span class="vaf-legend-absent-x">⊗</span> absent</span>
-        <a class="info-icon" href="data/DB15/read_support_qc.md" target="_blank" rel="noopener" title="What do the read-support numbers (alt reads / depth) shown on hover mean? Click for the QC methods note.">ⓘ</a>
+        <a class="info-icon" href="data/DB15/kidney/read_support_qc.md" target="_blank" rel="noopener" title="What do the read-support numbers (alt reads / depth) shown on hover mean? Click for the QC methods note.">ⓘ</a>
       </div>
       <div id="compartment-filter" class="compartment-filter"></div>
       <div class="panel-body">
@@ -114,6 +115,7 @@
   <script src="js/heatmap.js"></script>
   <script src="js/kidneymap.js"></script>
   <script src="js/compartmentfilter.js"></script>
+  <script src="js/organ.js"></script>
   <script src="js/panelhighlight.js"></script>
   <script src="js/chainpanel.js"></script>
   <script src="js/main.js"></script>

@@ -14,22 +14,21 @@
 // they land on the correct anatomical structures. kidney_map_transform.json
 // (scale/offset into the OLD baked-PNG's cropped pixel space, a DIFFERENT,
 // PI-redrawn "_final" template lineage) is unrelated and no longer used.
+//
+// cmd2607301542 Part 2: made organ-aware. `currentOrgan` (default 'kidney')
+// picks which entry of ORGAN_VISUALS supplies the per-template crop/SVG/
+// dimensions and which compartment table (if any) applies; manifest.json
+// supplies the template id/label list and compartment key list per organ so
+// a new organ (e.g. liver, 1 template, no compartments) is one manifest
+// entry + one ORGAN_VISUALS entry, not a rewrite of the render loop.
 
-const kidneyMapCache = {}; // donor -> byMutation index (mutation_id -> point[])
+const kidneyMapCache = {}; // `${donor}:${organ}` -> byMutation index (mutation_id -> point[])
 
-// Fixed, hand-picked crop windows (native template viewBox units) -- derived
-// from the full digitized coordinate extent (all 128 kidney_package sites,
-// not just the 71 deployed ones) + padding, so the panel isn't mostly empty
-// margin. Templates are read-only; this only affects the SVG *viewBox* of
-// our own wrapping <svg>, never the template file itself.
-const KIDNEY_CROP = {
-  right: { x: 222, y: 20, w: 436, h: 603 },
-  left: { x: 196, y: 10, w: 430, h: 598 },
-};
-const TEMPLATE_NATIVE = {
-  right: { w: 917.01, h: 663.54, href: 'templates/right_kidney_template.svg' },
-  left: { w: 855.71, h: 663.54, href: 'templates/left_kidney_template.svg' },
-};
+let currentOrgan = 'kidney';
+
+function setKidneyMapOrgan(organ) {
+  currentOrgan = organ;
+}
 
 const DOT_R = 9; // native viewBox units -- visually matches the old baked maps' 1.5x dot size
 const DOT_HIT_R = 15; // larger invisible hit target, same "fat hitline" pattern used elsewhere in this app
@@ -49,7 +48,9 @@ const YLGNBU_STOPS = [
 // cmd2607271718: compartment-colored dot outlines + filter-bar state.
 // Colors deliberately avoid blue/green (already used inside the YlGnBu fill
 // scale above -- an outline in those hues would be hard to tell apart from
-// the fill at a glance).
+// the fill at a glance). Kidney-specific for now -- an organ with no
+// compartments (manifest organ.compartments === null) just skips all of
+// this (see buildCompartmentFilterBar in compartmentfilter.js).
 const COMPARTMENT_COLORS = {
   cortex: '#d62728',
   medulla: '#ff7f0e',
@@ -64,13 +65,12 @@ const COMPARTMENT_LABELS = {
   pelves_ureter: 'Ureter',
   renal_fat: 'Fat',
 };
-const COMPARTMENT_KEYS = ['cortex', 'medulla', 'calyx', 'pelves_ureter', 'renal_fat'];
 
-// Single shared filter state -- toggling a checkbox affects every kidney
-// panel currently in the DOM at once (chainpanel.js's whole chain-list), not
-// just one card. New panels rendered afterward (e.g. after selecting a
-// different tree node) read this same state at creation time so they start
-// already filtered consistently with whatever the user last chose.
+// Single shared filter state -- toggling a checkbox affects every panel
+// currently in the DOM at once (chainpanel.js's whole chain-list), not just
+// one card. New panels rendered afterward (e.g. after selecting a different
+// tree node, or switching organ) read this same state at creation time so
+// they start already filtered consistently with whatever the user last chose.
 const compartmentVisible = {
   cortex: true, medulla: true, calyx: true, pelves_ureter: true, renal_fat: true,
 };
@@ -81,6 +81,24 @@ function setCompartmentVisible(compartment, visible) {
     el.style.display = visible ? '' : 'none';
   });
 }
+
+// Per-organ rendering specifics that aren't part of manifest.json (crop
+// windows, template SVG filenames, native viewBox dimensions, and the VAF
+// row field that assigns a point to one template vs. another). manifest.json
+// supplies the *count*/labels/dataDir/compartment-key-list; this supplies
+// the pixels. Only 'kidney' is populated -- 'liver' (1 template, no
+// compartments per manifest) gets an ORGAN_VISUALS entry once its template
+// SVG + digitized coordinates land, following the same shape.
+const ORGAN_VISUALS = {
+  kidney: {
+    dataFile: 'kidney_vaf_long.json',
+    sideField: 'kidney', // point.kidney is 'right'|'left', matched against template id
+    templates: {
+      right: { href: 'templates/right_kidney_template.svg', w: 917.01, h: 663.54, crop: { x: 222, y: 20, w: 436, h: 603 } },
+      left: { href: 'templates/left_kidney_template.svg', w: 855.71, h: 663.54, crop: { x: 196, y: 10, w: 430, h: 598 } },
+    },
+  },
+};
 
 function hexToRgb(hex) {
   const h = hex.replace('#', '');
@@ -101,14 +119,24 @@ function vafToColor(vaf) {
   return rgbToHex(a.map((v, i) => v + (b[i] - v) * frac));
 }
 
-async function loadKidneyMapData(donor) {
-  if (kidneyMapCache[donor]) return kidneyMapCache[donor];
-  const longRows = await fetch(`data/${donor}/kidney_vaf_long.json`).then((r) => r.json());
+function getOrganManifestConfig(donor, organ) {
+  const donorEntry = (typeof appManifest !== 'undefined' && appManifest && appManifest.donors) ? appManifest.donors[donor] : null;
+  return donorEntry && donorEntry.organs ? donorEntry.organs[organ] : null;
+}
+
+async function loadKidneyMapData(donor, organ) {
+  const cacheKey = `${donor}:${organ}`;
+  if (kidneyMapCache[cacheKey]) return kidneyMapCache[cacheKey];
+  const visual = ORGAN_VISUALS[organ];
+  const manifestCfg = getOrganManifestConfig(donor, organ);
+  const dataDir = (manifestCfg && manifestCfg.dataDir) || organ;
+  const dataFile = (visual && visual.dataFile) || `${organ}_vaf_long.json`;
+  const longRows = await fetch(`data/${donor}/${dataDir}/${dataFile}`).then((r) => r.json());
   const byMutation = {};
   for (const row of longRows) {
     (byMutation[row.mutation_id] ||= []).push(row);
   }
-  kidneyMapCache[donor] = byMutation;
+  kidneyMapCache[cacheKey] = byMutation;
   return byMutation;
 }
 
@@ -130,19 +158,28 @@ function readSupportHtml(p) {
 }
 
 /**
- * Render a kidney VAF map for one mutation into `container` (any DOM element).
- * Clears and replaces the container's contents on each call.
+ * Render a VAF map for one mutation into `container` (any DOM element).
+ * Clears and replaces the container's contents on each call. Organ defaults
+ * to whatever js/organ.js last set via setKidneyMapOrgan (currentOrgan) --
+ * chainpanel.js doesn't need to know or pass it.
  * Returns true if a real map (dots + hoverable overlay) was rendered, false
  * if a "no spatial data" placeholder was shown instead -- callers (chainpanel.js)
- * use this to decide whether to wire up the kidney-panel-hover tree-segment
+ * use this to decide whether to wire up the panel-hover tree-segment
  * highlight (only meaningful when there's an actual panel to hover).
  */
-async function renderKidneyMap(container, mutationId, donor = 'DB15') {
+async function renderKidneyMap(container, mutationId, donor = 'DB15', organ = currentOrgan) {
   container.innerHTML = '<p class="status">loading…</p>';
+
+  const visual = ORGAN_VISUALS[organ];
+  const manifestCfg = getOrganManifestConfig(donor, organ);
+  if (!visual || !manifestCfg || !manifestCfg.templates || manifestCfg.templates.length === 0) {
+    container.innerHTML = '<p class="status">no map data for this organ yet</p>';
+    return false;
+  }
 
   let byMutation;
   try {
-    byMutation = await loadKidneyMapData(donor);
+    byMutation = await loadKidneyMapData(donor, organ);
   } catch (err) {
     container.innerHTML = '<p class="status">failed to load kidney map data</p>';
     console.error(err);
@@ -158,10 +195,10 @@ async function renderKidneyMap(container, mutationId, donor = 'DB15') {
     return false;
   }
   if (points.every((p) => p.vaf === 0)) {
-    // All-zero VAF across every kidney sample -- same placeholder condition
-    // the old baked-PNG pipeline used (it skipped generating a PNG for
-    // these), kept as-is here (cmd2607271718 is a rendering-mechanism swap,
-    // not a change to which mutations get a map).
+    // All-zero VAF across every sample -- same placeholder condition the old
+    // baked-PNG pipeline used (it skipped generating a PNG for these), kept
+    // as-is here (cmd2607271718 is a rendering-mechanism swap, not a change
+    // to which mutations get a map).
     noDataPlaceholder(container, `no spatial data<br>(${mutationId} is all-zero VAF -- map was skipped at render time)`);
     return false;
   }
@@ -184,8 +221,8 @@ async function renderKidneyMap(container, mutationId, donor = 'DB15') {
     tooltip
       .style('display', 'block')
       .html(
-        `<strong>${p.sample_id}</strong> (${p.kidney})<br>` +
-        `compartment: ${p.compartment}<br>` +
+        `<strong>${p.sample_id}</strong>${p.kidney ? ` (${p.kidney})` : ''}<br>` +
+        (p.compartment ? `compartment: ${p.compartment}<br>` : '') +
         `VAF: ${p.vaf}${readSupportHtml(p)}`
       );
     moveTooltip(event);
@@ -201,27 +238,28 @@ async function renderKidneyMap(container, mutationId, donor = 'DB15') {
   }
 
   const ns = 'http://www.w3.org/2000/svg';
-  for (const kidney of ['right', 'left']) {
-    const crop = KIDNEY_CROP[kidney];
-    const tmpl = TEMPLATE_NATIVE[kidney];
+  for (const tmplCfg of manifestCfg.templates) {
+    const tmplId = tmplCfg.id;
+    const tmpl = visual.templates[tmplId];
+    if (!tmpl) continue; // manifest lists it, but no visual/pixel config yet -- skip rather than throw
 
     const side = document.createElement('div');
     side.className = 'kidneymap-side';
     const label = document.createElement('div');
     label.className = 'kidneymap-side-label';
-    label.textContent = kidney === 'right' ? 'Right Kidney' : 'Left Kidney';
+    label.textContent = tmplCfg.label || tmplId;
     side.appendChild(label);
 
     const svgEl = document.createElementNS(ns, 'svg');
     svgEl.setAttribute('class', 'kidneymap-svg');
-    svgEl.setAttribute('viewBox', `${crop.x} ${crop.y} ${crop.w} ${crop.h}`);
+    svgEl.setAttribute('viewBox', `${tmpl.crop.x} ${tmpl.crop.y} ${tmpl.crop.w} ${tmpl.crop.h}`);
     side.appendChild(svgEl);
     dual.appendChild(side);
 
     const image = document.createElementNS(ns, 'image');
     // Template SVGs are treated as read-only -- referenced by URL via
     // <image>, never fetched/parsed/mutated.
-    image.setAttribute('href', `data/${donor}/${tmpl.href}`);
+    image.setAttribute('href', `data/${donor}/${manifestCfg.dataDir}/${tmpl.href}`);
     image.setAttribute('x', '0');
     image.setAttribute('y', '0');
     image.setAttribute('width', String(tmpl.w));
@@ -232,16 +270,17 @@ async function renderKidneyMap(container, mutationId, donor = 'DB15') {
     dotsG.setAttribute('class', 'kidneymap-dots');
     svgEl.appendChild(dotsG);
 
-    const kidneyPoints = points.filter((p) => p.kidney === kidney);
-    for (const p of kidneyPoints) {
+    const sideField = visual.sideField;
+    const tmplPoints = sideField ? points.filter((p) => p[sideField] === tmplId) : points;
+    for (const p of tmplPoints) {
       const dotG = document.createElementNS(ns, 'g');
       dotG.setAttribute('class', 'kidneymap-dot');
-      dotG.setAttribute('data-compartment', p.compartment);
+      dotG.setAttribute('data-compartment', p.compartment || '');
       dotG.setAttribute('transform', `translate(${p.x},${p.y})`);
-      if (!compartmentVisible[p.compartment]) dotG.style.display = 'none';
+      if (p.compartment && !compartmentVisible[p.compartment]) dotG.style.display = 'none';
       dotsG.appendChild(dotG);
 
-      const outline = COMPARTMENT_COLORS[p.compartment] || '#333333';
+      const outline = (p.compartment && COMPARTMENT_COLORS[p.compartment]) || '#333333';
       const dot = document.createElementNS(ns, 'circle');
       dot.setAttribute('r', String(DOT_R));
       dot.setAttribute('stroke', outline);

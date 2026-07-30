@@ -1,5 +1,27 @@
 {
-  "donors": [
-    "DB15"
-  ]
+  "donors": {
+    "DB15": {
+      "organs": {
+        "kidney": {
+          "label": "Kidney",
+          "available": true,
+          "dataDir": "kidney",
+          "templates": [
+            { "id": "right", "label": "Right Kidney" },
+            { "id": "left", "label": "Left Kidney" }
+          ],
+          "compartments": ["cortex", "medulla", "calyx", "pelves_ureter", "renal_fat"]
+        },
+        "liver": {
+          "label": "Liver",
+          "available": false,
+          "dataDir": "liver",
+          "templates": [
+            { "id": "liver", "label": "Liver" }
+          ],
+          "compartments": null
+        }
+      }
+    }
+  }
 }

@@ -1,6 +1,7 @@
 // Orchestrates the panels off a single donor selection.
 document.addEventListener('DOMContentLoaded', () => {
   initDonorPicker((donor) => {
+    if (typeof renderOrganToggle === 'function') renderOrganToggle(donor);
     renderTree(donor);
     // Single-cell heatmap panel is hidden by default (stage3) to free up
     // space for the kidney-map chain panel -- code kept intact for later

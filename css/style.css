@@ -230,6 +230,11 @@ a.info-icon {
   color: white;
 }
 
+.orient-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .panel-body {
   flex: 1;
   min-height: 0;
