@@ -70,7 +70,8 @@ async function showChainForNode(nodeId, donor, chainsFile = 'chains.json') {
     // Compact grid by default; click anywhere on the card (including a dot,
     // which still fires its own hover tooltip independently) toggles a
     // full-width expanded view -- simpler than a modal/lightbox overlay.
-    entryDiv.title = 'Click to expand/collapse';
+    // cmd2607301756: no title attribute here -- a native tooltip on the
+    // whole card covered/raced with a hovered dot's own VAF tooltip.
     // Set once renderKidneyMap resolves below -- gates pin/unpin so a
     // no-data placeholder card (nothing to link to) can still expand/
     // collapse normally without touching the highlight pin.

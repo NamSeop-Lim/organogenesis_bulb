@@ -551,16 +551,6 @@ a.info-icon {
   margin-left: 0.5rem;
 }
 
-#panel-link-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 1000;
-}
-
 .chain-entry--panel-linked {
   border-color: #e6007a;
   box-shadow: 0 0 0 2px rgba(230, 0, 122, 0.25), 0 0 14px rgba(230, 0, 122, 0.45);

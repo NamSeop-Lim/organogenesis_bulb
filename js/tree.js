@@ -750,6 +750,15 @@ function unglowSegment(mutationId) {
 // ancestor .zoom-layer's transform changes on pan/zoom, never the
 // segment's own attributes). Resolves once the transition completes, or
 // resolves immediately (false) if there's nothing to pan to.
+//
+// cmd2607301756: centers against the SVG's own viewBox (its natural
+// coordinate space, same units as x1/y1/totalWidth/totalHeight) rather than
+// clientWidth/clientHeight (CSS pixels) -- the tree's viewBox aspect ratio
+// (e.g. 4578x340 for a wide/short vertical layout) rarely matches the
+// panel's CSS box, so preserveAspectRatio letterboxes it; mixing viewBox
+// units with CSS-pixel units in the same formula put the "centered" point
+// wherever the letterbox margin happened to be, not the segment's actual
+// visual center.
 function panSegmentIntoView(mutationId) {
   const el = getSegmentElement(mutationId);
   if (!el || !currentZoomBehavior || !currentSvgSelection) return Promise.resolve(false);
@@ -762,11 +771,12 @@ function panSegmentIntoView(mutationId) {
   const midY = (y1 + y2) / 2;
 
   const svgNode = document.getElementById('tree-svg');
-  const w = svgNode.clientWidth;
-  const h = svgNode.clientHeight;
+  const vb = svgNode.viewBox.baseVal;
+  const w = vb.width;
+  const h = vb.height;
   const scale = treeZoomScale || 1;
-  const tx = w / 2 - midX * scale;
-  const ty = h / 2 - midY * scale;
+  const tx = vb.x + w / 2 - midX * scale;
+  const ty = vb.y + h / 2 - midY * scale;
 
   return new Promise((resolve) => {
     currentSvgSelection.transition().duration(450)
