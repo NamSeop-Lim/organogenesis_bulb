@@ -288,6 +288,15 @@ def main():
                         "templates": [{"id": "liver", "label": "Liver"}],
                         "compartments": None,
                     },
+                    "heart": {
+                        # cmd2607301907: heart data landed (see
+                        # scripts/export_db15_heart.py) -- flipped True.
+                        "label": "Heart",
+                        "available": True,
+                        "dataDir": "heart",
+                        "templates": [{"id": "heart", "label": "Heart"}],
+                        "compartments": None,
+                    },
                 },
             },
         },

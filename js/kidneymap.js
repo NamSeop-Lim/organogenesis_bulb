@@ -120,6 +120,29 @@ const ORGAN_VISUALS = {
       liver: { href: 'templates/liver_template.svg', w: 1291.34, h: 1006.96, crop: { x: 0, y: 0, w: 1291.34, h: 1006.96 } },
     },
   },
+  heart: {
+    dataFile: 'heart_vaf_long.json',
+    sideField: null, // heart.svg's markers aren't split into sub-templates -- one panel, no filtering
+    // cmd2607301907: same reasoning as liver's dotR -- full native viewBox
+    // (no tight hand-picked crop), tuned by eye against rendered screenshots.
+    // heart.svg's markers sit closer together than liver's (smaller 769x1024
+    // viewBox, tightly packed vessel sites), so liver's 24 was too big here --
+    // compared 12/15/18/22/26, then zoomed into the single closest-adjacent
+    // marker pair at 14/16/18/20: even the smallest candidate has that one
+    // pair touching (they're genuinely that close in the source SVG), but at
+    // 15 they stay "kissing, still two distinguishable circles" rather than
+    // fusing into one shape, while everywhere else on the map stays clearly
+    // separated and much easier to hover than the un-tuned DOT_R=9.
+    dotR: 15,
+    templates: {
+      // cmd2607301907: marker coordinates (heart_package/heart_all_samples.csv,
+      // parsed from heart.svg's marker group) are in this same viewBox with
+      // no transform (verified by plotting them back onto the plain template
+      // and confirming every one lands on its original marker) -- full
+      // native viewBox used, same as liver.
+      heart: { href: 'templates/heart_template.svg', w: 769, h: 1024, crop: { x: 0, y: 0, w: 769, h: 1024 } },
+    },
+  },
 };
 
 function hexToRgb(hex) {

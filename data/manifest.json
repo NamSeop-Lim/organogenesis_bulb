@@ -20,6 +20,15 @@
             { "id": "liver", "label": "Liver" }
           ],
           "compartments": null
+        },
+        "heart": {
+          "label": "Heart",
+          "available": true,
+          "dataDir": "heart",
+          "templates": [
+            { "id": "heart", "label": "Heart" }
+          ],
+          "compartments": null
         }
       }
     }
