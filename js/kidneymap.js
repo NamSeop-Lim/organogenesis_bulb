@@ -93,6 +93,7 @@ const ORGAN_VISUALS = {
   kidney: {
     dataFile: 'kidney_vaf_long.json',
     sideField: 'kidney', // point.kidney is 'right'|'left', matched against template id
+    dotR: DOT_R, // kidney's small hand-picked crop already makes DOT_R=9 read fine -- unchanged
     templates: {
       right: { href: 'templates/right_kidney_template.svg', w: 917.01, h: 663.54, crop: { x: 222, y: 20, w: 436, h: 603 } },
       left: { href: 'templates/left_kidney_template.svg', w: 855.71, h: 663.54, crop: { x: 196, y: 10, w: 430, h: 598 } },
@@ -101,6 +102,15 @@ const ORGAN_VISUALS = {
   liver: {
     dataFile: 'liver_vaf_long.json',
     sideField: null, // liver.svg's markers aren't split into sub-templates -- one panel, no filtering
+    // cmd2707301734: liver renders on the full 1291x1006 native viewBox (no
+    // tight hand-picked crop like kidney's), so the shared DOT_R=9 read as
+    // near-invisible flecks -- tuned by eye against actual screenshots
+    // (compared 18/22/28/34/40 at the expanded card size against the
+    // densest marker cluster): 18 (2x) was legible but still small; 34+
+    // started fusing adjacent dots into blobs there. 24 is the balance --
+    // clearly bigger and easier to hover than 2x, still visibly separate
+    // circles at the tightest cluster.
+    dotR: 24,
     templates: {
       // cmd2607301646: marker coordinates (liver_package/liver_all_samples.csv,
       // parsed from liver.svg's numbers group) are in this same viewBox with
@@ -249,6 +259,12 @@ async function renderKidneyMap(container, mutationId, donor = 'DB15', organ = cu
     tooltip.style('display', 'none');
   }
 
+  // Per-organ dot size (cmd2707301734) -- hit radius and the red-X absent
+  // marker scale with it so they stay proportional to whatever dotR is,
+  // not just kidney's.
+  const dotR = visual.dotR || DOT_R;
+  const dotHitR = dotR * (DOT_HIT_R / DOT_R);
+
   const ns = 'http://www.w3.org/2000/svg';
   for (const tmplCfg of manifestCfg.templates) {
     const tmplId = tmplCfg.id;
@@ -294,7 +310,7 @@ async function renderKidneyMap(container, mutationId, donor = 'DB15', organ = cu
 
       const outline = (p.compartment && COMPARTMENT_COLORS[p.compartment]) || '#333333';
       const dot = document.createElementNS(ns, 'circle');
-      dot.setAttribute('r', String(DOT_R));
+      dot.setAttribute('r', String(dotR));
       dot.setAttribute('stroke', outline);
       dot.setAttribute('stroke-width', '2.2');
       dot.setAttribute('fill', p.vaf > 0 ? vafToColor(p.vaf) : ABSENT_FILL);
@@ -302,7 +318,7 @@ async function renderKidneyMap(container, mutationId, donor = 'DB15', organ = cu
       dotG.appendChild(dot);
 
       if (p.vaf === 0) {
-        const xs = DOT_R * 0.55;
+        const xs = dotR * 0.55;
         for (const [x1, y1, x2, y2] of [[-xs, -xs, xs, xs], [-xs, xs, xs, -xs]]) {
           const line = document.createElementNS(ns, 'line');
           line.setAttribute('x1', x1); line.setAttribute('y1', y1);
@@ -315,7 +331,7 @@ async function renderKidneyMap(container, mutationId, donor = 'DB15', organ = cu
       }
 
       const hit = document.createElementNS(ns, 'circle');
-      hit.setAttribute('r', String(DOT_HIT_R));
+      hit.setAttribute('r', String(dotHitR));
       hit.setAttribute('fill', 'rgba(0,0,0,0.001)');
       hit.style.cursor = 'pointer';
       hit.style.pointerEvents = 'all';

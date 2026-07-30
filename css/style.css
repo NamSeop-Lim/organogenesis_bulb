@@ -168,6 +168,13 @@ body {
   color: var(--text);
 }
 
+.chain-panel-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
 .panel-controls {
   display: flex;
   align-items: center;

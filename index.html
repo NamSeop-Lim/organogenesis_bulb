@@ -42,7 +42,6 @@
             <button type="button" id="orient-horizontal" class="orient-btn">Horizontal</button>
             <button type="button" id="orient-vertical" class="orient-btn is-active">Vertical</button>
           </div>
-          <div class="orientation-toggle" id="organ-toggle" role="group" aria-label="Organ"></div>
           <div class="orientation-toggle" role="group" aria-label="Theme">
             <button type="button" id="theme-light" class="orient-btn" title="Light theme">☀ Light</button>
             <button type="button" id="theme-dark" class="orient-btn" title="Dark theme">🌙 Dark</button>
@@ -62,7 +61,10 @@
 
     <section id="chain-panel" class="panel">
       <div class="panel-header">
-        <h2 id="chain-panel-title">Lineage chain kidney maps</h2>
+        <div class="chain-panel-title-group">
+          <h2 id="chain-panel-title">Lineage chain kidney maps</h2>
+          <div class="orientation-toggle" id="organ-toggle" role="group" aria-label="Organ"></div>
+        </div>
         <span id="chain-status" class="status"></span>
       </div>
       <div class="vaf-legend">
