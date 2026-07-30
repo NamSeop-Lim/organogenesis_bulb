@@ -65,4 +65,16 @@ function setOrgan(donor, organId) {
 function setKidneyMapOrganState(donor, organId) {
   if (typeof setKidneyMapOrgan === 'function') setKidneyMapOrgan(organId);
   if (typeof buildCompartmentFilterBar === 'function') buildCompartmentFilterBar(donor, organId);
+  updateChainPanelTitle(donor, organId);
+}
+
+// cmd2607301715: "Lineage chain kidney maps" was hardcoded in index.html --
+// make it read whichever organ is actually selected (e.g. "...liver maps").
+function updateChainPanelTitle(donor, organId) {
+  const title = document.getElementById('chain-panel-title');
+  if (!title) return;
+  const donorEntry = (typeof appManifest !== 'undefined' && appManifest && appManifest.donors) ? appManifest.donors[donor] : null;
+  const cfg = donorEntry && donorEntry.organs ? donorEntry.organs[organId] : null;
+  const label = (cfg && cfg.label) || organId;
+  title.textContent = `Lineage chain ${label.toLowerCase()} maps`;
 }
