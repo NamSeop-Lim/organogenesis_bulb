@@ -329,7 +329,10 @@ async function renderKidneyMap(container, mutationId, donor = 'DB15', organ = cu
 
   container.innerHTML = '';
   const wrap = document.createElement('div');
-  wrap.className = 'kidneymap-wrap';
+  // cmd2607311532: organ class lets CSS give wide landscape templates
+  // (brain, eye) a bigger expanded size than portrait/near-square ones
+  // (kidney, liver, heart) without touching their existing sizing.
+  wrap.className = `kidneymap-wrap kidneymap-organ-${organ}`;
   container.appendChild(wrap);
 
   const dual = document.createElement('div');

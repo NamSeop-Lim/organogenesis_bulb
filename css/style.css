@@ -351,6 +351,40 @@ a.info-icon {
   max-width: 340px;
 }
 
+/* cmd2607311532: the 340px cap above was sized for heart's portrait/
+   near-square templates (kidney 917x664 x2, liver 1291x1007, heart
+   769x1024) -- fine there, but brain (1842x854) and eye (2656x1987) are
+   wide landscape templates, so a fixed *width* cap left them with a small
+   *height* and lots of card whitespace. Scoped to just these two organs --
+   kidney/liver/heart stay on the rule above, unchanged. Let width claim
+   the card's actual available width and derive height from the (wide) aspect ratio instead, with a generous
+   height cap only as a safety ceiling. Every ancestor in the chain
+   (wrap/dual/side normally shrink-to-fit their content) needs an explicit
+   100% width too, or the percentage has nothing real to resolve against. */
+.chain-entry--expanded .kidneymap-organ-brain.kidneymap-wrap,
+.chain-entry--expanded .kidneymap-organ-eye.kidneymap-wrap {
+  display: block;
+  width: 100%;
+}
+
+.chain-entry--expanded .kidneymap-organ-brain .kidneymap-dual,
+.chain-entry--expanded .kidneymap-organ-eye .kidneymap-dual {
+  width: 100%;
+}
+
+.chain-entry--expanded .kidneymap-organ-brain .kidneymap-side,
+.chain-entry--expanded .kidneymap-organ-eye .kidneymap-side {
+  width: 100%;
+}
+
+.chain-entry--expanded .kidneymap-organ-brain .kidneymap-svg,
+.chain-entry--expanded .kidneymap-organ-eye .kidneymap-svg {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 560px;
+}
+
 .kidneymap-dot-visible {
   transition: stroke-width 0.1s ease;
 }
