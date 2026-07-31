@@ -7,17 +7,28 @@
           "available": true,
           "dataDir": "kidney",
           "templates": [
-            { "id": "right", "label": "Right Kidney" },
-            { "id": "left", "label": "Left Kidney" }
+            {
+              "id": "kidney",
+              "label": "Kidney"
+            }
           ],
-          "compartments": ["cortex", "medulla", "calyx", "pelves_ureter", "renal_fat"]
+          "compartments": [
+            "cortex",
+            "medulla",
+            "calyx",
+            "pelves_ureter",
+            "renal_fat"
+          ]
         },
         "liver": {
           "label": "Liver",
           "available": true,
           "dataDir": "liver",
           "templates": [
-            { "id": "liver", "label": "Liver" }
+            {
+              "id": "liver",
+              "label": "Liver"
+            }
           ],
           "compartments": null
         },
@@ -26,7 +37,10 @@
           "available": true,
           "dataDir": "heart",
           "templates": [
-            { "id": "heart", "label": "Heart" }
+            {
+              "id": "heart",
+              "label": "Heart"
+            }
           ],
           "compartments": null
         },
@@ -35,7 +49,10 @@
           "available": true,
           "dataDir": "eye",
           "templates": [
-            { "id": "eye", "label": "Eye" }
+            {
+              "id": "eye",
+              "label": "Eye"
+            }
           ],
           "compartments": null
         },
@@ -44,9 +61,16 @@
           "available": true,
           "dataDir": "brain",
           "templates": [
-            { "id": "brain", "label": "Brain" }
+            {
+              "id": "brain",
+              "label": "Brain"
+            }
           ],
-          "compartments": ["CeBel", "CeBru", "Stem"]
+          "compartments": [
+            "CeBel",
+            "CeBru",
+            "Stem"
+          ]
         }
       }
     }

@@ -26,8 +26,17 @@ NWK = f"{DB15_DIR}/315_tgeem_singlecell_lineage.nwk"
 ALIGNED_CSV = f"{DB15_DIR}/csv/315_tgeem_singlecell_heatmap_aligned.csv"
 LINEAGE_CSV = f"{DB15_DIR}/csv/DB15_singlecell_lineage_assignment.csv"
 KIDNEY_LONG_CSV = f"{DB15_DIR}/csv/db15_kidney_vaf_long_mapped_with_depth.csv"
-RIGHT_TEMPLATE = f"{DB15_DIR}/kidney_package/right_kidney_template.svg"
-LEFT_TEMPLATE = f"{DB15_DIR}/kidney_package/left_kidney_template.svg"
+# cmd2607311632: switched from 2 side templates to the single combined
+# kidney_final.svg -- KIDNEY_LONG_CSV's x/y are still in the OLD 2-template
+# space (that source csv is read-only, upstream of this script), so
+# KIDNEY_FINAL_TRANSFORM_JSON (derived by
+# lineage_bulb/db15/scripts/calibrate_kidney_final_transform.py) is applied
+# below when building kidney_vaf_long.json, same as
+# organogenesis_bulb/scripts/transform_kidney_final.py did for the one-off
+# migration. Keeps this script the single source of truth for a future
+# regen instead of it silently reverting kidney back to the 2-panel layout.
+KIDNEY_FINAL_TEMPLATE = f"{DB15_DIR}/kidney_package/kidney_final.svg"
+KIDNEY_FINAL_TRANSFORM_JSON = f"{DB15_DIR}/kidney_package/kidney_final_transform.json"
 
 
 def load_aligned_heatmap():
@@ -242,15 +251,17 @@ def main():
 
     # ---- 4: kidney/kidney_vaf_long.json ----
     os.makedirs(f"{KIDNEY_OUT_DIR}/templates", exist_ok=True)
+    kidney_final_transform = json.load(open(KIDNEY_FINAL_TRANSFORM_JSON))
     kidney_out = []
     for r in kidney_rows:
+        t = kidney_final_transform[r["kidney"]]
         kidney_out.append({
             "mutation_id": r["mutation_id"],
             "sample_id": r["sample_id"],
             "kidney": r["kidney"],
             "compartment": r["compartment"],
-            "x": float(r["x"]),
-            "y": float(r["y"]),
+            "x": round(float(r["x"]) * t["scale_x"] + t["offset_x"], 3),
+            "y": round(float(r["y"]) * t["scale_y"] + t["offset_y"], 3),
             "vaf": float(r["vaf"]),
             "depth": int(r["depth"]) if r.get("depth") not in (None, "") else None,
             "alt_read_count": int(r["alt_read_count"]) if r.get("alt_read_count") not in (None, "") else None,
@@ -258,9 +269,8 @@ def main():
     with open(f"{KIDNEY_OUT_DIR}/kidney_vaf_long.json", 'w') as f:
         json.dump(kidney_out, f)
 
-    # ---- 5: template svgs ----
-    shutil.copy(RIGHT_TEMPLATE, f"{KIDNEY_OUT_DIR}/templates/right_kidney_template.svg")
-    shutil.copy(LEFT_TEMPLATE, f"{KIDNEY_OUT_DIR}/templates/left_kidney_template.svg")
+    # ---- 5: template svg ----
+    shutil.copy(KIDNEY_FINAL_TEMPLATE, f"{KIDNEY_OUT_DIR}/templates/kidney_final.svg")
 
     # ---- 6: manifest.json ----
     # cmd2607301542 Part 2: donor -> organ config, not a flat donor list --
@@ -270,13 +280,12 @@ def main():
             "DB15": {
                 "organs": {
                     "kidney": {
+                        # cmd2607311632: single combined template (kidney_final.svg),
+                        # not 2 side templates -- see KIDNEY_FINAL_TRANSFORM_JSON above.
                         "label": "Kidney",
                         "available": True,
                         "dataDir": "kidney",
-                        "templates": [
-                            {"id": "right", "label": "Right Kidney"},
-                            {"id": "left", "label": "Left Kidney"},
-                        ],
+                        "templates": [{"id": "kidney", "label": "Kidney"}],
                         "compartments": ["cortex", "medulla", "calyx", "pelves_ureter", "renal_fat"],
                     },
                     "liver": {
@@ -326,7 +335,7 @@ def main():
     for fp in [
         f"{OUT_DIR}/tree.json", f"{OUT_DIR}/chains.json",
         f"{OUT_DIR}/singlecell_heatmap.json", f"{KIDNEY_OUT_DIR}/kidney_vaf_long.json",
-        f"{KIDNEY_OUT_DIR}/templates/right_kidney_template.svg", f"{KIDNEY_OUT_DIR}/templates/left_kidney_template.svg",
+        f"{KIDNEY_OUT_DIR}/templates/kidney_final.svg",
         "/home/namseop/0_kidney/organogenesis_bulb/data/manifest.json",
     ]:
         print(f"  {fp}: {os.path.getsize(fp)} bytes")

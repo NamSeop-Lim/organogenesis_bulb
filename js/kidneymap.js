@@ -131,11 +131,26 @@ function setCompartmentVisible(compartment, visible) {
 const ORGAN_VISUALS = {
   kidney: {
     dataFile: 'kidney_vaf_long.json',
-    sideField: 'kidney', // point.kidney is 'right'|'left', matched against template id
-    dotR: DOT_R, // kidney's small hand-picked crop already makes DOT_R=9 read fine -- unchanged
+    // cmd2607311632: switched from 2 separate side templates (right/left,
+    // each its own crop) to kidney_package/kidney_final.svg -- one combined
+    // image with both kidneys already positioned (supine convention:
+    // image-left = RK, image-right = LK). Every point's x/y was re-derived
+    // for this new coordinate space (see
+    // lineage_bulb/db15/scripts/calibrate_kidney_final_transform.py +
+    // organogenesis_bulb/scripts/transform_kidney_final.py) -- verified by
+    // overlay against the old 2-panel rendering that every compartment's
+    // dots still land on the correct anatomical structure (cortex on the
+    // outer rim, medulla inside the pyramids, calyx at the pyramid/pelvis
+    // junction, pelves_ureter along the ureter). One panel now, like every
+    // other organ -- no more per-point side filtering.
+    sideField: null,
+    // dotR: min pairwise distance among the 71 kidney points in the new
+    // coordinate space is 28.474 (samples 32/34, right kidney), so 13
+    // (just under half minus the 2.2px stroke's ~1.1px margin) is the
+    // largest non-touching size, same method as brain/eye/liver/heart.
+    dotR: 13,
     templates: {
-      right: { href: 'templates/right_kidney_template.svg', w: 917.01, h: 663.54, crop: { x: 222, y: 20, w: 436, h: 603 } },
-      left: { href: 'templates/left_kidney_template.svg', w: 855.71, h: 663.54, crop: { x: 196, y: 10, w: 430, h: 598 } },
+      kidney: { href: 'templates/kidney_final.svg', w: 1163.14, h: 717.15, crop: { x: 0, y: 0, w: 1163.14, h: 717.15 } },
     },
   },
   liver: {
