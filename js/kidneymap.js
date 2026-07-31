@@ -146,21 +146,23 @@ const ORGAN_VISUALS = {
   eye: {
     dataFile: 'eye_vaf_long.json',
     sideField: null, // both eyes are already positioned in the one image -- one panel, no left/right filtering
-    // cmd2607311236: same reasoning as liver/heart's dotR -- tuned by eye
-    // against rendered screenshots, not a fixed multiplier. Eye's markers
-    // sit further apart than heart's (min pairwise distance ~62 viewBox
-    // units, vs. heart's genuinely-touching closest pair) -- compared
-    // 14/18/22/26/30; even the tightest pair (LE13/LE14, ~62 apart) stays
-    // comfortably separated at 26 (~10px gap), clearly bigger/easier to
-    // hover than 14, and 30 was already starting to close that gap.
-    dotR: 26,
+    // cmd2607311355: eye_song.svg revision -- dotR computed directly rather
+    // than compared by eye this time: minimum pairwise marker distance
+    // across all 45 markers is 62.352 (LE13/LE14, viewBox units), so two
+    // dots' fill circles alone touch at r=31.176 (half that). Each dot also
+    // draws a 2.2px stroke outside its radius, so subtracting that margin
+    // (31.176 - 1.1 = 30.08) gives the largest non-touching-including-stroke
+    // size; 29 leaves a small ~2px visual gap at the closest pair while
+    // being as large as possible everywhere else.
+    dotR: 29,
     templates: {
-      // cmd2607311236: marker coordinates (eye_package/eye_all_samples.csv,
-      // parsed from eye.svg's marker group) are in this same viewBox with no
-      // transform (verified by plotting them back onto the plain template
-      // and confirming every one lands on its original marker) -- full
-      // native viewBox used, same as liver/heart.
-      eye: { href: 'templates/eye_template.svg', w: 2244, h: 1048, crop: { x: 0, y: 0, w: 2244, h: 1048 } },
+      // cmd2607311355: marker coordinates (eye_package/eye_all_samples.csv,
+      // re-parsed from eye_song.svg's marker group after its viewBox/scale
+      // changed) are in this same viewBox with no transform (verified by
+      // plotting them back onto the plain template and confirming every one
+      // lands on its original marker) -- full native viewBox used, same as
+      // liver/heart.
+      eye: { href: 'templates/eye_template.svg', w: 2656, h: 1986.67, crop: { x: 0, y: 0, w: 2656, h: 1986.67 } },
     },
   },
 };
