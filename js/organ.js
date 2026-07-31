@@ -58,7 +58,7 @@ function setOrgan(donor, organId) {
   if (typeof selectedNodeId !== 'undefined' && selectedNodeId && typeof showChainForNode === 'function') {
     showChainForNode(selectedNodeId, treeDonor, TREE_FILES[treeVersion].chains);
   } else if (typeof showChainPlaceholder === 'function') {
-    showChainPlaceholder();
+    showChainPlaceholder(donor, organId);
   }
 }
 

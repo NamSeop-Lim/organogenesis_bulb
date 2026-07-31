@@ -237,6 +237,25 @@ const ORGAN_VISUALS = {
       brain: { href: 'templates/brain_template.svg', w: 1842, h: 854, crop: { x: 0, y: 0, w: 1842, h: 854 } },
     },
   },
+  diaphragm: {
+    dataFile: 'diaphragm_vaf_long.json',
+    sideField: null, // both left/right/central sites are already positioned in the one image -- one panel, no filtering
+    // cmd2607311722: minimum pairwise marker distance across all 27 markers
+    // is 157.315 (tmp_label 5<->16), so circles alone touch at r=78.657
+    // (half that); subtracting the 2.2px stroke's ~1.1px outward margin
+    // gives 77.5 as the largest non-touching radius -- 76 leaves a small
+    // visual gap at the closest pair while staying as large as possible
+    // elsewhere.
+    dotR: 76,
+    templates: {
+      // cmd2607311722: marker coordinates (diaphragm_package/diaphragm_all_samples.csv,
+      // parsed from diaphragm.svg's "location" group) are in this same
+      // viewBox with no transform (verified by plotting them back onto the
+      // plain template and confirming every one lands on its original
+      // marker) -- full native viewBox used, same as liver/heart/eye/brain.
+      diaphragm: { href: 'templates/diaphragm_template.svg', w: 3163.86, h: 2669.99, crop: { x: 0, y: 0, w: 3163.86, h: 2669.99 } },
+    },
+  },
 };
 
 function hexToRgb(hex) {

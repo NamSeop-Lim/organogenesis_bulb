@@ -71,6 +71,18 @@
             "CeBru",
             "Stem"
           ]
+        },
+        "diaphragm": {
+          "label": "Diaphragm",
+          "available": true,
+          "dataDir": "diaphragm",
+          "templates": [
+            {
+              "id": "diaphragm",
+              "label": "Diaphragm"
+            }
+          ],
+          "compartments": null
         }
       }
     }

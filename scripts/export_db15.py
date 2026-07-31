@@ -324,6 +324,15 @@ def main():
                         "templates": [{"id": "brain", "label": "Brain"}],
                         "compartments": ["CeBel", "CeBru", "Stem"],
                     },
+                    "diaphragm": {
+                        # cmd2607311722: diaphragm data landed (see
+                        # scripts/export_db15_diaphragm.py) -- flipped True.
+                        "label": "Diaphragm",
+                        "available": True,
+                        "dataDir": "diaphragm",
+                        "templates": [{"id": "diaphragm", "label": "Diaphragm"}],
+                        "compartments": None,
+                    },
                 },
             },
         },

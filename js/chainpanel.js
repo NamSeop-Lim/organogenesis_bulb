@@ -21,7 +21,15 @@ async function loadChainsData(donor, chainsFile) {
   return data;
 }
 
-function showChainPlaceholder() {
+// cmd2607311722 Part 2: organ-aware -- was hardcoded "...kidney VAF maps."
+// regardless of the selected organ. Same manifest label lookup
+// updateChainPanelTitle (js/organ.js) uses; defaults to the current
+// tree/organ globals so the DOMContentLoaded call site (before any chain is
+// selected) still works with no args.
+function showChainPlaceholder(
+  donor = (typeof treeDonor !== 'undefined' ? treeDonor : 'DB15'),
+  organId = (typeof currentOrgan !== 'undefined' ? currentOrgan : 'kidney')
+) {
   const list = document.getElementById('chain-list');
   const status = document.getElementById('chain-status');
   if (!list) return; // chain panel not in the DOM yet during early script eval
@@ -29,7 +37,10 @@ function showChainPlaceholder() {
   // its panelEl -- reset before the DOM under it is torn down, or the pin
   // survives referencing a now-detached node.
   if (typeof resetPanelLink === 'function') resetPanelLink();
-  list.innerHTML = '<p class="status chain-placeholder">Click a branch or leaf in the tree to see its lineage chain’s kidney VAF maps.</p>';
+  const donorEntry = (typeof appManifest !== 'undefined' && appManifest && appManifest.donors) ? appManifest.donors[donor] : null;
+  const cfg = donorEntry && donorEntry.organs ? donorEntry.organs[organId] : null;
+  const label = ((cfg && cfg.label) || organId).toLowerCase();
+  list.innerHTML = `<p class="status chain-placeholder">Click a branch or leaf in the tree to see its lineage chain’s ${label} VAF maps.</p>`;
   if (status) status.textContent = '';
 }
 
