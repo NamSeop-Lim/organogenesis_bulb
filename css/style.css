@@ -342,8 +342,23 @@ a.info-icon {
 
 .kidneymap-svg {
   display: block;
+  /* cmd260731: max-width bumped 160px -> 280px so wide landscape templates
+     (kidney 1163x717, brain 1842x854, eye 2656x1987) render legibly
+     instead of tiny -- they were width-bound at the old cap while still
+     short. Portrait/near-square ones (heart, liver) scale up too (taller),
+     which is a strict improvement, not a regression.
+     NOTE: width:100% (a definite percentage), not width:auto -- this SVG
+     has no width/height attribute, only a viewBox (see kidneymap.js), and
+     unlike the expanded state (which gives every ancestor an explicit
+     width:100%/flex:1 1 0), the unexpanded ancestor chain
+     (.kidneymap-wrap/.kidneymap-dual/.kidneymap-side) is still
+     shrink-to-fit. width:auto on a sizeless replaced element inside that
+     chain resolves to a near-zero flex-basis in Chromium -- confirmed by
+     measuring rendered thumbnails at ~20-40px, nowhere near the intended
+     cap, when this was tried. width:100% avoids that failure mode (same
+     property this rule always used, just a bigger cap). */
   width: 100%;
-  max-width: 160px;
+  max-width: 280px;
   height: auto;
 }
 
@@ -491,7 +506,9 @@ a.info-icon {
 
 #chain-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  /* cmd260731: 240px -> 300px so bigger thumbnails (see .kidneymap-svg)
+     have room -- fewer cards per row, each one legible. */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 0.75rem;
   align-items: start;
 }
