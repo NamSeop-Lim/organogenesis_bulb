@@ -347,38 +347,33 @@ a.info-icon {
   height: auto;
 }
 
-.chain-entry--expanded .kidneymap-svg {
-  max-width: 340px;
-}
-
-/* cmd2607311532: the 340px cap above was sized for heart's portrait/
-   near-square templates (kidney 917x664 x2, liver 1291x1007, heart
-   769x1024) -- fine there, but brain (1842x854) and eye (2656x1987) are
-   wide landscape templates, so a fixed *width* cap left them with a small
-   *height* and lots of card whitespace. Scoped to just these two organs --
-   kidney/liver/heart stay on the rule above, unchanged. Let width claim
-   the card's actual available width and derive height from the (wide) aspect ratio instead, with a generous
-   height cap only as a safety ceiling. Every ancestor in the chain
+/* cmd2607311532 / cmd2607311613: expanded state fills the card's actual
+   available width for every organ (not a flat max-width cap -- that was
+   fine for kidney/liver/heart's portrait-ish templates but left brain
+   (1842x854) and eye (2656x1987)'s wide landscape templates tiny, so it
+   was first fixed just for those two, then generalized here to all five
+   for consistency). Height is derived from aspect ratio with a generous
+   cap only as a safety ceiling, never the driving constraint for a
+   reasonably-proportioned template. Every ancestor in the chain
    (wrap/dual/side normally shrink-to-fit their content) needs an explicit
-   100% width too, or the percentage has nothing real to resolve against. */
-.chain-entry--expanded .kidneymap-organ-brain.kidneymap-wrap,
-.chain-entry--expanded .kidneymap-organ-eye.kidneymap-wrap {
+   width too, or the percentage/flex-grow has nothing real to resolve
+   against. .kidneymap-side uses flex-grow (not width:100%) so kidney's
+   two side-by-side panels share the available width equally instead of
+   each claiming the full width and overlapping/wrapping. */
+.chain-entry--expanded .kidneymap-wrap {
   display: block;
   width: 100%;
 }
 
-.chain-entry--expanded .kidneymap-organ-brain .kidneymap-dual,
-.chain-entry--expanded .kidneymap-organ-eye .kidneymap-dual {
+.chain-entry--expanded .kidneymap-dual {
   width: 100%;
 }
 
-.chain-entry--expanded .kidneymap-organ-brain .kidneymap-side,
-.chain-entry--expanded .kidneymap-organ-eye .kidneymap-side {
-  width: 100%;
+.chain-entry--expanded .kidneymap-side {
+  flex: 1 1 0;
 }
 
-.chain-entry--expanded .kidneymap-organ-brain .kidneymap-svg,
-.chain-entry--expanded .kidneymap-organ-eye .kidneymap-svg {
+.chain-entry--expanded .kidneymap-svg {
   width: auto;
   height: auto;
   max-width: 100%;
