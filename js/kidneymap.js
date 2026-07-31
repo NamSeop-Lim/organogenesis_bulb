@@ -48,31 +48,70 @@ const YLGNBU_STOPS = [
 // cmd2607271718: compartment-colored dot outlines + filter-bar state.
 // Colors deliberately avoid blue/green (already used inside the YlGnBu fill
 // scale above -- an outline in those hues would be hard to tell apart from
-// the fill at a glance). Kidney-specific for now -- an organ with no
-// compartments (manifest organ.compartments === null) just skips all of
-// this (see buildCompartmentFilterBar in compartmentfilter.js).
-const COMPARTMENT_COLORS = {
-  cortex: '#d62728',
-  medulla: '#ff7f0e',
-  calyx: '#9467bd',
-  pelves_ureter: '#e377c2',
-  renal_fat: '#8c564b',
-};
-const COMPARTMENT_LABELS = {
-  cortex: 'Cortex',
-  medulla: 'Medulla',
-  calyx: 'Calyx',
-  pelves_ureter: 'Ureter',
-  renal_fat: 'Fat',
+// the fill at a glance). An organ with no compartments (manifest
+// organ.compartments === null) just skips all of this (see
+// buildCompartmentFilterBar in compartmentfilter.js).
+//
+// cmd2607311458: organ-aware -- each organ's compartment set has its own
+// internal keys (matching whatever field values the data actually uses:
+// kidney's are lowercase tissue names, brain's are the label abbreviations
+// CeBel/CeBru/Stem the sample_ids are already built from) plus its own
+// outline colors and full display labels ("Cerebellum", not "CeBel") for
+// the checkbox bar and tooltip. compartmentColor()/compartmentLabel() are
+// the only lookup path -- render code and compartmentfilter.js both go
+// through these rather than reading a table directly, so a new organ's
+// compartments are one ORGAN_COMPARTMENTS entry away.
+const ORGAN_COMPARTMENTS = {
+  kidney: {
+    colors: {
+      cortex: '#d62728',
+      medulla: '#ff7f0e',
+      calyx: '#9467bd',
+      pelves_ureter: '#e377c2',
+      renal_fat: '#8c564b',
+    },
+    labels: {
+      cortex: 'Cortex',
+      medulla: 'Medulla',
+      calyx: 'Calyx',
+      pelves_ureter: 'Ureter',
+      renal_fat: 'Fat',
+    },
+  },
+  brain: {
+    colors: {
+      CeBel: '#e6ab02', // gold
+      CeBru: '#c51b7d', // magenta
+      Stem: '#525252', // neutral gray
+    },
+    labels: {
+      CeBel: 'Cerebellum',
+      CeBru: 'Cerebrum',
+      Stem: 'Brainstem',
+    },
+  },
 };
 
-// Single shared filter state -- toggling a checkbox affects every panel
-// currently in the DOM at once (chainpanel.js's whole chain-list), not just
-// one card. New panels rendered afterward (e.g. after selecting a different
-// tree node, or switching organ) read this same state at creation time so
-// they start already filtered consistently with whatever the user last chose.
+function compartmentColor(organ, key) {
+  const cfg = ORGAN_COMPARTMENTS[organ];
+  return (cfg && cfg.colors[key]) || '#333333';
+}
+function compartmentLabel(organ, key) {
+  const cfg = ORGAN_COMPARTMENTS[organ];
+  return (cfg && cfg.labels[key]) || key;
+}
+
+// Single shared filter state across every organ -- their compartment keys
+// never collide (kidney's are lowercase tissue names, brain's are
+// CeBel/CeBru/Stem), so one flat map covers all of them. Toggling a
+// checkbox affects every panel currently in the DOM at once (chainpanel.js's
+// whole chain-list), not just one card. New panels rendered afterward (e.g.
+// after selecting a different tree node, or switching organ) read this same
+// state at creation time so they start already filtered consistently with
+// whatever the user last chose.
 const compartmentVisible = {
   cortex: true, medulla: true, calyx: true, pelves_ureter: true, renal_fat: true,
+  CeBel: true, CeBru: true, Stem: true,
 };
 
 function setCompartmentVisible(compartment, visible) {
@@ -163,6 +202,24 @@ const ORGAN_VISUALS = {
       // lands on its original marker) -- full native viewBox used, same as
       // liver/heart.
       eye: { href: 'templates/eye_template.svg', w: 2656, h: 1986.67, crop: { x: 0, y: 0, w: 2656, h: 1986.67 } },
+    },
+  },
+  brain: {
+    dataFile: 'brain_vaf_long.json',
+    sideField: null, // both hemispheres are already positioned in the one image -- one panel, no left/right filtering
+    // cmd2607311458: minimum pairwise marker distance across all 29 markers
+    // is 41.808 (tmp_label 1<->2), so circles alone touch at r=20.904 (half
+    // that); subtracting the 2.2px stroke's ~1.1px outward margin gives
+    // 19.8 as the largest non-touching radius -- 19 leaves a small visual
+    // gap at the closest pair while staying as large as possible elsewhere.
+    dotR: 19,
+    templates: {
+      // cmd2607311458: marker coordinates (brain_package/brain_all_samples.csv,
+      // parsed from brain.svg's Left_label/Right_label groups) are in this
+      // same viewBox with no transform (verified by plotting them back onto
+      // the plain template and confirming every one lands on its original
+      // marker) -- full native viewBox used, same as liver/heart/eye.
+      brain: { href: 'templates/brain_template.svg', w: 1842, h: 854, crop: { x: 0, y: 0, w: 1842, h: 854 } },
     },
   },
 };
@@ -285,11 +342,12 @@ async function renderKidneyMap(container, mutationId, donor = 'DB15', organ = cu
     .style('display', 'none');
 
   function showTooltip(event, p) {
+    const side = p.kidney || p.side; // kidney's left/right, brain's LT/RT -- tooltip-only, not a filterable compartment
     tooltip
       .style('display', 'block')
       .html(
-        `<strong>${p.sample_id}</strong>${p.kidney ? ` (${p.kidney})` : ''}<br>` +
-        (p.compartment ? `compartment: ${p.compartment}<br>` : '') +
+        `<strong>${p.sample_id}</strong>${side ? ` (${side})` : ''}<br>` +
+        (p.compartment ? `compartment: ${compartmentLabel(organ, p.compartment)}<br>` : '') +
         `VAF: ${p.vaf}${readSupportHtml(p)}`
       );
     moveTooltip(event);
@@ -353,7 +411,7 @@ async function renderKidneyMap(container, mutationId, donor = 'DB15', organ = cu
       if (p.compartment && !compartmentVisible[p.compartment]) dotG.style.display = 'none';
       dotsG.appendChild(dotG);
 
-      const outline = (p.compartment && COMPARTMENT_COLORS[p.compartment]) || '#333333';
+      const outline = p.compartment ? compartmentColor(organ, p.compartment) : '#333333';
       const dot = document.createElementNS(ns, 'circle');
       dot.setAttribute('r', String(dotR));
       dot.setAttribute('stroke', outline);

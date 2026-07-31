@@ -38,6 +38,15 @@
             { "id": "eye", "label": "Eye" }
           ],
           "compartments": null
+        },
+        "brain": {
+          "label": "Brain",
+          "available": true,
+          "dataDir": "brain",
+          "templates": [
+            { "id": "brain", "label": "Brain" }
+          ],
+          "compartments": ["CeBel", "CeBru", "Stem"]
         }
       }
     }

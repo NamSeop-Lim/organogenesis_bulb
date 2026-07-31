@@ -306,6 +306,15 @@ def main():
                         "templates": [{"id": "eye", "label": "Eye"}],
                         "compartments": None,
                     },
+                    "brain": {
+                        # cmd2607311458: brain data landed (see
+                        # scripts/export_db15_brain.py) -- flipped True.
+                        "label": "Brain",
+                        "available": True,
+                        "dataDir": "brain",
+                        "templates": [{"id": "brain", "label": "Brain"}],
+                        "compartments": ["CeBel", "CeBru", "Stem"],
+                    },
                 },
             },
         },
