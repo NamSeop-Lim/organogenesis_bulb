@@ -297,6 +297,15 @@ def main():
                         "templates": [{"id": "heart", "label": "Heart"}],
                         "compartments": None,
                     },
+                    "eye": {
+                        # cmd2607311236: eye data landed (see
+                        # scripts/export_db15_eye.py) -- flipped True.
+                        "label": "Eye",
+                        "available": True,
+                        "dataDir": "eye",
+                        "templates": [{"id": "eye", "label": "Eye"}],
+                        "compartments": None,
+                    },
                 },
             },
         },

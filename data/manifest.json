@@ -29,6 +29,15 @@
             { "id": "heart", "label": "Heart" }
           ],
           "compartments": null
+        },
+        "eye": {
+          "label": "Eye",
+          "available": true,
+          "dataDir": "eye",
+          "templates": [
+            { "id": "eye", "label": "Eye" }
+          ],
+          "compartments": null
         }
       }
     }

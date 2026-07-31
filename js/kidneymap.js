@@ -143,6 +143,26 @@ const ORGAN_VISUALS = {
       heart: { href: 'templates/heart_template.svg', w: 769, h: 1024, crop: { x: 0, y: 0, w: 769, h: 1024 } },
     },
   },
+  eye: {
+    dataFile: 'eye_vaf_long.json',
+    sideField: null, // both eyes are already positioned in the one image -- one panel, no left/right filtering
+    // cmd2607311236: same reasoning as liver/heart's dotR -- tuned by eye
+    // against rendered screenshots, not a fixed multiplier. Eye's markers
+    // sit further apart than heart's (min pairwise distance ~62 viewBox
+    // units, vs. heart's genuinely-touching closest pair) -- compared
+    // 14/18/22/26/30; even the tightest pair (LE13/LE14, ~62 apart) stays
+    // comfortably separated at 26 (~10px gap), clearly bigger/easier to
+    // hover than 14, and 30 was already starting to close that gap.
+    dotR: 26,
+    templates: {
+      // cmd2607311236: marker coordinates (eye_package/eye_all_samples.csv,
+      // parsed from eye.svg's marker group) are in this same viewBox with no
+      // transform (verified by plotting them back onto the plain template
+      // and confirming every one lands on its original marker) -- full
+      // native viewBox used, same as liver/heart.
+      eye: { href: 'templates/eye_template.svg', w: 2244, h: 1048, crop: { x: 0, y: 0, w: 2244, h: 1048 } },
+    },
+  },
 };
 
 function hexToRgb(hex) {
