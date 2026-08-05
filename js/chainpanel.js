@@ -90,6 +90,17 @@ async function showChainForNode(nodeId, donor, chainsFile = 'chains.json') {
     entryDiv.addEventListener('click', () => {
       const willExpand = !entryDiv.classList.contains('chain-entry--expanded');
       entryDiv.classList.toggle('chain-entry--expanded');
+      // cmd2608051156: swap each map's background <image> to its
+      // organ-specific expanded template (if one is defined -- see
+      // ORGAN_VISUALS' expandedHref) while expanded, back to the default
+      // on collapse. Dots/tooltip/pin are untouched -- only the background
+      // href changes. No-op for organs/templates with no expandedHref
+      // (image.dataset.expandedHref is undefined).
+      entryDiv.querySelectorAll('.kidneymap-svg image').forEach((img) => {
+        const expandedHref = img.dataset.expandedHref;
+        if (!expandedHref) return;
+        img.setAttribute('href', willExpand ? expandedHref : img.dataset.defaultHref);
+      });
       if (!hasKidneyData) return;
       if (willExpand) {
         if (typeof pinPanelLink === 'function') pinPanelLink(entryDiv, mutationId);

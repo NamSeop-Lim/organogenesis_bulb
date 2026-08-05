@@ -234,7 +234,14 @@ const ORGAN_VISUALS = {
       // same viewBox with no transform (verified by plotting them back onto
       // the plain template and confirming every one lands on its original
       // marker) -- full native viewBox used, same as liver/heart/eye.
-      brain: { href: 'templates/brain_template.svg', w: 1842, h: 854, crop: { x: 0, y: 0, w: 1842, h: 854 } },
+      // cmd2608051156: expandedHref -- optional per-template swap-in used
+      // only while a panel is expanded/pinned (see chainpanel.js's expand
+      // toggle), so dots stand out for close inspection. Same viewBox/
+      // coordinate space as href (verified: dots overlay with no
+      // transform), just the dot-free gray-line variant instead of
+      // black-line. Any organ can define one later; omitting it (like
+      // every other organ below) means no swap happens at all.
+      brain: { href: 'templates/brain_template.svg', expandedHref: 'templates/brain_gray_line.svg', w: 1842, h: 854, crop: { x: 0, y: 0, w: 1842, h: 854 } },
     },
   },
   diaphragm: {
@@ -427,11 +434,19 @@ async function renderKidneyMap(container, mutationId, donor = 'DB15', organ = cu
     const image = document.createElementNS(ns, 'image');
     // Template SVGs are treated as read-only -- referenced by URL via
     // <image>, never fetched/parsed/mutated.
-    image.setAttribute('href', `data/${donor}/${manifestCfg.dataDir}/${tmpl.href}`);
+    const defaultHref = `data/${donor}/${manifestCfg.dataDir}/${tmpl.href}`;
+    image.setAttribute('href', defaultHref);
     image.setAttribute('x', '0');
     image.setAttribute('y', '0');
     image.setAttribute('width', String(tmpl.w));
     image.setAttribute('height', String(tmpl.h));
+    // cmd2608051156: expand/collapse href swap (chainpanel.js) reads these
+    // two data attributes rather than re-deriving paths itself -- dataset
+    // is set here since only this code knows manifestCfg.dataDir/tmpl.
+    image.dataset.defaultHref = defaultHref;
+    if (tmpl.expandedHref) {
+      image.dataset.expandedHref = `data/${donor}/${manifestCfg.dataDir}/${tmpl.expandedHref}`;
+    }
     svgEl.appendChild(image);
 
     const dotsG = document.createElementNS(ns, 'g');
