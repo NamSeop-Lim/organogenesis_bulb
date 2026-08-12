@@ -1,0 +1,6307 @@
+{
+  "nodes": {
+    "L2-2-1-1-1-1-1-1": {
+      "id": "L2-2-1-1-1-1-1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-1-1-1",
+      "children": [
+        "L2-2-1-1-1-1-1-1-1"
+      ],
+      "mutation_ids": [
+        "('10', 10010800)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-2-1-1-1-1-1-1",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-2-1-1-1-1": {
+      "id": "L1-1-1-2-1-1-1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-2-1-1-1(implicit)",
+      "children": [
+        "L1-1-1-2-1-1-1-1-1(implicit)"
+      ],
+      "mutation_ids": [
+        "('10', 134579668)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-1-1-2-1-1-1-1",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-1-1-1-2-1-1.d3": {
+      "id": "L1-3-1-1-1-2-1-1.d3",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3-1-1-1-2-1-1.d2",
+      "children": [
+        "L1-3-1-1-1-2-1-1.d4"
+      ],
+      "mutation_ids": [
+        "('X', 98908297)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-3-1-1-1-2-1-1",
+      "depth_excel": 17,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-2-1-1-2-1.d1": {
+      "id": "L2-2-1-1-2-1-1-2-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-2-1-1-2",
+      "children": [
+        "L2-2-1-1-2-1-1-2-1.d2"
+      ],
+      "mutation_ids": [
+        "('8', 64091967)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-2-1-1-2-1-1-2-1",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-1-1-1-2-1.d5": {
+      "id": "L1-3-1-1-1-2-1.d5",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3-1-1-1-2-1.d4",
+      "children": [
+        "L1-3-1-1-1-2-1-1.d1"
+      ],
+      "mutation_ids": [
+        "('9', 17748620)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-3-1-1-1-2-1",
+      "depth_excel": 14,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1__pair_1": {
+      "id": "L2-1-1-1__pair_1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1__pair_2",
+      "children": [
+        "L2-1-1-1-2(implicit)",
+        "L2-1-1-1-3.d1"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": null,
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": true,
+      "forced_arbitrary": false,
+      "statistically_resolved": true
+    },
+    "L2-1-1-2-3.d1": {
+      "id": "L2-1-1-2-3.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-2",
+      "children": [
+        "L2-1-1-2-3.d2"
+      ],
+      "mutation_ids": [
+        "('17', 21731140)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-2-3",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-4-4": {
+      "id": "L1-4-4",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-4(implicit)__ladder_3",
+      "children": [],
+      "mutation_ids": [
+        "('4', 129371975)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-4-4",
+      "depth_excel": 5,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3(implicit)": {
+      "id": "L1-3(implicit)",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1.d4__pair_2",
+      "children": [
+        "L1-3-1.d1",
+        "L1-3-2"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": "L1-3",
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": true,
+      "is_synthetic": false
+    },
+    "L1-1-1-3-1-1.d1": {
+      "id": "L1-1-1-3-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-3-1",
+      "children": [
+        "L1-1-1-3-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('5', 96651997)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-1-1-3-1-1",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-4-5.d2": {
+      "id": "L1-4-5.d2",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-4-5.d1",
+      "children": [],
+      "mutation_ids": [
+        "('7', 39784223)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-4-5",
+      "depth_excel": 6,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-2-1.d3": {
+      "id": "L2-2-1-1-2-1.d3",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-2-1.d2",
+      "children": [
+        "L2-2-1-1-2-1-1"
+      ],
+      "mutation_ids": [
+        "('5', 135540366)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-2-1-1-2-1",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-1-1-2.d1": {
+      "id": "L2-1-1-1-1-1-2.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-1-1(implicit)",
+      "children": [
+        "L2-1-1-1-1-1-2.d2"
+      ],
+      "mutation_ids": [
+        "('1', 80882753)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-1-1-1-2",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-2-1-1-1.d1": {
+      "id": "L2-2-1-1-2-1-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-2-1-1",
+      "children": [
+        "L2-2-1-1-2-1-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('1', 195102990)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-2-1-1-2-1-1-1",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-1.d2": {
+      "id": "L1-2-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-1.d1",
+      "children": [
+        "L1-2-1.d3"
+      ],
+      "mutation_ids": [
+        "('1', 230082693)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-2-1",
+      "depth_excel": 8,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-3-1-1.d2": {
+      "id": "L1-1-1-3-1-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-3-1-1.d1",
+      "children": [
+        "L1-1-1-3-1-1-1"
+      ],
+      "mutation_ids": [
+        "('7', 131820079)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-1-1-3-1-1",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-1-1-1-2-1.d3": {
+      "id": "L1-3-1-1-1-2-1.d3",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3-1-1-1-2-1.d2",
+      "children": [
+        "L1-3-1-1-1-2-1.d4"
+      ],
+      "mutation_ids": [
+        "('3', 107423531)",
+        "('4', 44288346)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L1-3-1-1-1-2-1",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-2-2.d1": {
+      "id": "L1-1-1-2-2.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-2.d2",
+      "children": [
+        "L1-1-1-2-2.d2"
+      ],
+      "mutation_ids": [
+        "('10', 93463361)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-1-1-2-2",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-2-1-1-1.d3": {
+      "id": "L2-2-1-1-2-1-1-1.d3",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-2-1-1-1.d2",
+      "children": [
+        "L2-2-1-1-2-1-1-1.d4"
+      ],
+      "mutation_ids": [
+        "('14', 104593713)",
+        "('3', 143846561)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-2-1-1-2-1-1-1",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-1-1-1": {
+      "id": "L2-2-1-1-1-1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-1-1",
+      "children": [
+        "L2-2-1-1-1-1-1-1"
+      ],
+      "mutation_ids": [
+        "('3', 66348373)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-2-1-1-1-1-1",
+      "depth_excel": 8,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-3-1-1-1": {
+      "id": "L1-1-1-3-1-1-1",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-3-1-1.d2",
+      "children": [],
+      "mutation_ids": [
+        "('5', 163238411)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-1-1-3-1-1-1",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-1.d1": {
+      "id": "L1-3-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3(implicit)",
+      "children": [
+        "L1-3-1.d2"
+      ],
+      "mutation_ids": [
+        "('14', 107280421)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-3-1",
+      "depth_excel": 5,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-2-1-2-1-1.d4": {
+      "id": "L2-1-1-1-2-1-2-1-1.d4",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-2-1-2-1-1.d3",
+      "children": [
+        "L2-1-1-1-2-1-2-1-1-1.d1"
+      ],
+      "mutation_ids": [
+        "('1', 80592354)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-1-2-1-2-1-1",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-2-1-1-1-1.d2": {
+      "id": "L2-1-1-2-1-1-1-1.d2",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-2-1-1-1-1.d1",
+      "children": [],
+      "mutation_ids": [
+        "('13', 99101166)",
+        "('X', 141837774)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-1-1-2-1-1-1-1",
+      "depth_excel": 17,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-2-1.d1": {
+      "id": "L2-2-1-1-2-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-2",
+      "children": [
+        "L2-2-1-1-2-1.d2"
+      ],
+      "mutation_ids": [
+        "('12', 122690963)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-2-1-1-2-1",
+      "depth_excel": 7,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-4-1-1": {
+      "id": "L1-4-1-1",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-4-1.d3",
+      "children": [],
+      "mutation_ids": [
+        "('X', 46910561)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-4-1-1",
+      "depth_excel": 8,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-2-1-1-2-1.d5": {
+      "id": "L2-1-2-1-2-1-1-2-1.d5",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-2-1-1-2-1.d4",
+      "children": [
+        "L2-1-2-1-2-1-1-2-1.d6"
+      ],
+      "mutation_ids": [
+        "('9', 91322364)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-2-1-2-1-1-2-1",
+      "depth_excel": 18,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1.d2__pair_1": {
+      "id": "L2-1-1.d2__pair_1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1.d2__pair_2",
+      "children": [
+        "L2-1-1-1",
+        "L2-1-1-2"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": null,
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": true,
+      "forced_arbitrary": false,
+      "statistically_resolved": true
+    },
+    "L1-1-1-1-1-1-1.d2": {
+      "id": "L1-1-1-1-1-1-1.d2",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-1-1-1-1.d1",
+      "children": [],
+      "mutation_ids": [
+        "('8', 96446890)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-1-1-1-1-1-1",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-1-1-3-1-1": {
+      "id": "L1-1-1-1-1-3-1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-1-1-3-1.d2",
+      "children": [
+        "L1-1-1-1-1-3-1-1-1"
+      ],
+      "mutation_ids": [
+        "('3', 80435090)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-1-1-1-1-3-1-1",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-1-1-1-2": {
+      "id": "L1-3-1-1-1-2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3-1-1-1.d2",
+      "children": [
+        "L1-3-1-1-1-2-1.d1"
+      ],
+      "mutation_ids": [
+        "('15', 38852253)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-3-1-1-1-2",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-2-1-1-2-1-1.d3": {
+      "id": "L2-2-1-1-2-1-1-2-1-1.d3",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-2-1-1-2-1-1.d2",
+      "children": [],
+      "mutation_ids": [
+        "('2', 181170713)",
+        "('2', 133242238)",
+        "('2', 15254362)",
+        "('1', 189911340)"
+      ],
+      "n_mutations": 4,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous",
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-2-1-1-2-1-1-2-1-1",
+      "depth_excel": 16,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1.d2": {
+      "id": "L2-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1.d1",
+      "children": [
+        "L2-1-1.d1",
+        "L2-1-2.d1"
+      ],
+      "mutation_ids": [
+        "('11', 127667291)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1",
+      "depth_excel": 5,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-3(implicit)": {
+      "id": "L2-1-1-3(implicit)",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1.d2__pair_2",
+      "children": [
+        "L2-1-1-3-1"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": "L2-1-1-3",
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": true,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-3-1": {
+      "id": "L2-1-1-1-3-1",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-3.d2",
+      "children": [],
+      "mutation_ids": [
+        "('X', 135215271)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-1-1-3-1",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-2-1-1.d1": {
+      "id": "L1-1-1-2-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-2-1",
+      "children": [
+        "L1-1-1-2-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('5', 136529195)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-1-1-2-1-1",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-1-2-1": {
+      "id": "L2-2-1-1-1-2-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-1-2",
+      "children": [
+        "L2-2-1-1-1-2-1-1.d1"
+      ],
+      "mutation_ids": [
+        "('14', 67473995)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-2-1-1-1-2-1",
+      "depth_excel": 8,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1__pair_2": {
+      "id": "L2-1-1-1__pair_2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1",
+      "children": [
+        "L2-1-1-1-1.d1",
+        "L2-1-1-1__pair_1"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": null,
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": true,
+      "forced_arbitrary": false,
+      "statistically_resolved": true
+    },
+    "L2-1-1-3-1-1-2-1-2.d2": {
+      "id": "L2-1-1-3-1-1-2-1-2.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-3-1-1-2-1-2.d1",
+      "children": [
+        "L2-1-1-3-1-1-2-1-2.d3"
+      ],
+      "mutation_ids": [
+        "('2', 152877192)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-3-1-1-2-1-2",
+      "depth_excel": 14,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-2-1-1-1-1-1-1": {
+      "id": "L1-1-1-2-1-1-1-1-1-1",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-2-1-1-1-1-1(implicit)",
+      "children": [],
+      "mutation_ids": [
+        "('11', 98608001)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-1-1-2-1-1-1-1-1-1",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1.d3": {
+      "id": "L1.d3",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1.d2",
+      "children": [
+        "L1.d4"
+      ],
+      "mutation_ids": [
+        "('8', 14555764)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1",
+      "depth_excel": 3,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-1-1-3-1-1-1": {
+      "id": "L1-1-1-1-1-3-1-1-1",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-1-1-3-1-1",
+      "children": [],
+      "mutation_ids": [
+        "('1', 2798072)",
+        "('5', 127885829)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L1-1-1-1-1-3-1-1-1",
+      "depth_excel": 14,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-1.d3": {
+      "id": "L1-2-1.d3",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-1.d2",
+      "children": [
+        "L1-2-1.d4"
+      ],
+      "mutation_ids": [
+        "('2', 67810203)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-2-1",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-2-2-2.d3": {
+      "id": "L1-2-2-2-2.d3",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-2-2-2.d2",
+      "children": [
+        "L1-2-2-2-2.d4"
+      ],
+      "mutation_ids": [
+        "('18', 56262332)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-2-2-2-2",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-2-1-1.d2": {
+      "id": "L1-1-2-1-1.d2",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-1-2-1-1.d1",
+      "children": [],
+      "mutation_ids": [
+        "('9', 107739909)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-1-2-1-1",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-2": {
+      "id": "L1-3-2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3(implicit)",
+      "children": [
+        "L1-3-2-1(implicit)"
+      ],
+      "mutation_ids": [
+        "('5', 177984947)",
+        "('2', 160471553)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L1-3-2",
+      "depth_excel": 5,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-1-1-1-1-1-1": {
+      "id": "L2-2-1-1-1-1-1-1-1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-1-1-1-1-1",
+      "children": [
+        "L2-2-1-1-1-1-1-1-1-1-1.d1"
+      ],
+      "mutation_ids": [
+        "('5', 171046866)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-2-1-1-1-1-1-1-1-1",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-3": {
+      "id": "L1-1-1-3",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1__pair_1",
+      "children": [
+        "L1-1-1-3-1"
+      ],
+      "mutation_ids": [
+        "('6', 28735658)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-1-1-3",
+      "depth_excel": 7,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "root": {
+      "id": "root",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": null,
+      "children": [
+        "L1.d1",
+        "L2.d1"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": null,
+      "depth_excel": 0,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-1-2.d2": {
+      "id": "L1-2-1-2.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-1-2.d1",
+      "children": [
+        "L1-2-1-2.d3"
+      ],
+      "mutation_ids": [
+        "('5', 30711707)",
+        "('9', 137269272)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L1-2-1-2",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1": {
+      "id": "L1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1.d4__pair_1",
+      "children": [
+        "L1-1-1",
+        "L1-1-2"
+      ],
+      "mutation_ids": [
+        "('1', 92181016)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-1",
+      "depth_excel": 5,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-2": {
+      "id": "L1-2-2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2.d2",
+      "children": [
+        "L1-2-2-1.d1",
+        "L1-2-2-2.d1"
+      ],
+      "mutation_ids": [
+        "('6', 63947436)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-2-2",
+      "depth_excel": 7,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-2-2-1.d2": {
+      "id": "L2-1-2-1-2-2-1.d2",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-2-2-1.d1",
+      "children": [],
+      "mutation_ids": [
+        "('10', 24443716)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-2-1-2-2-1",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-2-1-1-1(implicit)": {
+      "id": "L1-1-1-2-1-1-1(implicit)",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-2-1-1.d2",
+      "children": [
+        "L1-1-1-2-1-1-1-1"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": "L1-1-1-2-1-1-1",
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": true,
+      "is_synthetic": false
+    },
+    "L1-1-2-2": {
+      "id": "L1-1-2-2",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-1-2",
+      "children": [],
+      "mutation_ids": [
+        "('3', 117334800)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-1-2-2",
+      "depth_excel": 7,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-2-1.d2": {
+      "id": "L2-2-2-1.d2",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-2-2-1.d1",
+      "children": [],
+      "mutation_ids": [
+        "('18', 67693298)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-2-2-1",
+      "depth_excel": 7,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-3-1-1-2-1-2.d1": {
+      "id": "L2-1-1-3-1-1-2-1-2.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-3-1-1-2-1",
+      "children": [
+        "L2-1-1-3-1-1-2-1-2.d2"
+      ],
+      "mutation_ids": [
+        "('14', 44918599)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-3-1-1-2-1-2",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-2-1-2-1-1.d2": {
+      "id": "L2-1-1-1-2-1-2-1-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-2-1-2-1-1.d1",
+      "children": [
+        "L2-1-1-1-2-1-2-1-1.d3"
+      ],
+      "mutation_ids": [
+        "('5', 124939037)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-1-2-1-2-1-1",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-1-2.d2": {
+      "id": "L2-1-1-1-1-2.d2",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-1-2.d1",
+      "children": [],
+      "mutation_ids": [
+        "('4', 16556108)",
+        "('6', 33186017)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-1-1-1-1-2",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-2-1(implicit)": {
+      "id": "L1-3-2-1(implicit)",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3-2",
+      "children": [
+        "L1-3-2-1-1"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": "L1-3-2-1",
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": true,
+      "is_synthetic": false
+    },
+    "L1.d1": {
+      "id": "L1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "root",
+      "children": [
+        "L1.d2"
+      ],
+      "mutation_ids": [
+        "('1', 187963806)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1",
+      "depth_excel": 1,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-3-1-1-1.d2": {
+      "id": "L2-1-1-3-1-1-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-3-1-1-1.d1",
+      "children": [
+        "L2-1-1-3-1-1-1-1"
+      ],
+      "mutation_ids": [
+        "('2', 80984576)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-3-1-1-1",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-2-1-1-1-1-1-1.d3": {
+      "id": "L2-1-1-1-2-1-1-1-1-1-1.d3",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-2-1-1-1-1-1-1.d2",
+      "children": [],
+      "mutation_ids": [
+        "('11', 89036817)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-1-2-1-1-1-1-1-1",
+      "depth_excel": 14,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-2-2-2.d2": {
+      "id": "L1-2-2-2-2.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-2-2-2.d1",
+      "children": [
+        "L1-2-2-2-2.d3"
+      ],
+      "mutation_ids": [
+        "('7', 55413798)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-2-2-2-2",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-2-1-2.d5": {
+      "id": "L2-1-1-2-1-2.d5",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-2-1-2.d4",
+      "children": [],
+      "mutation_ids": [
+        "('X', 142099687)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-2-1-2",
+      "depth_excel": 14,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-2-1-1-1-1-1.d2": {
+      "id": "L2-1-1-1-2-1-1-1-1-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-2-1-1-1-1-1.d1",
+      "children": [
+        "L2-1-1-1-2-1-1-1-1-1-1.d1"
+      ],
+      "mutation_ids": [
+        "('1', 18310477)",
+        "('X', 46442536)",
+        "('8', 19337544)"
+      ],
+      "n_mutations": 3,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-1-1-1-2-1-1-1-1-1",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-4-5.d1": {
+      "id": "L1-4-5.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-4(implicit)__ladder_4",
+      "children": [
+        "L1-4-5.d2"
+      ],
+      "mutation_ids": [
+        "('10', 98531365)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-4-5",
+      "depth_excel": 5,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-1-1-1-2-1.d2": {
+      "id": "L1-3-1-1-1-2-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3-1-1-1-2-1.d1",
+      "children": [
+        "L1-3-1-1-1-2-1.d3"
+      ],
+      "mutation_ids": [
+        "('3', 7423718)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-3-1-1-1-2-1",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-2-1-1-1.d1": {
+      "id": "L2-1-1-2-1-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-2-1-1.d3",
+      "children": [
+        "L2-1-1-2-1-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('10', 52382034)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-2-1-1-1",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-2-1-2.d1": {
+      "id": "L2-1-1-2-1-2.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-2-1",
+      "children": [
+        "L2-1-1-2-1-2.d2"
+      ],
+      "mutation_ids": [
+        "('20', 9884335)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-2-1-2",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1__pair_1": {
+      "id": "L1-1-1__pair_1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1__pair_2",
+      "children": [
+        "L1-1-1-1",
+        "L1-1-1-3"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": null,
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": true,
+      "forced_arbitrary": false,
+      "statistically_resolved": true
+    },
+    "L1-1-1-2-2-1-1": {
+      "id": "L1-1-1-2-2-1-1",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-2-2-1",
+      "children": [],
+      "mutation_ids": [
+        "('18', 4963460)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-1-1-2-2-1-1",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-1-1-1-1-1-1": {
+      "id": "L1-2-1-1-1-1-1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-1-1-1-1-1.d2",
+      "children": [
+        "L1-2-1-1-1-1-1-1-1"
+      ],
+      "mutation_ids": [
+        "('20', 38396259)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-2-1-1-1-1-1-1",
+      "depth_excel": 17,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1.d1": {
+      "id": "L2-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1.d2",
+      "children": [
+        "L2-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('12', 103927193)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1",
+      "depth_excel": 6,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-2-2.d2": {
+      "id": "L1-1-1-2-2.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-2-2.d1",
+      "children": [
+        "L1-1-1-2-2-1"
+      ],
+      "mutation_ids": [
+        "('18', 9208669)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-1-1-2-2",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2.d3": {
+      "id": "L2-1-2.d3",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2.d2",
+      "children": [
+        "L2-1-2-1"
+      ],
+      "mutation_ids": [
+        "('20', 6422366)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-2",
+      "depth_excel": 8,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-3-1-1.d1": {
+      "id": "L2-1-1-3-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-3-1",
+      "children": [
+        "L2-1-1-3-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('9', 139957182)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-3-1-1",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-1.d1": {
+      "id": "L2-1-2-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1",
+      "children": [
+        "L2-1-2-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('2', 119910127)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-2-1-1",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-2-1-1-2-1.d6": {
+      "id": "L2-1-2-1-2-1-1-2-1.d6",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-2-1-1-2-1.d5",
+      "children": [],
+      "mutation_ids": [
+        "('2', 47576084)",
+        "('4', 19463122)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-1-2-1-2-1-1-2-1",
+      "depth_excel": 19,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-2-1-1-1-1-1(implicit)": {
+      "id": "L1-1-1-2-1-1-1-1-1(implicit)",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-2-1-1-1-1",
+      "children": [
+        "L1-1-1-2-1-1-1-1-1-1"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": "L1-1-1-2-1-1-1-1-1",
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": true,
+      "is_synthetic": false
+    },
+    "L1-4(implicit)__ladder_3": {
+      "id": "L1-4(implicit)__ladder_3",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-4(implicit)__ladder_4",
+      "children": [
+        "L1-4(implicit)__pair_2",
+        "L1-4-4"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": null,
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": true,
+      "forced_arbitrary": true,
+      "statistically_resolved": false
+    },
+    "L1.d4__pair_3": {
+      "id": "L1.d4__pair_3",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1.d4",
+      "children": [
+        "L1.d4__pair_1",
+        "L1.d4__pair_2"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": null,
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": true,
+      "forced_arbitrary": false,
+      "statistically_resolved": true
+    },
+    "L2-2-1(implicit)": {
+      "id": "L2-2-1(implicit)",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2",
+      "children": [
+        "L2-2-1-1",
+        "L2-2-1-2.d1"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": "L2-2-1",
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": true,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-2-1-1-1-1.d1": {
+      "id": "L2-2-1-1-2-1-1-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-2-1-1-1.d4",
+      "children": [
+        "L2-2-1-1-2-1-1-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('2', 76951318)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-2-1-1-2-1-1-1-1",
+      "depth_excel": 15,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-2-1-1-1.d3": {
+      "id": "L2-1-1-2-1-1-1.d3",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-2-1-1-1.d2",
+      "children": [
+        "L2-1-1-2-1-1-1-1.d1",
+        "L2-1-1-2-1-1-1-2"
+      ],
+      "mutation_ids": [
+        "('1', 231218497)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-2-1-1-1",
+      "depth_excel": 15,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-2": {
+      "id": "L2-1-2-1-2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1",
+      "children": [
+        "L2-1-2-1-2-1",
+        "L2-1-2-1-2-2"
+      ],
+      "mutation_ids": [
+        "('13', 102751675)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-2-1-2",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2.d3": {
+      "id": "L2.d3",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2.d2",
+      "children": [
+        "L2-1.d1",
+        "L2-2"
+      ],
+      "mutation_ids": [
+        "('1', 58779742)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2",
+      "depth_excel": 3,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-1-1-3-1.d1": {
+      "id": "L1-1-1-1-1-3-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-1-1-3.d2",
+      "children": [
+        "L1-1-1-1-1-3-1.d2"
+      ],
+      "mutation_ids": [
+        "('6', 74693027)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-1-1-1-1-3-1",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1.d4__pair_1": {
+      "id": "L1.d4__pair_1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1.d4__pair_3",
+      "children": [
+        "L1-1",
+        "L1-4(implicit)"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": null,
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": true,
+      "forced_arbitrary": false,
+      "statistically_resolved": true
+    },
+    "L1-4-2-1-1": {
+      "id": "L1-4-2-1-1",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-4-2-1",
+      "children": [],
+      "mutation_ids": [
+        "('3', 5368432)",
+        "('20', 37930599)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L1-4-2-1-1",
+      "depth_excel": 6,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2.d2": {
+      "id": "L2-1-2.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2.d1",
+      "children": [
+        "L2-1-2.d3"
+      ],
+      "mutation_ids": [
+        "('5', 137035503)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-2",
+      "depth_excel": 7,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-1-1-1-2-1-1.d4": {
+      "id": "L1-3-1-1-1-2-1-1.d4",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-3-1-1-1-2-1-1.d3",
+      "children": [],
+      "mutation_ids": [
+        "('2', 5465860)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-3-1-1-1-2-1-1",
+      "depth_excel": 18,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-1-1(implicit)": {
+      "id": "L1-3-1-1(implicit)",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3-1.d2",
+      "children": [
+        "L1-3-1-1-1.d1",
+        "L1-3-1-1-2"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": "L1-3-1-1",
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": true,
+      "is_synthetic": false
+    },
+    "L2-1-1-2-1-1-1-1.d1": {
+      "id": "L2-1-1-2-1-1-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-2-1-1-1.d3",
+      "children": [
+        "L2-1-1-2-1-1-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('4', 186023792)",
+        "('20', 7931350)",
+        "('1', 60890880)",
+        "('15', 36532565)",
+        "('15', 37084200)"
+      ],
+      "n_mutations": 5,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous",
+        "simultaneous",
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-1-1-2-1-1-1-1",
+      "depth_excel": 16,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-2-1-1-2-1.d2": {
+      "id": "L2-1-2-1-2-1-1-2-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-2-1-1-2-1.d1",
+      "children": [
+        "L2-1-2-1-2-1-1-2-1.d3"
+      ],
+      "mutation_ids": [
+        "('22', 40263754)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-2-1-2-1-1-2-1",
+      "depth_excel": 15,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-3.d1": {
+      "id": "L2-1-1-1-3.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1__pair_1",
+      "children": [
+        "L2-1-1-1-3.d2"
+      ],
+      "mutation_ids": [
+        "('5', 28262350)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-1-3",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-2-1.d1": {
+      "id": "L1-2-2-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-2",
+      "children": [
+        "L1-2-2-1.d2"
+      ],
+      "mutation_ids": [
+        "('6', 85450000)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-2-2-1",
+      "depth_excel": 8,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-4(implicit)__pair_2": {
+      "id": "L1-4(implicit)__pair_2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-4(implicit)__ladder_3",
+      "children": [
+        "L1-4(implicit)__pair_1",
+        "L1-4-1.d1"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": null,
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": true,
+      "forced_arbitrary": false,
+      "statistically_resolved": true
+    },
+    "L1-2-1-2.d3": {
+      "id": "L1-2-1-2.d3",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-2-1-2.d2",
+      "children": [],
+      "mutation_ids": [
+        "('8', 692205)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-2-1-2",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-2-1-1-2-1.d2": {
+      "id": "L2-2-1-1-2-1-1-2-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-2-1-1-2-1.d1",
+      "children": [
+        "L2-2-1-1-2-1-1-2-1-1.d1"
+      ],
+      "mutation_ids": [
+        "('3', 163583129)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-2-1-1-2-1-1-2-1",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-1-1-1-1-1-1-1-1(implicit)": {
+      "id": "L1-3-1-1-1-1-1-1-1-1(implicit)",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3-1-1-1-1-1-1-1",
+      "children": [
+        "L1-3-1-1-1-1-1-1-1-1-1.d1",
+        "L1-3-1-1-1-1-1-1-1-1-2"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": "L1-3-1-1-1-1-1-1-1-1",
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": true,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-1-1": {
+      "id": "L2-1-2-1-1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-1.d2__pair_1",
+      "children": [
+        "L2-1-2-1-1-1-1",
+        "L2-1-2-1-1-1-2"
+      ],
+      "mutation_ids": [
+        "('18', 75772706)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-2-1-1-1",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-2-1-1-1.d2": {
+      "id": "L1-2-2-1-1-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-2-1-1-1.d1",
+      "children": [
+        "L1-2-2-1-1-1.d3"
+      ],
+      "mutation_ids": [
+        "('1', 181828722)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-2-2-1-1-1",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-2-1-1-1-1-1-1.d1": {
+      "id": "L2-1-1-1-2-1-1-1-1-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-2-1-1-1-1-1.d2",
+      "children": [
+        "L2-1-1-1-2-1-1-1-1-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('5', 41291433)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-1-2-1-1-1-1-1-1",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-1-1-1-1-1-1-1-2-1-1": {
+      "id": "L1-2-1-1-1-1-1-1-1-2-1-1",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-2-1-1-1-1-1-1-1-2-1(implicit)",
+      "children": [],
+      "mutation_ids": [
+        "('2', 184876313)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-2-1-1-1-1-1-1-1-2-1-1",
+      "depth_excel": 20,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-3-1-1-1.d1": {
+      "id": "L2-1-1-3-1-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-3-1-1.d2",
+      "children": [
+        "L2-1-1-3-1-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('17', 34935696)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-3-1-1-1",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-2-1-1-1-1(implicit)": {
+      "id": "L2-1-1-1-2-1-1-1-1(implicit)",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-2-1-1-1",
+      "children": [
+        "L2-1-1-1-2-1-1-1-1-1.d1"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": "L2-1-1-1-2-1-1-1-1",
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": true,
+      "is_synthetic": false
+    },
+    "L1-2-2-2-2.d1": {
+      "id": "L1-2-2-2-2.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-2-2.d2",
+      "children": [
+        "L1-2-2-2-2.d2"
+      ],
+      "mutation_ids": [
+        "('7', 21256957)",
+        "('17', 40042404)",
+        "('2', 131024656)",
+        "('13', 91505569)"
+      ],
+      "n_mutations": 4,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous",
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L1-2-2-2-2",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1__pair_2": {
+      "id": "L1-1-1__pair_2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1",
+      "children": [
+        "L1-1-1-2.d1",
+        "L1-1-1__pair_1"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": null,
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": true,
+      "forced_arbitrary": false,
+      "statistically_resolved": true
+    },
+    "L2-1-2-1-2-2-1.d1": {
+      "id": "L2-1-2-1-2-2-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-2-2",
+      "children": [
+        "L2-1-2-1-2-2-1.d2"
+      ],
+      "mutation_ids": [
+        "('15', 63235025)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-2-1-2-2-1",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-1-3.d1": {
+      "id": "L2-1-2-1-1-3.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-1.d2__pair_2",
+      "children": [
+        "L2-1-2-1-1-3.d2"
+      ],
+      "mutation_ids": [
+        "('12', 119746786)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-2-1-1-3",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-1-2-1": {
+      "id": "L2-1-2-1-1-2-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-1-2",
+      "children": [
+        "L2-1-2-1-1-2-1-2.d1"
+      ],
+      "mutation_ids": [
+        "('3', 165426512)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-2-1-1-2-1",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-1-2": {
+      "id": "L2-2-1-1-1-2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-1",
+      "children": [
+        "L2-2-1-1-1-2-1"
+      ],
+      "mutation_ids": [
+        "('12', 80736195)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-2-1-1-1-2",
+      "depth_excel": 7,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-1-1": {
+      "id": "L1-1-1-1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-1",
+      "children": [
+        "L1-1-1-1-1-1(implicit)",
+        "L1-1-1-1-1-3.d1"
+      ],
+      "mutation_ids": [
+        "('6', 40447754)",
+        "('20', 16100219)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L1-1-1-1-1",
+      "depth_excel": 8,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-1-2.d1": {
+      "id": "L2-1-1-1-1-2.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-1.d2",
+      "children": [
+        "L2-1-1-1-1-2.d2"
+      ],
+      "mutation_ids": [
+        "('3', 79427981)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-1-1-2",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-2-1-1-1.d4": {
+      "id": "L1-2-2-1-1-1.d4",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-2-2-1-1-1.d3",
+      "children": [],
+      "mutation_ids": [
+        "('1', 152698065)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-2-2-1-1-1",
+      "depth_excel": 14,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-1-2-1-2.d1": {
+      "id": "L2-1-2-1-1-2-1-2.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-1-2-1",
+      "children": [
+        "L2-1-2-1-1-2-1-2.d2"
+      ],
+      "mutation_ids": [
+        "('13', 43243073)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-2-1-1-2-1-2",
+      "depth_excel": 14,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-1-1-1(implicit)": {
+      "id": "L1-1-1-1-1-1(implicit)",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-1-1",
+      "children": [
+        "L1-1-1-1-1-1-1.d1"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": "L1-1-1-1-1-1",
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": true,
+      "is_synthetic": false
+    },
+    "L1-2-1-1-1-2-1": {
+      "id": "L1-2-1-1-1-2-1",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-2-1-1-1-2",
+      "children": [],
+      "mutation_ids": [
+        "('5', 105088787)",
+        "('12', 73418911)",
+        "('1', 167059183)",
+        "('17', 43694919)"
+      ],
+      "n_mutations": 4,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous",
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L1-2-1-1-1-2-1",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-2-2-1": {
+      "id": "L1-1-1-2-2-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-2-2.d2",
+      "children": [
+        "L1-1-1-2-2-1-1"
+      ],
+      "mutation_ids": [
+        "('19', 31746892)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-1-1-2-2-1",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-2-1-1-2-1": {
+      "id": "L2-1-1-2-1-1-2-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-2-1-1-2",
+      "children": [
+        "L2-1-1-2-1-1-2-1-1"
+      ],
+      "mutation_ids": [
+        "('2', 163739773)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-1-2-1-1-2-1",
+      "depth_excel": 14,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-2.d2": {
+      "id": "L2-2-1-2.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-2.d1",
+      "children": [
+        "L2-2-1-2-1"
+      ],
+      "mutation_ids": [
+        "('5', 42641161)",
+        "('6', 68913699)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-2-1-2",
+      "depth_excel": 6,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-1.d4": {
+      "id": "L1-2-1.d4",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-1.d3",
+      "children": [
+        "L1-2-1-1(implicit)",
+        "L1-2-1-2.d1"
+      ],
+      "mutation_ids": [
+        "('X', 126630390)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-2-1",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-1": {
+      "id": "L1-1-1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1__pair_1",
+      "children": [
+        "L1-1-1-1-1",
+        "L1-1-1-1-2"
+      ],
+      "mutation_ids": [
+        "('8', 1706698)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-1-1-1",
+      "depth_excel": 7,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1": {
+      "id": "L2-1-2-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2.d3",
+      "children": [
+        "L2-1-2-1-1.d1",
+        "L2-1-2-1-2"
+      ],
+      "mutation_ids": [
+        "('11', 78809021)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-2-1",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-1-1-2": {
+      "id": "L2-1-2-1-1-1-2",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-1-1",
+      "children": [],
+      "mutation_ids": [
+        "('10', 52659442)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-2-1-1-1-2",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-2-1-1-2-1-1": {
+      "id": "L2-1-1-2-1-1-2-1-1",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-2-1-1-2-1",
+      "children": [],
+      "mutation_ids": [
+        "('7', 83897026)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-1-2-1-1-2-1-1",
+      "depth_excel": 15,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-2-1-1-1": {
+      "id": "L2-1-1-1-2-1-1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-2(implicit)",
+      "children": [
+        "L2-1-1-1-2-1-1-1-1(implicit)"
+      ],
+      "mutation_ids": [
+        "('7', 140883129)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-1-1-2-1-1-1",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-1-2-1.d4": {
+      "id": "L1-1-1-1-2-1.d4",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-1-2-1.d3",
+      "children": [
+        "L1-1-1-1-2-1.d5"
+      ],
+      "mutation_ids": [
+        "('1', 71671365)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-1-1-1-2-1",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2.d1": {
+      "id": "L2-1-2.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1.d2",
+      "children": [
+        "L2-1-2.d2"
+      ],
+      "mutation_ids": [
+        "('3', 195914017)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-2",
+      "depth_excel": 6,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-2-1": {
+      "id": "L2-1-1-2-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-2",
+      "children": [
+        "L2-1-1-2-1-1.d1",
+        "L2-1-1-2-1-2.d1"
+      ],
+      "mutation_ids": [
+        "('8', 62276147)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-1-2-1",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-1-1-2.d3": {
+      "id": "L2-1-1-1-1-1-2.d3",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-1-1-2.d2",
+      "children": [],
+      "mutation_ids": [
+        "('6', 21215272)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-1-1-1-2",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-4-3": {
+      "id": "L1-4-3",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-4(implicit)__pair_1",
+      "children": [],
+      "mutation_ids": [
+        "('11', 126168070)",
+        "('17', 79346548)",
+        "('2', 52200017)"
+      ],
+      "n_mutations": 3,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L1-4-3",
+      "depth_excel": 5,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-2-1": {
+      "id": "L1-1-1-2-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-2.d2",
+      "children": [
+        "L1-1-1-2-1-1.d1"
+      ],
+      "mutation_ids": [
+        "('3', 149498108)",
+        "('11', 75121316)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L1-1-1-2-1",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-2-2-2.d4": {
+      "id": "L1-2-2-2-2.d4",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-2-2-2-2.d3",
+      "children": [],
+      "mutation_ids": [
+        "('X', 66072958)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-2-2-2-2",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2": {
+      "id": "L2-2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2.d3",
+      "children": [
+        "L2-2-1(implicit)",
+        "L2-2-2"
+      ],
+      "mutation_ids": [
+        "('5', 108334044)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-2",
+      "depth_excel": 4,
+      "is_polytomy": true,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-1-1-1": {
+      "id": "L2-1-2-1-1-1-1",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-1-1",
+      "children": [],
+      "mutation_ids": [
+        "('3', 169540530)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-2-1-1-1-1",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-4(implicit)__pair_1": {
+      "id": "L1-4(implicit)__pair_1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-4(implicit)__pair_2",
+      "children": [
+        "L1-4-2-1",
+        "L1-4-3"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": null,
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": true,
+      "forced_arbitrary": false,
+      "statistically_resolved": true
+    },
+    "L2-1-1-1-1.d1": {
+      "id": "L2-1-1-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1__pair_2",
+      "children": [
+        "L2-1-1-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('5', 161322795)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-1-1",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-2-1-1-1-1-1.d1": {
+      "id": "L2-1-1-1-2-1-1-1-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-2-1-1-1-1(implicit)",
+      "children": [
+        "L2-1-1-1-2-1-1-1-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('4', 102580257)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-1-2-1-1-1-1-1",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-2(implicit)": {
+      "id": "L2-1-1-1-2(implicit)",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1__pair_1",
+      "children": [
+        "L2-1-1-1-2-1-1-1",
+        "L2-1-1-1-2-1-2"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": "L2-1-1-1-2",
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": true,
+      "is_synthetic": false
+    },
+    "L1-1-1": {
+      "id": "L1-1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1",
+      "children": [
+        "L1-1-1__pair_2"
+      ],
+      "mutation_ids": [
+        "('X', 53353729)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-1-1",
+      "depth_excel": 6,
+      "is_polytomy": true,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-2-1.d1": {
+      "id": "L2-2-2-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-2",
+      "children": [
+        "L2-2-2-1.d2"
+      ],
+      "mutation_ids": [
+        "('3', 88295099)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-2-2-1",
+      "depth_excel": 6,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-3-1-1-2-1-2.d3": {
+      "id": "L2-1-1-3-1-1-2-1-2.d3",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-3-1-1-2-1-2.d2",
+      "children": [],
+      "mutation_ids": [
+        "('1', 183935725)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-3-1-1-2-1-2",
+      "depth_excel": 15,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-1-1-1-1(implicit)": {
+      "id": "L1-3-1-1-1-1(implicit)",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3-1-1-1.d2",
+      "children": [
+        "L1-3-1-1-1-1-1-1-1"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": "L1-3-1-1-1-1",
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": true,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-2-1-1-1-1.d2": {
+      "id": "L2-1-2-1-2-1-1-1-1.d2",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-2-1-1-1-1.d1",
+      "children": [],
+      "mutation_ids": [
+        "('5', 88272569)",
+        "('3', 166518149)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-1-2-1-2-1-1-1-1",
+      "depth_excel": 14,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-2": {
+      "id": "L1-1-2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1",
+      "children": [
+        "L1-1-2-1",
+        "L1-1-2-2"
+      ],
+      "mutation_ids": [
+        "('21', 24857065)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-1-2",
+      "depth_excel": 6,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-2.d1": {
+      "id": "L1-1-1-2.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1__pair_2",
+      "children": [
+        "L1-1-1-2.d2"
+      ],
+      "mutation_ids": [
+        "('18', 45795521)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-1-1-2",
+      "depth_excel": 7,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-1-1-1-1-1.d1": {
+      "id": "L1-2-1-1-1-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-1-1-1-1.d3",
+      "children": [
+        "L1-2-1-1-1-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('11', 29494306)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-2-1-1-1-1-1",
+      "depth_excel": 15,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-2-1-2-1-1.d3": {
+      "id": "L2-1-1-1-2-1-2-1-1.d3",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-2-1-2-1-1.d2",
+      "children": [
+        "L2-1-1-1-2-1-2-1-1.d4"
+      ],
+      "mutation_ids": [
+        "('1', 16472307)",
+        "('15', 40246398)",
+        "('19', 44852344)",
+        "('17', 1452052)"
+      ],
+      "n_mutations": 4,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous",
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-1-1-1-2-1-2-1-1",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-2-1-2-1-1-1.d1": {
+      "id": "L2-1-1-1-2-1-2-1-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-2-1-2-1-1.d4",
+      "children": [
+        "L2-1-1-1-2-1-2-1-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('1', 246674250)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-1-2-1-2-1-1-1",
+      "depth_excel": 14,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-1-1-1-1-1-1-1-2-1(implicit)": {
+      "id": "L1-2-1-1-1-1-1-1-1-2-1(implicit)",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-1-1-1-1-1-1-1-2",
+      "children": [
+        "L1-2-1-1-1-1-1-1-1-2-1-1"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": "L1-2-1-1-1-1-1-1-1-2-1",
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": true,
+      "is_synthetic": false
+    },
+    "L1-3-1-1-1-1-1-1-1-1-1.d2": {
+      "id": "L1-3-1-1-1-1-1-1-1-1-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3-1-1-1-1-1-1-1-1-1.d1",
+      "children": [
+        "L1-3-1-1-1-1-1-1-1-1-1.d3"
+      ],
+      "mutation_ids": [
+        "('6', 69966706)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-3-1-1-1-1-1-1-1-1-1",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-2-1-1-1.d2": {
+      "id": "L2-1-1-2-1-1-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-2-1-1-1.d1",
+      "children": [
+        "L2-1-1-2-1-1-1.d3"
+      ],
+      "mutation_ids": [
+        "('11', 85565112)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-2-1-1-1",
+      "depth_excel": 14,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-1.d2": {
+      "id": "L1-3-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3-1.d1",
+      "children": [
+        "L1-3-1-1(implicit)"
+      ],
+      "mutation_ids": [
+        "('6', 56686730)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-3-1",
+      "depth_excel": 6,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-2-1-1-1.d2": {
+      "id": "L1-3-2-1-1-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3-2-1-1-1.d1",
+      "children": [
+        "L1-3-2-1-1-1.d3"
+      ],
+      "mutation_ids": [
+        "('7', 132508785)",
+        "('1', 239007952)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L1-3-2-1-1-1",
+      "depth_excel": 8,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-2-1-1-2-1.d1": {
+      "id": "L2-1-2-1-2-1-1-2-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-2-1-1-2",
+      "children": [
+        "L2-1-2-1-2-1-1-2-1.d2"
+      ],
+      "mutation_ids": [
+        "('8', 23646188)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-2-1-2-1-1-2-1",
+      "depth_excel": 14,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-2-1-2": {
+      "id": "L1-2-2-1-2",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-2-2-1.d2",
+      "children": [],
+      "mutation_ids": [
+        "('7', 146240711)",
+        "('12', 92490398)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L1-2-2-1-2",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-1-1-1-1-1-1-1-1-1.d3": {
+      "id": "L1-3-1-1-1-1-1-1-1-1-1.d3",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-3-1-1-1-1-1-1-1-1-1.d2",
+      "children": [],
+      "mutation_ids": [
+        "('18', 22935772)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-3-1-1-1-1-1-1-1-1-1",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-1-2.d1": {
+      "id": "L1-2-1-2.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-1.d4",
+      "children": [
+        "L1-2-1-2.d2"
+      ],
+      "mutation_ids": [
+        "('6', 13985335)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-2-1-2",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-1-1-2-1": {
+      "id": "L1-3-1-1-2-1",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-3-1-1-2",
+      "children": [],
+      "mutation_ids": [
+        "('7', 127752475)",
+        "('10', 99520131)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L1-3-1-1-2-1",
+      "depth_excel": 8,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2.d2": {
+      "id": "L2.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2.d1",
+      "children": [
+        "L2.d3"
+      ],
+      "mutation_ids": [
+        "('2', 215158261)",
+        "('19', 372674)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2",
+      "depth_excel": 2,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-1-1-1-1-1-1-1": {
+      "id": "L1-2-1-1-1-1-1-1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-1-1-1-1-1-1",
+      "children": [
+        "L1-2-1-1-1-1-1-1-1-2"
+      ],
+      "mutation_ids": [
+        "('4', 16978191)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-2-1-1-1-1-1-1-1",
+      "depth_excel": 18,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-2-1-1-2-1-1.d2": {
+      "id": "L2-2-1-1-2-1-1-2-1-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-2-1-1-2-1-1.d1",
+      "children": [
+        "L2-2-1-1-2-1-1-2-1-1.d3"
+      ],
+      "mutation_ids": [
+        "('3', 160002712)",
+        "('3', 180487293)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-2-1-1-2-1-1-2-1-1",
+      "depth_excel": 15,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-1-1-3.d1": {
+      "id": "L1-1-1-1-1-3.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-1-1",
+      "children": [
+        "L1-1-1-1-1-3.d2"
+      ],
+      "mutation_ids": [
+        "('4', 181153774)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-1-1-1-1-3",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2.d1": {
+      "id": "L1-2.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1.d4__pair_2",
+      "children": [
+        "L1-2.d2"
+      ],
+      "mutation_ids": [
+        "('10', 106800168)",
+        "('5', 126972943)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L1-2",
+      "depth_excel": 5,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-2-1-1": {
+      "id": "L2-1-2-1-2-1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-2-1",
+      "children": [
+        "L2-1-2-1-2-1-1-1(implicit)",
+        "L2-1-2-1-2-1-1-2"
+      ],
+      "mutation_ids": [
+        "('12', 54943760)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-2-1-2-1-1",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-1.d2__pair_1": {
+      "id": "L2-1-2-1-1.d2__pair_1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-1.d2__pair_2",
+      "children": [
+        "L2-1-2-1-1-1",
+        "L2-1-2-1-1-2"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": null,
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": true,
+      "forced_arbitrary": false,
+      "statistically_resolved": true
+    },
+    "L2-2-1-1-2-1.d2": {
+      "id": "L2-2-1-1-2-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-2-1.d1",
+      "children": [
+        "L2-2-1-1-2-1.d3"
+      ],
+      "mutation_ids": [
+        "('19', 2079536)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-2-1-1-2-1",
+      "depth_excel": 8,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-4-1.d2": {
+      "id": "L1-4-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-4-1.d1",
+      "children": [
+        "L1-4-1.d3"
+      ],
+      "mutation_ids": [
+        "('7', 11164776)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-4-1",
+      "depth_excel": 6,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-1-1-1-2-1-1.d1": {
+      "id": "L1-3-1-1-1-2-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3-1-1-1-2-1.d5",
+      "children": [
+        "L1-3-1-1-1-2-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('4', 22975804)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-3-1-1-1-2-1-1",
+      "depth_excel": 15,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1.d2": {
+      "id": "L2-1-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1.d1",
+      "children": [
+        "L2-1-1.d2__pair_2"
+      ],
+      "mutation_ids": [
+        "('12', 84050839)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1",
+      "depth_excel": 7,
+      "is_polytomy": true,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-1-2-1.d1": {
+      "id": "L1-1-1-1-2-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-1-2",
+      "children": [
+        "L1-1-1-1-2-1.d2"
+      ],
+      "mutation_ids": [
+        "('13', 69162954)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-1-1-1-2-1",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-4-1.d1": {
+      "id": "L1-4-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-4(implicit)__pair_2",
+      "children": [
+        "L1-4-1.d2"
+      ],
+      "mutation_ids": [
+        "('6', 163265335)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-4-1",
+      "depth_excel": 5,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-3-1-1-2": {
+      "id": "L2-1-1-3-1-1-2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-3-1-1.d2",
+      "children": [
+        "L2-1-1-3-1-1-2-1"
+      ],
+      "mutation_ids": [
+        "('20', 54544781)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-1-3-1-1-2",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-1-1-1-2-1.d1": {
+      "id": "L1-3-1-1-1-2-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3-1-1-1-2",
+      "children": [
+        "L1-3-1-1-1-2-1.d2"
+      ],
+      "mutation_ids": [
+        "('3', 125175147)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-3-1-1-1-2-1",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-2-1-1-1.d2": {
+      "id": "L2-2-1-1-2-1-1-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-2-1-1-1.d1",
+      "children": [
+        "L2-2-1-1-2-1-1-1.d3"
+      ],
+      "mutation_ids": [
+        "('22', 48133485)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-2-1-1-2-1-1-1",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-1.d2__pair_2": {
+      "id": "L2-1-2-1-1.d2__pair_2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-1.d2",
+      "children": [
+        "L2-1-2-1-1-3.d1",
+        "L2-1-2-1-1.d2__pair_1"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": null,
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": true,
+      "forced_arbitrary": false,
+      "statistically_resolved": true
+    },
+    "L2-1-1-2-1-1-2": {
+      "id": "L2-1-1-2-1-1-2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-2-1-1.d3",
+      "children": [
+        "L2-1-1-2-1-1-2-1"
+      ],
+      "mutation_ids": [
+        "('8', 21671427)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-1-2-1-1-2",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-2-1-1-1.d3": {
+      "id": "L1-3-2-1-1-1.d3",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-3-2-1-1-1.d2",
+      "children": [],
+      "mutation_ids": [
+        "('X', 44114902)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-3-2-1-1-1",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-1-2": {
+      "id": "L1-1-1-1-2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-1",
+      "children": [
+        "L1-1-1-1-2-1.d1"
+      ],
+      "mutation_ids": [
+        "('12', 115411476)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-1-1-1-2",
+      "depth_excel": 8,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-2-1-1-2": {
+      "id": "L2-2-1-1-2-1-1-2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-2-1-1",
+      "children": [
+        "L2-2-1-1-2-1-1-2-1.d1"
+      ],
+      "mutation_ids": [
+        "('X', 63447537)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-2-1-1-2-1-1-2",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-3-1": {
+      "id": "L2-1-1-3-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-3(implicit)",
+      "children": [
+        "L2-1-1-3-1-1.d1"
+      ],
+      "mutation_ids": [
+        "('21', 16894360)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-1-3-1",
+      "depth_excel": 8,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-2-1-2-1-1.d1": {
+      "id": "L2-1-1-1-2-1-2-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-2-1-2-1(implicit)",
+      "children": [
+        "L2-1-1-1-2-1-2-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('11', 117183102)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-1-2-1-2-1-1",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-2-1-1-1.d3": {
+      "id": "L1-2-2-1-1-1.d3",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-2-1-1-1.d2",
+      "children": [
+        "L1-2-2-1-1-1.d4"
+      ],
+      "mutation_ids": [
+        "('1', 199812475)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-2-2-1-1-1",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-1-1-1-2-1-1.d2": {
+      "id": "L1-3-1-1-1-2-1-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3-1-1-1-2-1-1.d1",
+      "children": [
+        "L1-3-1-1-1-2-1-1.d3"
+      ],
+      "mutation_ids": [
+        "('3', 80529728)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-3-1-1-1-2-1-1",
+      "depth_excel": 16,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-1-1-1-1.d1": {
+      "id": "L1-2-1-1-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-1-1-1",
+      "children": [
+        "L1-2-1-1-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('4', 79329311)",
+        "('10', 134182180)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L1-2-1-1-1-1",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-2": {
+      "id": "L2-1-1-2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1.d2__pair_1",
+      "children": [
+        "L2-1-1-2-1",
+        "L2-1-1-2-3.d1"
+      ],
+      "mutation_ids": [
+        "('5', 29453316)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-1-2",
+      "depth_excel": 8,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-2-1": {
+      "id": "L2-2-1-2-1",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-2.d2",
+      "children": [],
+      "mutation_ids": [
+        "('4', 186876959)",
+        "('3', 178154871)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-2-1-2-1",
+      "depth_excel": 7,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-2-1-1-1.d4": {
+      "id": "L2-2-1-1-2-1-1-1.d4",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-2-1-1-1.d3",
+      "children": [
+        "L2-2-1-1-2-1-1-1-1.d1"
+      ],
+      "mutation_ids": [
+        "('6', 92419366)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-2-1-1-2-1-1-1",
+      "depth_excel": 14,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1": {
+      "id": "L2-1-1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1.d2__pair_1",
+      "children": [
+        "L2-1-1-1__pair_2"
+      ],
+      "mutation_ids": [
+        "('9', 135335496)",
+        "('10', 108806420)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-1-1-1",
+      "depth_excel": 8,
+      "is_polytomy": true,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-3-1-1-2-1-1": {
+      "id": "L2-1-1-3-1-1-2-1-1",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-3-1-1-2-1",
+      "children": [],
+      "mutation_ids": [
+        "('13', 28479754)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-1-3-1-1-2-1-1",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-2-2": {
+      "id": "L2-2-1-1-2-2",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-2",
+      "children": [],
+      "mutation_ids": [
+        "('8', 4967823)",
+        "('4', 11595351)",
+        "('10', 31446689)"
+      ],
+      "n_mutations": 3,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-2-1-1-2-2",
+      "depth_excel": 7,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-1-1-1-1.d3": {
+      "id": "L1-2-1-1-1-1.d3",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-1-1-1-1.d2",
+      "children": [
+        "L1-2-1-1-1-1-1.d1"
+      ],
+      "mutation_ids": [
+        "('3', 1467541)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-2-1-1-1-1",
+      "depth_excel": 14,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-1.d1": {
+      "id": "L1-2-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2.d2",
+      "children": [
+        "L1-2-1.d2"
+      ],
+      "mutation_ids": [
+        "('20', 58557707)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-2-1",
+      "depth_excel": 7,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-1-1(implicit)": {
+      "id": "L1-2-1-1(implicit)",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-1.d4",
+      "children": [
+        "L1-2-1-1-1"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": "L1-2-1-1",
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": true,
+      "is_synthetic": false
+    },
+    "L2-1-1-3-1-1-1-1": {
+      "id": "L2-1-1-3-1-1-1-1",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-3-1-1-1.d2",
+      "children": [],
+      "mutation_ids": [
+        "('X', 750317)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-1-3-1-1-1-1",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1.d1": {
+      "id": "L2-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2.d3",
+      "children": [
+        "L2-1.d2"
+      ],
+      "mutation_ids": [
+        "('17', 45626235)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1",
+      "depth_excel": 4,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-2-1-1": {
+      "id": "L2-2-1-1-2-1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-2-1.d3",
+      "children": [
+        "L2-2-1-1-2-1-1-1.d1",
+        "L2-2-1-1-2-1-1-2"
+      ],
+      "mutation_ids": [
+        "('4', 121376193)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-2-1-1-2-1-1",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-1": {
+      "id": "L2-2-1-1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1",
+      "children": [
+        "L2-2-1-1-1-1",
+        "L2-2-1-1-1-2"
+      ],
+      "mutation_ids": [
+        "('3', 140178716)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-2-1-1-1",
+      "depth_excel": 6,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-2-1.d2": {
+      "id": "L1-2-2-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-2-1.d1",
+      "children": [
+        "L1-2-2-1-1",
+        "L1-2-2-1-2"
+      ],
+      "mutation_ids": [
+        "('2', 51240910)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-2-2-1",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1.d4__pair_2": {
+      "id": "L1.d4__pair_2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1.d4__pair_3",
+      "children": [
+        "L1-2.d1",
+        "L1-3(implicit)"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": null,
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": true,
+      "forced_arbitrary": false,
+      "statistically_resolved": true
+    },
+    "L2-1-2-1-2-1": {
+      "id": "L2-1-2-1-2-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-2",
+      "children": [
+        "L2-1-2-1-2-1-1",
+        "L2-1-2-1-2-1-2"
+      ],
+      "mutation_ids": [
+        "('17', 38094364)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-2-1-2-1",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1.d4": {
+      "id": "L1.d4",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1.d3",
+      "children": [
+        "L1.d4__pair_3"
+      ],
+      "mutation_ids": [
+        "('11', 127666530)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1",
+      "depth_excel": 4,
+      "is_polytomy": true,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-1-1-1-1.d2": {
+      "id": "L2-1-1-1-1-1-1-1.d2",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-1-1-1-1.d1",
+      "children": [],
+      "mutation_ids": [
+        "('13', 36790284)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-1-1-1-1-1",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-1-1-2.d2": {
+      "id": "L2-1-1-1-1-1-2.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-1-1-2.d1",
+      "children": [
+        "L2-1-1-1-1-1-2.d3"
+      ],
+      "mutation_ids": [
+        "('1', 70504538)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-1-1-1-2",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-2-1-1-2-1.d4": {
+      "id": "L2-1-2-1-2-1-1-2-1.d4",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-2-1-1-2-1.d3",
+      "children": [
+        "L2-1-2-1-2-1-1-2-1.d5"
+      ],
+      "mutation_ids": [
+        "('8', 34282622)",
+        "('2', 111762976)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-1-2-1-2-1-1-2-1",
+      "depth_excel": 17,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-2-3.d2": {
+      "id": "L2-1-1-2-3.d2",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-2-3.d1",
+      "children": [],
+      "mutation_ids": [
+        "('9', 116327718)",
+        "('13', 100076970)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-1-1-2-3",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-1-1-1-1-1-1-1-2": {
+      "id": "L1-2-1-1-1-1-1-1-1-2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-1-1-1-1-1-1-1",
+      "children": [
+        "L1-2-1-1-1-1-1-1-1-2-1(implicit)"
+      ],
+      "mutation_ids": [
+        "('X', 127284196)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-2-1-1-1-1-1-1-1-2",
+      "depth_excel": 19,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-2-1-1.d1": {
+      "id": "L1-1-2-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-2-1",
+      "children": [
+        "L1-1-2-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('7', 4257791)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-1-2-1-1",
+      "depth_excel": 8,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-1-2-1.d2": {
+      "id": "L1-1-1-1-2-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-1-2-1.d1",
+      "children": [
+        "L1-1-1-1-2-1.d3"
+      ],
+      "mutation_ids": [
+        "('1', 100154787)",
+        "('8', 130411093)",
+        "('14', 84590999)"
+      ],
+      "n_mutations": 3,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L1-1-1-1-2-1",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-4-2-1": {
+      "id": "L1-4-2-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-4(implicit)__pair_1",
+      "children": [
+        "L1-4-2-1-1"
+      ],
+      "mutation_ids": [
+        "('4', 90072961)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-4-2-1",
+      "depth_excel": 5,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-3-1": {
+      "id": "L1-1-1-3-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-3",
+      "children": [
+        "L1-1-1-3-1-1.d1"
+      ],
+      "mutation_ids": [
+        "('12', 9383757)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-1-1-3-1",
+      "depth_excel": 8,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-1-3-1": {
+      "id": "L2-1-2-1-1-3-1",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-1-3.d2",
+      "children": [],
+      "mutation_ids": [
+        "('17', 79849512)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-2-1-1-3-1",
+      "depth_excel": 14,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-1-1-1-1-1-1-1": {
+      "id": "L1-3-1-1-1-1-1-1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3-1-1-1-1(implicit)",
+      "children": [
+        "L1-3-1-1-1-1-1-1-1-1(implicit)"
+      ],
+      "mutation_ids": [
+        "('5', 155488612)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-3-1-1-1-1-1-1-1",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1.d2__pair_2": {
+      "id": "L2-1-1.d2__pair_2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1.d2",
+      "children": [
+        "L2-1-1-3(implicit)",
+        "L2-1-1.d2__pair_1"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": null,
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": true,
+      "forced_arbitrary": false,
+      "statistically_resolved": true
+    },
+    "L2-2-1-1-1-1": {
+      "id": "L2-2-1-1-1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-1",
+      "children": [
+        "L2-2-1-1-1-1-1"
+      ],
+      "mutation_ids": [
+        "('14', 75615095)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-2-1-1-1-1",
+      "depth_excel": 7,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1.d2": {
+      "id": "L1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1.d1",
+      "children": [
+        "L1.d3"
+      ],
+      "mutation_ids": [
+        "('13', 104743587)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1",
+      "depth_excel": 2,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-1-1-1-1-1": {
+      "id": "L2-2-1-1-1-1-1-1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-1-1-1-1",
+      "children": [
+        "L2-2-1-1-1-1-1-1-1-1"
+      ],
+      "mutation_ids": [
+        "('3', 182791952)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-2-1-1-1-1-1-1-1",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-2-2.d1": {
+      "id": "L1-2-2-2.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-2",
+      "children": [
+        "L1-2-2-2.d2"
+      ],
+      "mutation_ids": [
+        "('17', 37734386)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-2-2-2",
+      "depth_excel": 8,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-2-1": {
+      "id": "L1-1-2-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-2",
+      "children": [
+        "L1-1-2-1-1.d1"
+      ],
+      "mutation_ids": [
+        "('20', 44751630)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-1-2-1",
+      "depth_excel": 7,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-2-1-1.d2": {
+      "id": "L1-1-1-2-1-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-2-1-1.d1",
+      "children": [
+        "L1-1-1-2-1-1-1(implicit)",
+        "L1-1-1-2-1-1-2"
+      ],
+      "mutation_ids": [
+        "('5', 26420627)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-1-1-2-1-1",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-2-1-1-1-1.d1": {
+      "id": "L2-1-2-1-2-1-1-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-2-1-1-1(implicit)",
+      "children": [
+        "L2-1-2-1-2-1-1-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('13', 19706543)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-2-1-2-1-1-1-1",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-1-1-1-1-1-1-1.d2": {
+      "id": "L2-2-1-1-1-1-1-1-1-1-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-1-1-1-1-1-1-1.d1",
+      "children": [
+        "L2-2-1-1-1-1-1-1-1-1-1.d3"
+      ],
+      "mutation_ids": [
+        "('18', 75057687)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-2-1-1-1-1-1-1-1-1-1",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2.d2": {
+      "id": "L1-2.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2.d1",
+      "children": [
+        "L1-2-1.d1",
+        "L1-2-2"
+      ],
+      "mutation_ids": [
+        "('18', 50023112)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-2",
+      "depth_excel": 6,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-2-1-1": {
+      "id": "L1-2-2-1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-2-1.d2",
+      "children": [
+        "L1-2-2-1-1-1.d1"
+      ],
+      "mutation_ids": [
+        "('9', 89652788)",
+        "('19', 4474000)",
+        "('3', 115027525)"
+      ],
+      "n_mutations": 3,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L1-2-2-1-1",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-2-1-2.d4": {
+      "id": "L2-1-1-2-1-2.d4",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-2-1-2.d3",
+      "children": [
+        "L2-1-1-2-1-2.d5"
+      ],
+      "mutation_ids": [
+        "('22', 19076790)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-2-1-2",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-1-1-2": {
+      "id": "L1-3-1-1-2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3-1-1(implicit)",
+      "children": [
+        "L1-3-1-1-2-1"
+      ],
+      "mutation_ids": [
+        "('3', 9365623)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-3-1-1-2",
+      "depth_excel": 7,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-2-1-2-1-1-1.d2": {
+      "id": "L2-1-1-1-2-1-2-1-1-1.d2",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-2-1-2-1-1-1.d1",
+      "children": [],
+      "mutation_ids": [
+        "('12', 64384788)",
+        "('14', 95672493)",
+        "('11', 4268305)"
+      ],
+      "n_mutations": 3,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-1-1-1-2-1-2-1-1-1",
+      "depth_excel": 15,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-2-2.d2": {
+      "id": "L1-2-2-2.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-2-2.d1",
+      "children": [
+        "L1-2-2-2-2.d1"
+      ],
+      "mutation_ids": [
+        "('2', 1747020)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-2-2-2",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-3.d2": {
+      "id": "L2-1-1-1-3.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-3.d1",
+      "children": [
+        "L2-1-1-1-3-1"
+      ],
+      "mutation_ids": [
+        "('5', 125119749)",
+        "('21', 44164486)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-1-1-1-3",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-1-1-1-1.d1": {
+      "id": "L1-1-1-1-1-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-1-1-1(implicit)",
+      "children": [
+        "L1-1-1-1-1-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('5', 80120411)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-1-1-1-1-1-1",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-1-2-1.d5": {
+      "id": "L1-1-1-1-2-1.d5",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-1-2-1.d4",
+      "children": [],
+      "mutation_ids": [
+        "('13', 56289404)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-1-1-1-2-1",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-2-1-1-1-1.d2": {
+      "id": "L2-2-1-1-2-1-1-1-1.d2",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-2-1-1-1-1.d1",
+      "children": [],
+      "mutation_ids": [
+        "('7', 107819048)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-2-1-1-2-1-1-1-1",
+      "depth_excel": 16,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-1-1-1.d1": {
+      "id": "L1-3-1-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3-1-1(implicit)",
+      "children": [
+        "L1-3-1-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('10', 85546678)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-3-1-1-1",
+      "depth_excel": 7,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-1-1-1.d2": {
+      "id": "L1-3-1-1-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3-1-1-1.d1",
+      "children": [
+        "L1-3-1-1-1-1(implicit)",
+        "L1-3-1-1-1-2"
+      ],
+      "mutation_ids": [
+        "('16', 47363208)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-3-1-1-1",
+      "depth_excel": 8,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-1-1-1-1-1-1-1.d1": {
+      "id": "L2-2-1-1-1-1-1-1-1-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-1-1-1-1-1-1",
+      "children": [
+        "L2-2-1-1-1-1-1-1-1-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('4', 132390783)",
+        "('10', 103280835)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-2-1-1-1-1-1-1-1-1-1",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-2.d1": {
+      "id": "L2-2-1-2.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1(implicit)",
+      "children": [
+        "L2-2-1-2.d2"
+      ],
+      "mutation_ids": [
+        "('4', 33065838)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-2-1-2",
+      "depth_excel": 5,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-2-1-1": {
+      "id": "L1-3-2-1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3-2-1(implicit)",
+      "children": [
+        "L1-3-2-1-1-1.d1"
+      ],
+      "mutation_ids": [
+        "('11', 63532463)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-3-2-1-1",
+      "depth_excel": 6,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-1-2-1-2.d3": {
+      "id": "L2-1-2-1-1-2-1-2.d3",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-1-2-1-2.d2",
+      "children": [],
+      "mutation_ids": [
+        "('2', 208829473)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-2-1-1-2-1-2",
+      "depth_excel": 16,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-2-1-2.d3": {
+      "id": "L2-1-1-2-1-2.d3",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-2-1-2.d2",
+      "children": [
+        "L2-1-1-2-1-2.d4"
+      ],
+      "mutation_ids": [
+        "('X', 101115092)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-2-1-2",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2.d1": {
+      "id": "L2.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "root",
+      "children": [
+        "L2.d2"
+      ],
+      "mutation_ids": [
+        "('9', 129095960)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2",
+      "depth_excel": 1,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-1-1-1-1.d1": {
+      "id": "L2-1-1-1-1-1-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-1-1(implicit)",
+      "children": [
+        "L2-1-1-1-1-1-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('20', 50288167)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-1-1-1-1-1",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-1-1-1-1-1-1-1.d3": {
+      "id": "L2-2-1-1-1-1-1-1-1-1-1.d3",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-1-1-1-1-1-1-1.d2",
+      "children": [],
+      "mutation_ids": [
+        "('15', 99036975)",
+        "('5', 163382173)",
+        "('16', 62188685)",
+        "('11', 125727143)"
+      ],
+      "n_mutations": 4,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous",
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-2-1-1-1-1-1-1-1-1-1",
+      "depth_excel": 14,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-1-2-1.d3": {
+      "id": "L1-1-1-1-2-1.d3",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-1-2-1.d2",
+      "children": [
+        "L1-1-1-1-2-1.d4"
+      ],
+      "mutation_ids": [
+        "('6', 78941701)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-1-1-1-2-1",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-2.d2": {
+      "id": "L1-1-1-2.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-2.d1",
+      "children": [
+        "L1-1-1-2-1",
+        "L1-1-1-2-2.d1"
+      ],
+      "mutation_ids": [
+        "('2', 73583265)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-1-1-2",
+      "depth_excel": 8,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-1-1-1": {
+      "id": "L1-2-1-1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-1-1(implicit)",
+      "children": [
+        "L1-2-1-1-1-1.d1",
+        "L1-2-1-1-1-2"
+      ],
+      "mutation_ids": [
+        "('1', 72242978)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-2-1-1-1",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-2-1-1.d3": {
+      "id": "L2-1-1-2-1-1.d3",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-2-1-1.d2",
+      "children": [
+        "L2-1-1-2-1-1-1.d1",
+        "L2-1-1-2-1-1-2"
+      ],
+      "mutation_ids": [
+        "('5', 22767086)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-2-1-1",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-1-1-1-1-1.d2": {
+      "id": "L1-2-1-1-1-1-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-1-1-1-1-1.d1",
+      "children": [
+        "L1-2-1-1-1-1-1-1"
+      ],
+      "mutation_ids": [
+        "('3', 103937115)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-2-1-1-1-1-1",
+      "depth_excel": 16,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-1-1-3.d2": {
+      "id": "L1-1-1-1-1-3.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-1-1-3.d1",
+      "children": [
+        "L1-1-1-1-1-3-1.d1"
+      ],
+      "mutation_ids": [
+        "('3', 69125158)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-1-1-1-1-3",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-1-1-2-1-1-2": {
+      "id": "L1-1-1-2-1-1-2",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-2-1-1.d2",
+      "children": [],
+      "mutation_ids": [
+        "('4', 117483027)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-1-1-2-1-1-2",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-2-1-2": {
+      "id": "L2-1-1-1-2-1-2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-2(implicit)",
+      "children": [
+        "L2-1-1-1-2-1-2-1(implicit)"
+      ],
+      "mutation_ids": [
+        "('2', 139726399)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-1-1-2-1-2",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-1-1-1-1-1-1-1-1-2": {
+      "id": "L1-3-1-1-1-1-1-1-1-1-2",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L1-3-1-1-1-1-1-1-1-1(implicit)",
+      "children": [],
+      "mutation_ids": [
+        "('3', 161005655)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L1-3-1-1-1-1-1-1-1-1-2",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-3-1-1.d2": {
+      "id": "L2-1-1-3-1-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-3-1-1.d1",
+      "children": [
+        "L2-1-1-3-1-1-1.d1",
+        "L2-1-1-3-1-1-2"
+      ],
+      "mutation_ids": [
+        "('9', 11633136)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-3-1-1",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-1-1-1-1-1-1-1-1-1.d1": {
+      "id": "L1-3-1-1-1-1-1-1-1-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3-1-1-1-1-1-1-1-1(implicit)",
+      "children": [
+        "L1-3-1-1-1-1-1-1-1-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('16', 11647625)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-3-1-1-1-1-1-1-1-1-1",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-2-1-2.d2": {
+      "id": "L2-1-1-2-1-2.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-2-1-2.d1",
+      "children": [
+        "L2-1-1-2-1-2.d3"
+      ],
+      "mutation_ids": [
+        "('X', 154670385)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-2-1-2",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-2-1-1-1-2": {
+      "id": "L2-1-1-2-1-1-1-2",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-2-1-1-1.d3",
+      "children": [],
+      "mutation_ids": [
+        "('1', 62860700)",
+        "('9', 34476985)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-1-1-2-1-1-1-2",
+      "depth_excel": 16,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-2-1-1-2": {
+      "id": "L2-1-2-1-2-1-1-2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-2-1-1",
+      "children": [
+        "L2-1-2-1-2-1-1-2-1.d1"
+      ],
+      "mutation_ids": [
+        "('17', 5307291)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-2-1-2-1-1-2",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-1-2-1-1.d2": {
+      "id": "L2-2-1-1-1-2-1-1.d2",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-1-2-1-1.d1",
+      "children": [],
+      "mutation_ids": [
+        "('1', 16434746)",
+        "('6', 2992181)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-2-1-1-1-2-1-1",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-2-1-1-2-1-1.d1": {
+      "id": "L2-2-1-1-2-1-1-2-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-2-1-1-2-1.d2",
+      "children": [
+        "L2-2-1-1-2-1-1-2-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('14', 106267105)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-2-1-1-2-1-1-2-1-1",
+      "depth_excel": 14,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-2": {
+      "id": "L2-2-1-1-2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1",
+      "children": [
+        "L2-2-1-1-2-1.d1",
+        "L2-2-1-1-2-2"
+      ],
+      "mutation_ids": [
+        "('8', 136410323)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-2-1-1-2",
+      "depth_excel": 6,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1": {
+      "id": "L2-2-1-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1(implicit)",
+      "children": [
+        "L2-2-1-1-1",
+        "L2-2-1-1-2"
+      ],
+      "mutation_ids": [
+        "('3', 104097129)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-2-1-1",
+      "depth_excel": 5,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-2-2": {
+      "id": "L2-1-2-1-2-2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-2",
+      "children": [
+        "L2-1-2-1-2-2-1.d1"
+      ],
+      "mutation_ids": [
+        "('15', 68607162)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-2-1-2-2",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-2-1-1-1(implicit)": {
+      "id": "L2-1-2-1-2-1-1-1(implicit)",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-2-1-1",
+      "children": [
+        "L2-1-2-1-2-1-1-1-1.d1"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": "L2-1-2-1-2-1-1-1",
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": true,
+      "is_synthetic": false
+    },
+    "L1-3-2-1-1-1.d1": {
+      "id": "L1-3-2-1-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3-2-1-1",
+      "children": [
+        "L1-3-2-1-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('18', 30267748)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-3-2-1-1-1",
+      "depth_excel": 7,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-1-1(implicit)": {
+      "id": "L2-1-1-1-1-1(implicit)",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-1.d2",
+      "children": [
+        "L2-1-1-1-1-1-1-1.d1",
+        "L2-1-1-1-1-1-2.d1"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": "L2-1-1-1-1-1",
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": true,
+      "is_synthetic": false
+    },
+    "L1-2-2-1-1-1.d1": {
+      "id": "L1-2-2-1-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-2-1-1",
+      "children": [
+        "L1-2-2-1-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('9', 5173147)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-2-2-1-1-1",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-2-1-2": {
+      "id": "L2-1-2-1-2-1-2",
+      "is_leaf": true,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-2-1",
+      "children": [],
+      "mutation_ids": [
+        "('1', 22166780)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-2-1-2-1-2",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-4-1.d3": {
+      "id": "L1-4-1.d3",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-4-1.d2",
+      "children": [
+        "L1-4-1-1"
+      ],
+      "mutation_ids": [
+        "('3', 176630352)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-4-1",
+      "depth_excel": 7,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-1-3.d2": {
+      "id": "L2-1-2-1-1-3.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-1-3.d1",
+      "children": [
+        "L2-1-2-1-1-3-1"
+      ],
+      "mutation_ids": [
+        "('16', 1584872)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-2-1-1-3",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-1-1-1-1.d2": {
+      "id": "L1-2-1-1-1-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-1-1-1-1.d1",
+      "children": [
+        "L1-2-1-1-1-1.d3"
+      ],
+      "mutation_ids": [
+        "('8', 119919243)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-2-1-1-1-1",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-2-1-1.d2": {
+      "id": "L2-1-1-2-1-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-2-1-1.d1",
+      "children": [
+        "L2-1-1-2-1-1.d3"
+      ],
+      "mutation_ids": [
+        "('10', 105262231)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-2-1-1",
+      "depth_excel": 11,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-2-1-1-1-2": {
+      "id": "L1-2-1-1-1-2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-2-1-1-1",
+      "children": [
+        "L1-2-1-1-1-2-1"
+      ],
+      "mutation_ids": [
+        "('1', 234452420)",
+        "('2', 130155909)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L1-2-1-1-1-2",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-3-1-1-2-1": {
+      "id": "L2-1-1-3-1-1-2-1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-3-1-1-2",
+      "children": [
+        "L2-1-1-3-1-1-2-1-1",
+        "L2-1-1-3-1-1-2-1-2.d1"
+      ],
+      "mutation_ids": [
+        "('12', 129299224)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-1-3-1-1-2-1",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-3-1-1-1-2-1.d4": {
+      "id": "L1-3-1-1-1-2-1.d4",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-3-1-1-1-2-1.d3",
+      "children": [
+        "L1-3-1-1-1-2-1.d5"
+      ],
+      "mutation_ids": [
+        "('7', 97776972)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-3-1-1-1-2-1",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-1.d2": {
+      "id": "L2-1-2-1-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-1.d1",
+      "children": [
+        "L2-1-2-1-1.d2__pair_2"
+      ],
+      "mutation_ids": [
+        "('2', 119911293)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-2-1-1",
+      "depth_excel": 11,
+      "is_polytomy": true,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-2-1-1-2-1.d3": {
+      "id": "L2-1-2-1-2-1-1-2-1.d3",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-2-1-1-2-1.d2",
+      "children": [
+        "L2-1-2-1-2-1-1-2-1.d4"
+      ],
+      "mutation_ids": [
+        "('19', 56204463)",
+        "('11', 50174987)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-1-2-1-2-1-1-2-1",
+      "depth_excel": 16,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-2-1-1-1-1-1-1.d2": {
+      "id": "L2-1-1-1-2-1-1-1-1-1-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-2-1-1-1-1-1-1.d1",
+      "children": [
+        "L2-1-1-1-2-1-1-1-1-1-1.d3"
+      ],
+      "mutation_ids": [
+        "('18', 54788409)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-1-2-1-1-1-1-1-1",
+      "depth_excel": 13,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-1-1-1-2-1-1.d1": {
+      "id": "L2-2-1-1-1-2-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2-1-1-1-2-1",
+      "children": [
+        "L2-2-1-1-1-2-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('2', 45664836)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-2-1-1-1-2-1-1",
+      "depth_excel": 9,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-2-2": {
+      "id": "L2-2-2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-2",
+      "children": [
+        "L2-2-2-1.d1"
+      ],
+      "mutation_ids": [
+        "('15', 100262455)",
+        "('12', 12876573)"
+      ],
+      "n_mutations": 2,
+      "step_type": "simultaneous",
+      "step_types": [
+        "simultaneous",
+        "simultaneous"
+      ],
+      "lineage": "L2-2-2",
+      "depth_excel": 5,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-2-1-2-1(implicit)": {
+      "id": "L2-1-1-1-2-1-2-1(implicit)",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-2-1-2",
+      "children": [
+        "L2-1-1-1-2-1-2-1-1.d1"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": "L2-1-1-1-2-1-2-1",
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": true,
+      "is_synthetic": false
+    },
+    "L1-1-1-1-1-3-1.d2": {
+      "id": "L1-1-1-1-1-3-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-1-1-1-1-3-1.d1",
+      "children": [
+        "L1-1-1-1-1-3-1-1"
+      ],
+      "mutation_ids": [
+        "('16', 27788562)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L1-1-1-1-1-3-1",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-1-2-1-2.d2": {
+      "id": "L2-1-2-1-1-2-1-2.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-1-2-1-2.d1",
+      "children": [
+        "L2-1-2-1-1-2-1-2.d3"
+      ],
+      "mutation_ids": [
+        "('6', 58036477)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-2-1-1-2-1-2",
+      "depth_excel": 15,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-2-1-1.d1": {
+      "id": "L2-1-1-2-1-1.d1",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-2-1",
+      "children": [
+        "L2-1-1-2-1-1.d2"
+      ],
+      "mutation_ids": [
+        "('21', 27193242)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-2-1-1",
+      "depth_excel": 10,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-1-1-1.d2": {
+      "id": "L2-1-1-1-1.d2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-1-1-1.d1",
+      "children": [
+        "L2-1-1-1-1-1(implicit)",
+        "L2-1-1-1-1-2.d1"
+      ],
+      "mutation_ids": [
+        "('2', 57343837)"
+      ],
+      "n_mutations": 1,
+      "step_type": "sequential",
+      "step_types": [
+        "sequential"
+      ],
+      "lineage": "L2-1-1-1-1",
+      "depth_excel": 10,
+      "is_polytomy": true,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L2-1-2-1-1-2": {
+      "id": "L2-1-2-1-1-2",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L2-1-2-1-1.d2__pair_1",
+      "children": [
+        "L2-1-2-1-1-2-1"
+      ],
+      "mutation_ids": [
+        "('17', 78759420)"
+      ],
+      "n_mutations": 1,
+      "step_type": null,
+      "step_types": [
+        NaN
+      ],
+      "lineage": "L2-1-2-1-1-2",
+      "depth_excel": 12,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": false
+    },
+    "L1-4(implicit)": {
+      "id": "L1-4(implicit)",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1.d4__pair_1",
+      "children": [
+        "L1-4(implicit)__ladder_4"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": "L1-4",
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": true,
+      "is_synthetic": false
+    },
+    "L1-4(implicit)__ladder_4": {
+      "id": "L1-4(implicit)__ladder_4",
+      "is_leaf": false,
+      "leaf_name": null,
+      "parent_id": "L1-4(implicit)",
+      "children": [
+        "L1-4(implicit)__ladder_3",
+        "L1-4-5.d1"
+      ],
+      "mutation_ids": [],
+      "n_mutations": 0,
+      "step_type": null,
+      "step_types": [],
+      "lineage": null,
+      "depth_excel": null,
+      "is_polytomy": false,
+      "is_implicit": false,
+      "is_synthetic": true,
+      "forced_arbitrary": true,
+      "statistically_resolved": false
+    }
+  },
+  "root_id": "root",
+  "unassigned_mutation_ids": [
+    "('4', 70564015)"
+  ]
+}
