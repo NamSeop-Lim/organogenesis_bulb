@@ -200,23 +200,27 @@ const ORGAN_VISUALS = {
   eye: {
     dataFile: 'eye_vaf_long.json',
     sideField: null, // both eyes are already positioned in the one image -- one panel, no left/right filtering
-    // cmd2607311355: eye_song.svg revision -- dotR computed directly rather
-    // than compared by eye this time: minimum pairwise marker distance
-    // across all 45 markers is 62.352 (LE13/LE14, viewBox units), so two
-    // dots' fill circles alone touch at r=31.176 (half that). Each dot also
-    // draws a 2.2px stroke outside its radius, so subtracting that margin
-    // (31.176 - 1.1 = 30.08) gives the largest non-touching-including-stroke
-    // size; 29 leaves a small ~2px visual gap at the closest pair while
+    // eye_hannah_final.svg revision (PI-redrawn artwork, viewBox
+    // 2656x1986.67 -> 4200x2824) -- dotR recomputed the same way as the
+    // eye_song.svg revision: minimum pairwise marker distance across the 45
+    // plotted markers is 50.935 (RE27/RE28, viewBox units), so two dots'
+    // fill circles alone touch at r=25.467 (half that). Each dot also draws
+    // a 2.2px stroke outside its radius, so subtracting that margin
+    // (25.467 - 1.1 = 24.37) gives the largest non-touching-including-stroke
+    // size; 24 leaves a small ~1px visual gap at the closest pair while
     // being as large as possible everywhere else.
-    dotR: 29,
+    dotR: 24,
     templates: {
-      // cmd2607311355: marker coordinates (eye_package/eye_all_samples.csv,
-      // re-parsed from eye_song.svg's marker group after its viewBox/scale
-      // changed) are in this same viewBox with no transform (verified by
-      // plotting them back onto the plain template and confirming every one
-      // lands on its original marker) -- full native viewBox used, same as
-      // liver/heart.
-      eye: { href: 'templates/eye_template.svg', w: 2656, h: 1986.67, crop: { x: 0, y: 0, w: 2656, h: 1986.67 } },
+      // marker coordinates (eye_package/eye_all_samples.csv, re-parsed from
+      // eye_hannah_final.svg's marker group by
+      // scripts/parse_eye_markers_hannah.py) are in this same viewBox with
+      // no transform (verified by plotting them back onto the plain
+      // template and confirming every one lands on its original marker) --
+      // full native viewBox used, same as liver/heart.
+      // cmd2608121811: expandedHref -- swaps to eye_hannah_final_gray.svg
+      // (dot-free, same viewBox/marker geometry as eye_template.svg) only
+      // while the panel is expanded/pinned, same mechanism as brain above.
+      eye: { href: 'templates/eye_template.svg', expandedHref: 'templates/eye_gray_line.svg', w: 4200, h: 2824, crop: { x: 0, y: 0, w: 4200, h: 2824 } },
     },
   },
   brain: {
