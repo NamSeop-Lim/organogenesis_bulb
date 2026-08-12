@@ -36,10 +36,12 @@ def main():
 
     missing_coords = sorted({r["sample_id"] for r in long_rows if r["sample_id"] not in coords})
     if missing_coords:
-        raise SystemExit(f"sample_ids in {EYE_LONG_CSV} with no marker coordinate: {missing_coords}")
+        print(f"WARNING: sample_ids in {EYE_LONG_CSV} with no marker coordinate, excluded from output: {missing_coords}")
 
     out_rows = []
     for r in long_rows:
+        if r["sample_id"] not in coords:
+            continue
         x, y = coords[r["sample_id"]]
         out_rows.append({
             "mutation_id": r["mutation_id"],
