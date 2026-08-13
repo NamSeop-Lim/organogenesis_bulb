@@ -83,6 +83,18 @@
             }
           ],
           "compartments": null
+        },
+        "git": {
+          "label": "GIT",
+          "available": true,
+          "dataDir": "git",
+          "templates": [
+            {
+              "id": "git",
+              "label": "GIT"
+            }
+          ],
+          "compartments": null
         }
       }
     }
