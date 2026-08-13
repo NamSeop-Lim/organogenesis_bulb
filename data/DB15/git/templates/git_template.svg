@@ -43,7 +43,7 @@
       }
 
       .cls-4, .cls-5 {
-        stroke-width: 3px;
+        stroke-width: 12px;
       }
 
       .cls-5 {

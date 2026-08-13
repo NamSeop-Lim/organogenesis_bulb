@@ -271,13 +271,14 @@ const ORGAN_VISUALS = {
     dataFile: 'git_vaf_long.json',
     sideField: null, // stomach/small intestine/colon sites are already positioned in the one image -- one panel, no filtering
     // cmd2608131300: minimum pairwise marker distance across all 49 markers
-    // is 60.342 (StoGC6<->StoGC7, viewBox units), so two dots' fill circles
-    // alone touch at r=30.171 (half that). Each dot also draws a 2.2px
-    // stroke outside its radius, so subtracting that margin (30.171 - 1.1 =
-    // 29.07) gives the largest non-touching-including-stroke size; 29
-    // leaves a small visual gap at the closest pair while being as large as
-    // possible everywhere else.
-    dotR: 29,
+    // is 60.342 (StoGC6<->StoGC7, viewBox units); the strict non-touching
+    // radius would be ~29 (see git history for that derivation), but at
+    // this organ's huge 7202.83-wide viewBox that read as too small in the
+    // thumbnail panel -- cmd (2608131440+): sized up to 40 per direct
+    // instruction ("dots too small"), a deliberate exception to the
+    // no-overlap convention used elsewhere. Only the single StoGC6/StoGC7
+    // pair overlaps slightly at this size; every other marker stays clear.
+    dotR: 40,
     templates: {
       // marker coordinates (git_package/git_all_samples.csv, parsed from
       // GIT_black_minah_1.svg's 49 self-contained <g id="_N"> marker groups
