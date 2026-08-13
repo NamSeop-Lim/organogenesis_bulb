@@ -298,20 +298,33 @@ const ORGAN_VISUALS = {
     // cmd2608131300: minimum pairwise marker distance across all 49 markers
     // is 60.342 (StoGC6<->StoGC7, viewBox units); the strict non-touching
     // radius would be ~29 (see git history for that derivation), but at
-    // this organ's huge 7202.83-wide viewBox that read as too small in the
-    // thumbnail panel -- cmd (2608131440+): sized up to 40 per direct
+    // this organ's huge (then-7202.83-wide) viewBox that read as too small in
+    // the thumbnail panel -- cmd (2608131440+): sized up to 40 per direct
     // instruction ("dots too small"), a deliberate exception to the
     // no-overlap convention used elsewhere. Only the single StoGC6/StoGC7
     // pair overlaps slightly at this size; every other marker stays clear.
+    // Marker radius/spacing is a pure translation-only re-layout (see
+    // parse_git_markers.py docstring) between the old and new (2608131739-
+    // followup) artwork, so dotR=40 still applies unchanged.
     dotR: 40,
     templates: {
       // marker coordinates (git_package/git_all_samples.csv, parsed from
-      // GIT_black_minah_1.svg's 49 self-contained <g id="_N"> marker groups
-      // by scripts/parse_git_markers.py) are in this same viewBox with no
-      // transform -- full native viewBox used, same as liver/heart/eye/brain/diaphragm.
+      // git_black_thick_template.svg's 49 self-contained <g id="_N"> marker
+      // groups by scripts/parse_git_markers.py) are in this same viewBox with
+      // no transform -- full native viewBox used, same as liver/heart/eye/brain/diaphragm.
       // expandedHref swaps to the dot-free gray-line variant on expand,
       // same mechanism as brain/eye above.
-      git: { href: 'templates/git_template.svg', expandedHref: 'templates/git_gray_line.svg', w: 7202.83, h: 3410.36, crop: { x: 0, y: 0, w: 7202.83, h: 3410.36 } },
+      // cmd2608131739-followup: swapped to the artist's thicker-stroke
+      // redraw (git_black_thick_template.svg / git_grey_thick_template.svg,
+      // via git_package/strip_git_markers.py-stripped plain copies) for
+      // legibility -- viewBox shrank (7202.83x3410.36 -> 4264.06x3410.36,
+      // tighter crop, same content scale) so w/h/crop updated to match; the
+      // expanded (grey) template's own intrinsic viewBox is 4253.93x3410.36,
+      // ~0.24% narrower than black's -- both are stretched to this w/h by
+      // the <image> element regardless, same as before, so the mismatch is
+      // imperceptible (not exact-pixel-matched between the two source files,
+      // unlike the original GIT_black_minah_1.svg/GIT_grey_minah_1.svg pair).
+      git: { href: 'templates/git_template.svg', expandedHref: 'templates/git_gray_line.svg', w: 4264.06, h: 3410.36, crop: { x: 0, y: 0, w: 4264.06, h: 3410.36 } },
     },
   },
 };
