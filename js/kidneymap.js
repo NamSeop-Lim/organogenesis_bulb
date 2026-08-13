@@ -36,6 +36,31 @@ const ABSENT_FILL = '#f2f2f2';
 const VMAX = 0.230; // p99 cap, same fixed shared scale as the old baked maps / site-wide VAF legend
 const HOVER_COLOR = '#ff2d6f';
 
+// cmd2608131552: the color scale was linear (t = vaf/VMAX), which severely
+// compresses the biologically-relevant low-to-moderate VAF range -- pooled
+// across all 7 organs, median VAF (0.006) mapped to t=0.026, i.e. half of
+// all detected mutations rendered as visually-indistinguishable pale
+// yellow. Full diagnosis + 3-method comparison:
+// lineage_bulb/db15/analysis/vaf_normalization/REPORT.md. Switched the
+// default to an asinh transform (t = asinh(vaf/C)/asinh(VMAX/C), same
+// fixed VMAX and one global cofactor C for every organ -- still a single
+// universal reference, absolute VAF is always recoverable from a color,
+// same as the old linear scale). C=0.002 was chosen so the pooled median
+// VAF lands near the middle of the ramp (t=0.334) rather than its bottom
+// edge. useLinearVafScale + setVafScaleMode() below preserve the ability
+// to switch back to the original linear scale live, for direct comparison
+// (wired to the checkbox in index.html's .vaf-legend).
+const ASINH_C = 0.002;
+let useLinearVafScale = false;
+
+function setVafScaleMode(linear) {
+  useLinearVafScale = linear;
+  document.querySelectorAll('.kidneymap-dot-visible[data-vaf]').forEach((el) => {
+    const v = parseFloat(el.dataset.vaf);
+    if (v > 0) el.setAttribute('fill', vafToColor(v));
+  });
+}
+
 // Same 9-stop ColorBrewer YlGnBu ramp already used by .vaf-legend-bar's CSS
 // gradient (css/style.css) -- reusing it here (instead of re-deriving
 // matplotlib's YlGnBu independently) guarantees the dots and the legend
@@ -300,7 +325,9 @@ function rgbToHex([r, g, b]) {
   return `#${c(r)}${c(g)}${c(b)}`;
 }
 function vafToColor(vaf) {
-  const t = Math.max(0, Math.min(1, vaf / VMAX));
+  const t = useLinearVafScale
+    ? Math.max(0, Math.min(1, vaf / VMAX))
+    : Math.max(0, Math.min(1, Math.asinh(vaf / ASINH_C) / Math.asinh(VMAX / ASINH_C)));
   const seg = t * (YLGNBU_STOPS.length - 1);
   const lo = Math.floor(seg);
   const hi = Math.min(lo + 1, YLGNBU_STOPS.length - 1);
@@ -495,6 +522,7 @@ async function renderKidneyMap(container, mutationId, donor = 'DB15', organ = cu
       dot.setAttribute('stroke', outline);
       dot.setAttribute('stroke-width', '2.2');
       dot.setAttribute('fill', p.vaf > 0 ? vafToColor(p.vaf) : ABSENT_FILL);
+      dot.setAttribute('data-vaf', String(p.vaf));
       dot.setAttribute('class', 'kidneymap-dot-visible');
       dotG.appendChild(dot);
 
@@ -533,3 +561,8 @@ async function renderKidneyMap(container, mutationId, donor = 'DB15', organ = cu
 
   return true;
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const toggle = document.getElementById('vaf-linear-toggle');
+  if (toggle) toggle.addEventListener('change', () => setVafScaleMode(toggle.checked));
+});
